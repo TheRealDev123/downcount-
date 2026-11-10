@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="Make a countdown for the moments that matter and share it with your friends.">
+  <title>Downcount — make every moment count</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20233a;
+      --muted: #777b91;
+      --purple: #6d5dfc;
+      --purple-dark: #5545e8;
+      --line: #e8e9f1;
+      --surface: #fff;
+      --bg: #f6f7fb;
+      --mint: #e5faf3;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--bg); }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; max-width: 1160px; padding: 0 28px; margin: auto; }
+    .brand { display: inline-flex; gap: 10px; align-items: center; color: var(--ink); text-decoration: none; font-size: 19px; font-weight: 800; letter-spacing: -.6px; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; color: white; background: var(--purple); font-size: 19px; box-shadow: 0 5px 12px #6d5dfc40; }
+    .nav-link { color: var(--muted); text-decoration: none; font-weight: 650; font-size: 14px; }
+    .nav-link:hover { color: var(--purple); }
+    main { max-width: 1100px; padding: 28px 24px 80px; margin: 0 auto; }
+    .hero { display: grid; grid-template-columns: 1.08fr .92fr; gap: 44px; align-items: center; min-height: 550px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; color: #6153dc; background: #eeecff; border-radius: 999px; font-size: 12px; font-weight: 750; letter-spacing: .3px; }
+    .eyebrow-dot { width: 7px; height: 7px; background: #7d70ff; border-radius: 50%; }
+    h1 { margin: 22px 0 16px; max-width: 570px; font-size: clamp(42px, 6vw, 66px); line-height: 1.05; letter-spacing: -3.4px; }
+    h1 span { color: var(--purple); }
+    .hero-copy { max-width: 490px; color: var(--muted); font-size: 17px; line-height: 1.75; }
+    .button { min-height: 49px; display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 0 20px; border: 0; border-radius: 12px; color: white; background: var(--purple); text-decoration: none; font-weight: 750; cursor: pointer; transition: background .2s, transform .2s, box-shadow .2s; box-shadow: 0 8px 18px #6d5dfc30; }
+    .button:hover { background: var(--purple-dark); transform: translateY(-1px); box-shadow: 0 10px 24px #6d5dfc40; }
+    .hero .button { margin-top: 20px; }
+    .preview-wrap { position: relative; padding: 30px 18px; }
+    .preview-glow { position: absolute; inset: 12% 2%; background: #e9e6ff; border-radius: 50%; filter: blur(35px); }
+    .preview { position: relative; padding: 29px; border: 1px solid #ffffff; border-radius: 24px; background: #ffffffed; box-shadow: 0 25px 70px #29255715; transform: rotate(2deg); }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; font-weight: 650; }
+    .live { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: 20px; color: #23876a; background: var(--mint); font-size: 11px; }
+    .live:before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #3bc79a; }
+    .preview h2 { margin: 29px 0 8px; text-align: center; font-size: 24px; letter-spacing: -.6px; }
+    .preview-sub { margin: 0 0 24px; text-align: center; color: var(--muted); font-size: 13px; }
+    .digits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .digit { padding: 15px 6px 11px; text-align: center; border: 1px solid #efeff5; border-radius: 13px; background: #fafaff; }
+    .digit strong { display: block; color: var(--purple); font-size: 28px; letter-spacing: -1px; }
+    .digit small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; }
+    .preview-footer { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 24px; color: var(--muted); font-size: 12px; }
+    .preview-footer span { color: var(--purple); font-size: 15px; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding-top: 18px; }
+    .feature { padding: 21px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .feature-icon { width: 36px; height: 36px; display: grid; place-items: center; margin-bottom: 13px; border-radius: 11px; background: #f0efff; font-size: 18px; }
+    .feature h3 { margin: 0 0 7px; font-size: 15px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .page { max-width: 640px; margin: 42px auto 0; }
+    .back { display: inline-block; margin-bottom: 20px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 650; }
+    .back:hover { color: var(--purple); }
+    .form-card { padding: clamp(23px, 5vw, 38px); border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: 0 16px 50px #24234a0a; }
+    .form-card h1 { margin: 0 0 9px; font-size: 33px; letter-spacing: -1.5px; }
+    .form-card > p { margin: 0 0 27px; color: var(--muted); line-height: 1.6; }
+    .field { margin: 0 0 20px; }
+    .field label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 750; }
+    .field input { width: 100%; min-height: 49px; padding: 0 13px; border: 1px solid #dedfe9; border-radius: 10px; outline: none; color: var(--ink); background: white; }
+    .field input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px #6d5dfc20; }
+    .field-hint { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; }
+    .form-error { display: none; margin: 0 0 16px; color: #bc3d53; font-size: 13px; }
+    .form-card .button { width: 100%; }
+    .countdown-card { text-align: center; }
+    .countdown-card .eyebrow { margin-bottom: 20px; }
+    .countdown-card h1 { max-width: none; margin: 4px 0 9px; font-size: clamp(34px, 7vw, 51px); overflow-wrap: anywhere; }
+    .countdown-date { margin-bottom: 31px; color: var(--muted); }
+    .countdown-card .digits { gap: 12px; }
+    .countdown-card .digit { padding: 22px 5px 17px; border-radius: 16px; }
+    .countdown-card .digit strong { font-size: clamp(29px, 7vw, 46px); }
+    .countdown-card .digit small { font-size: 10px; }
+    .share-box { display: flex; gap: 9px; margin-top: 27px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: #fafaff; }
+    .share-box input { flex: 1; width: 0; border: 0; outline: 0; color: var(--muted); background: transparent; font-size: 12px; }
+    .share-box button { padding: 0 13px; border: 0; border-radius: 8px; color: white; background: var(--ink); font-size: 12px; font-weight: 700; cursor: pointer; }
+    .share-hint { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+    .done-message { display: none; margin: 18px 0 0; padding: 13px; border-radius: 11px; color: #23876a; background: var(--mint); font-weight: 700; }
+    .countdown-actions { margin-top: 23px; }
+    .countdown-actions a { color: var(--purple); font-size: 13px; font-weight: 700; text-decoration: none; }
+    .not-found { padding: 28px 8px; text-align: center; }
+    .not-found h1 { margin: 0; font-size: 34px; letter-spacing: -1px; }
+    .not-found p { margin: 11px 0 22px; color: var(--muted); }
+    footer { padding: 30px 20px; color: #9598a8; text-align: center; font-size: 12px; }
+    @media (max-width: 760px) {
+      .topbar { height: 68px; padding: 0 20px; }
+      main { padding: 15px 19px 55px; }
+      .hero { grid-template-columns: 1fr; gap: 4px; min-height: auto; padding: 45px 0 35px; }
+      h1 { letter-spacing: -2.4px; }
+      .hero-copy { font-size: 15px; }
+      .preview-wrap { width: min(100%, 470px); justify-self: center; padding: 26px 8px; }
+      .features { grid-template-columns: 1fr; gap: 11px; }
+      .feature { display: flex; gap: 13px; align-items: flex-start; }
+      .feature-icon { flex: 0 0 36px; margin: 0; }
+      .page { margin-top: 20px; }
+    }
+    @media (max-width: 390px) { .digits { gap: 6px; } .digit { padding: 13px 3px 10px; } .digit strong { font-size: 24px; } .countdown-card .digits { gap: 6px; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/" aria-label="Downcount home"><span class="brand-mark">↘</span> downcount</a>
+    <a class="nav-link" href="#/create">Create a countdown <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="app" aria-live="polite"></main>
+  <footer>Make every moment count. ✦</footer>
+  <script>
+    const app = document.getElementById('app');
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+
+    function digitsMarkup() {
+      return `<div class="digits" aria-label="Time remaining">
+        <div class="digit"><strong data-unit="days">00</strong><small>Days</small></div>
+        <div class="digit"><strong data-unit="hours">00</strong><small>Hours</small></div>
+        <div class="digit"><strong data-unit="minutes">00</strong><small>Minutes</small></div>
+        <div class="digit"><strong data-unit="seconds">00</strong><small>Seconds</small></div>
+      </div>`;
+    }
+
+    function renderHome() {
+      app.innerHTML = `<section class="hero">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE SOMETHING TO LOOK FORWARD TO</div>
+          <h1>Good things are <span>counting down.</span></h1>
+          <p class="hero-copy">Create a countdown for a big day, a little adventure, or anything you can't wait for. Give it a name and share a link with your friends.</p>
+          <a class="button" href="#/create">Create your countdown <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="preview-wrap" aria-hidden="true"><div class="preview-glow"></div><div class="preview">
+          <div class="preview-top"><span>YOUR NEXT BIG MOMENT</span><span class="live">COUNTING</span></div>
+          <h2>Summer vacation</h2><p class="preview-sub">The best days are just ahead</p>
+          <div class="digits"><div class="digit"><strong>12</strong><small>Days</small></div><div class="digit"><strong>08</strong><small>Hours</small></div><div class="digit"><strong>34</strong><small>Minutes</small></div><div class="digit"><strong>56</strong><small>Seconds</small></div></div>
+          <div class="preview-footer"><span>✦</span> Every second brings you closer</div>
+        </div></div>
+      </section>
+      <section class="features" aria-label="How it works">
+        <article class="feature"><div class="feature-icon">✍️</div><div><h3>Name your moment</h3><p>Give your countdown a name that makes you smile.</p></div></article>
+        <article class="feature"><div class="feature-icon">🗓️</div><div><h3>Pick the date</h3><p>Choose exactly when the big moment arrives.</p></div></article>
+        <article class="feature"><div class="feature-icon">🔗</div><div><h3>Share the excitement</h3><p>Send your personal countdown link to anyone.</p></div></article>
+      </section>`;
+    }
+
+    function renderCreate() {
+      app.innerHTML = `<section class="page"><a class="back" href="#/">← Back home</a><div class="form-card">
+        <h1>Create a countdown</h1><p>What are you looking forward to? Pick a name and a date, then share the excitement.</p>
+        <form id="countdown-form">
+          <div class="field"><label for="event-name">What should we count down to?</label><input id="event-name" name="name" type="text" maxlength="70" placeholder="e.g. Our trip to Paris" required><span class="field-hint">Keep it short and make it yours.</span></div>
+          <div class="field"><label for="event-date">When does it happen?</label><input id="event-date" name="date" type="datetime-local" required><span class="field-hint">The time is based on your device's local time zone.</span></div>
+          <p class="form-error" id="form-error" role="alert"></p>
+          <button class="button" type="submit">Make my countdown <span aria-hidden="true">→</span></button>
+        </form>
+      </div></section>`;
+      const dateInput = document.getElementById('event-date');
+      const now = new Date();
+      const localNow = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      dateInput.min = localNow;
+      document.getElementById('countdown-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('event-name').value.trim();
+        const end = new Date(dateInput.value).getTime();
+        const error = document.getElementById('form-error');
+        if (!name || !Number.isFinite(end) || end <= Date.now()) {
+          error.textContent = 'Please enter a name and choose a future date and time.';
+          error.style.display = 'block';
+          return;
+        }
+        const slug = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'my-countdown';
+        location.hash = `/countdown/${slug}?name=${encodeURIComponent(name)}&end=${end}`;
+      });
+    }
+
+    let timerId;
+    function renderCountdown() {
+      const raw = location.hash.slice('#/countdown/'.length);
+      const queryIndex = raw.indexOf('?');
+      const slug = queryIndex < 0 ? raw : raw.slice(0, queryIndex);
+      const params = new URLSearchParams(queryIndex < 0 ? '' : raw.slice(queryIndex + 1));
+      const name = params.get('name');
+      const end = Number(params.get('end'));
+      if (!name || !Number.isFinite(end) || end <= 0) {
+        app.innerHTML = `<section class="page not-found"><h1>Countdown not found</h1><p>This link doesn't look right. Create a countdown and share its link with your friends.</p><a class="button" href="#/create">Create a countdown</a></section>`;
+        return;
+      }
+      const target = new Date(end);
+      const niceDate = new Intl.DateTimeFormat(undefined, { dateStyle: 'full', timeStyle: 'short' }).format(target);
+      app.innerHTML = `<section class="page"><div class="form-card countdown-card">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR MOMENT IS GETTING CLOSER</div>
+        <h1>${escapeHtml(name)}</h1><p class="countdown-date">${escapeHtml(niceDate)}</p>
+        ${digitsMarkup()}
+        <div class="share-box"><input id="share-link" aria-label="Shareable countdown link" readonly><button id="copy-link" type="button">Copy link</button></div>
+        <p class="share-hint">Anyone with this link can see your countdown. Send it to your friends!</p>
+        <p class="done-message" id="done-message">The moment is here! Have a wonderful time. 🎉</p>
+        <div class="countdown-actions"><a href="#/create">＋ Create another countdown</a></div>
+      </div></section>`;
+      const shareUrl = `${location.origin}${location.pathname}${location.search}#/countdown/${encodeURIComponent(slug)}?name=${encodeURIComponent(name)}&end=${end}`;
+      document.getElementById('share-link').value = shareUrl;
+      document.getElementById('copy-link').addEventListener('click', async () => {
+        const button = document.getElementById('copy-link');
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+        } catch {
+          const input = document.getElementById('share-link');
+          input.select();
+          document.execCommand('copy');
+        }
+        button.textContent = 'Copied!';
+        setTimeout(() => { if (document.body.contains(button)) button.textContent = 'Copy link'; }, 1800);
+      });
+      const update = () => {
+        const remaining = Math.max(0, end - Date.now());
+        const totalSeconds = Math.floor(remaining / 1000);
+        const values = {
+          days: Math.floor(totalSeconds / 86400),
+          hours: Math.floor((totalSeconds % 86400) / 3600),
+          minutes: Math.floor((totalSeconds % 3600) / 60),
+          seconds: totalSeconds % 60
+        };
+        for (const [unit, value] of Object.entries(values)) {
+          const element = app.querySelector(`[data-unit="${unit}"]`);
+          if (element) element.textContent = unit === 'days' ? String(value).padStart(2, '0') : String(value).padStart(2, '0');
+        }
+        if (remaining === 0) document.getElementById('done-message').style.display = 'block';
+      };
+      update();
+      timerId = setInterval(update, 1000);
+    }
+
+    function route() {
+      clearInterval(timerId);
+      const routePath = location.hash.slice(1).split('?')[0];
+      if (routePath.startsWith('/countdown/')) renderCountdown();
+      else if (routePath === '/create') renderCreate();
+      else renderHome();
+    }
+    window.addEventListener('hashchange', route);
+    route();
+  </script>
+</body>
+</html>
