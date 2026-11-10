@@ -1,21 +1,25 @@
 # downcount-
 
-A small, responsive countdown website and installable Progressive Web App (PWA). Create a named countdown, choose its end date and time, and share a link with friends.
+A responsive countdown website and installable Progressive Web App (PWA). Create a countdown, personalize it, and share it with friends.
 
-## Pages
+## Features
 
-- **Home** (`#/`) — introduces Downcount and links to creating a countdown.
-- **Create** (`#/create`) — enter an event name and local date/time.
-- **Countdown** (`#/countdown/<name>`) — shows the live countdown and a copyable share link.
+- Home, create, and countdown pages with shareable links
+- Saved countdown list stored locally on the device
+- Quick date presets, copy link, and native sharing where supported
+- Light/dark theme toggle
+- Install prompt and app-style standalone display
+- Offline app shell and saved countdowns after the first visit
+- Optional end-time browser notification reminders
 
-Countdown details are stored in the URL, so shared links work without an account or server-side database.
+## Install Downcount
 
-## Install Downcount as an app
+Serve the site over HTTPS (GitHub Pages is supported) and open it in a compatible browser. Use **Install app** when offered, or the browser's **Install app / Add to Home Screen** menu. On iPhone/iPad, use Safari's **Share → Add to Home Screen**. The browser builds the app launch screen from the PWA manifest on supported platforms.
 
-The site can be installed from a compatible browser and then opened from your device's home screen or app launcher. On desktop browsers, use the **Install app** button when it appears, or choose **Install app** from the browser menu. On iPhone/iPad, open the site in Safari, tap **Share**, then **Add to Home Screen**.
+## Notifications limitation
 
-For installation and offline support, host the site over HTTPS (GitHub Pages does this automatically). Opening `index.html` directly as a `file://` URL is fine for trying the website, but browsers do not allow PWA installation or service workers from local files.
+Notifications require permission and browser support. Use **Remind me** on a countdown to opt in. This simple static app can check reminders while Downcount is open (or when you return to it); reliable notifications when the app is fully closed require a push-notification server, which this repository does not include. Notifications may also be restricted by device/browser settings.
 
 ## Run locally
 
-Serve this folder with a static web server, then open its local HTTP URL. The hash-based routes work on static hosting without special rewrite rules.
+Serve this folder with a static web server. Opening `index.html` directly as a `file://` URL does not enable service workers, installation, or offline support. Hash-based routes work on static hosting without special rewrite rules.
