@@ -4,28 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f7fb">
-  <meta name="description" content="Make a countdown for the moments that matter and share it with your friends.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Make a countdown for the moments that matter, share it, or embed it on your own site.">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Downcount">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon.svg">
   <title>Downcount — make every moment count</title>
+  <script>(function(){try{var d=document.documentElement,t=localStorage.getItem('downcount.theme.v2')||localStorage.getItem('downcount.theme');if(location.hash.indexOf('#/embed')===0)d.classList.add('embed');if(navigator.standalone||matchMedia('(display-mode: standalone)').matches)d.classList.add('standalone');d.dataset.theme=(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))?'dark':'light'}catch(e){}})()</script>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#/" aria-label="Downcount home"><span class="brand-mark">↘</span> downcount</a>
-    <nav class="nav-actions" aria-label="Main navigation">
-      <a class="nav-link" href="#/create">Create a countdown <span aria-hidden="true">↗</span></a>
-      <button class="install-button" id="install-app" type="button" hidden>Install app</button>
-      <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">☾</button>
-    </nav>
+    <div class="topbar-in">
+      <a class="brand" href="#/" aria-label="Downcount home"><span class="brand-mark">↘</span> downcount</a>
+      <nav class="nav-actions" aria-label="Main navigation">
+        <a class="nav-link" href="#/settings">Settings</a>
+        <a class="nav-link" href="#/create">Create a countdown <span aria-hidden="true">↗</span></a>
+        <button class="install-button" id="install-app" type="button" hidden>Install app</button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">☾</button>
+      </nav>
+    </div>
   </header>
   <div class="notice" id="app-notice" role="status" hidden></div>
   <main id="app" aria-live="polite"></main>
   <footer>Make every moment count. ✦ <span id="offline-indicator" hidden> · Offline ready</span></footer>
+  <nav class="tabbar" aria-label="App tabs">
+    <a href="#/" data-tab="home"><span aria-hidden="true">🏠</span><small>Home</small></a>
+    <a href="#/create" data-tab="create" class="fab"><span aria-hidden="true">＋</span><small>New</small></a>
+    <a href="#/settings" data-tab="settings"><span aria-hidden="true">⚙️</span><small>Settings</small></a>
+  </nav>
+  <div id="modal-root"></div>
   <script src="./app.js" defer></script>
 </body>
 </html>

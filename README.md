@@ -1,25 +1,37 @@
-# downcount-
+# Downcount
 
-A responsive countdown website and installable Progressive Web App (PWA). Create a countdown, personalize it, and share it with friends.
+Make a **live countdown** for the moments that matter, share it, or **embed it on your own website**. A tiny installable web app (PWA) — no accounts, no backend, everything stays on your device.
 
 ## Features
 
-- Home, create, and countdown pages with shareable links
-- Saved countdown list stored locally on the device
-- Quick date presets, copy link, and native sharing where supported
-- Light/dark theme toggle
-- Install prompt and app-style standalone display
-- Offline app shell and saved countdowns after the first visit
-- Optional end-time browser notification reminders
+- **App-style experience** — installable to your home screen, bottom tab bar on phones, safe-area aware, full-screen standalone mode, works offline.
+- **Truly live** — countdowns tick exactly on the second, resync when you come back to the tab, update across open tabs, and show the time in the browser title. Confetti when the moment arrives 🎉
+- **Six looks** — Classic, Sunset, Ocean, Forest, Neon and Mono, plus an emoji per countdown, with a live preview while you create.
+- **Share** — pick a look, then copy a **link** (or send via WhatsApp, X, email, SMS or the native share sheet).
+- **Embed** — pick a look, size and whether to show the title, then copy an **iframe** or **script** snippet and paste it into any page.
+- **Calendar** — download an `.ics` file for any countdown.
+- **Edit, delete with undo, progress bar, total weeks/days/hours/minutes, full-screen mode.**
+- **Reminders** — optional notification when a countdown ends.
+- **Settings** — Auto/Light/Dark theme, install button, export / import / delete your data.
 
-## Install Downcount
+## Embedding
 
-Serve the site over HTTPS (GitHub Pages is supported) and open it in a compatible browser. Use **Install app** when offered, or the browser's **Install app / Add to Home Screen** menu. On iPhone/iPad, use Safari's **Share → Add to Home Screen**. The browser builds the app launch screen from the PWA manifest on supported platforms.
+Open a countdown, tap **Share → Embed**, and copy the code. Two options:
 
-## Notifications limitation
+```html
+<!-- iframe -->
+<iframe src="https://YOUR-SITE/#/embed?name=Trip&end=1799999999000&style=sunset&emoji=%E2%9C%88%EF%B8%8F"
+        width="100%" height="310" style="border:0;max-width:640px;border-radius:20px"></iframe>
 
-Notifications require permission and browser support. Use **Remind me** on a countdown to opt in. This simple static app can check reminders while Downcount is open (or when you return to it); reliable notifications when the app is fully closed require a push-notification server, which this repository does not include. Notifications may also be restricted by device/browser settings.
+<!-- or script (inserts the iframe right where the tag is) -->
+<script async src="https://YOUR-SITE/embed.js" data-name="Trip" data-end="1799999999000"
+        data-style="sunset" data-emoji="✈️" data-title="1" data-size="wide"></script>
+```
 
-## Run locally
+Options: `style` = `classic | sunset | ocean | forest | neon | mono`, `size` = `wide | compact`, `title` = `1 | 0`. `end` is a Unix timestamp in milliseconds.
 
-Serve this folder with a static web server. Opening `index.html` directly as a `file://` URL does not enable service workers, installation, or offline support. Hash-based routes work on static hosting without special rewrite rules.
+The app must be hosted somewhere public (for example GitHub Pages) for embeds to work on other sites.
+
+## Run it
+
+It's static files — serve the folder with any web server, e.g. `npx serve .`, or enable GitHub Pages on the `main` branch.

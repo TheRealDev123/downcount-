@@ -1,5 +1,5 @@
-const CACHE_NAME = 'downcount-shell-v2';
-const APP_SHELL = ['./', './index.html', './app.js', './styles.css', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.svg', './icons/icon-512.svg'];
+const CACHE_NAME = 'downcount-shell-v3';
+const APP_SHELL = ['./', './index.html', './app.js', './styles.css', './embed.js', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.svg', './icons/icon-512.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -11,18 +11,19 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Stale-while-revalidate: open instantly from cache, refresh in the background.
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
-  event.respondWith(caches.match(request).then((cached) => {
-    if (cached) return cached;
-    return fetch(request).then((response) => {
+  event.respondWith(caches.match(request, { ignoreSearch: request.mode === 'navigate' }).then((cached) => {
+    const network = fetch(request).then((response) => {
       if (response.ok) {
         const copy = response.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
       }
       return response;
-    }).catch(() => caches.match('./index.html'));
+    }).catch(() => cached || caches.match('./index.html'));
+    return cached || network;
   }));
 });
 
