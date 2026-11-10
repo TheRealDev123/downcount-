@@ -1,0 +1,19 @@
+{
+  "id": "downcount-app",
+  "name": "Downcount — make every moment count",
+  "short_name": "Downcount",
+  "description": "Make and share countdowns for the moments that matter.",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#f6f7fb",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
