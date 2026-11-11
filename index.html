@@ -14,7 +14,7 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon.svg">
   <title>Downcount — make every moment count</title>
-  <script>(function(){try{var d=document.documentElement,t=localStorage.getItem('downcount.theme.v2')||localStorage.getItem('downcount.theme');if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')}catch(e){}})()</script>
+  <script>(function(){try{var d=document.documentElement,t=localStorage.getItem('downcount.theme.v2')||localStorage.getItem('downcount.theme');if(location.hash.indexOf('#/embed')===0)d.classList.add('embed');if(navigator.standalone||matchMedia('(display-mode: standalone)').matches)d.classList.add('standalone');d.dataset.theme=(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))?'dark':'light'}catch(e){}})()</script>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -23,12 +23,12 @@
       <a class="brand" href="#/" aria-label="Downcount home"><span class="brand-mark">↘</span> downcount <span class="version-pill" id="pro-badge" hidden>EXTRAS ON</span></a>
       <nav class="nav-actions" aria-label="Main navigation">
         <a class="nav-link" href="#/" data-nav="home">Home</a>
-        <a class="nav-link" href="#/themes" data-nav="themes">🎨 Theme Studio</a>
-        <a class="nav-link" href="#/focus" data-nav="focus" id="nav-focus-link" hidden>⏱️ Focus & Audio</a>
+        <a class="nav-link" href="#/themes" data-nav="themes">Theme Studio</a>
+        <a class="nav-link" href="#/focus" data-nav="focus" id="nav-focus-link" hidden>Focus & Audio</a>
         <a class="nav-link" href="#/settings" data-nav="settings">Settings</a>
         <a class="nav-link nav-cta" href="#/create" data-nav="create">Create a countdown <span aria-hidden="true">↗</span></a>
         <button class="install-button" id="install-app" type="button" hidden>Install app</button>
-        <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">🌓</button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg></button>
       </nav>
     </div>
   </header>
@@ -36,11 +36,11 @@
   <main id="app" aria-live="polite"></main>
   <footer class="footer">Make every moment count. ▫ <span id="offline-indicator" hidden>· Offline ready</span></footer>
   <nav class="tabbar" aria-label="App tabs">
-    <a href="#/" data-tab="home"><span aria-hidden="true">🏠</span><small>Home</small></a>
-    <a href="#/themes" data-tab="themes"><span aria-hidden="true">🎨</span><small>Themes</small></a>
+    <a href="#/" data-tab="home"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></span><small>Home</small></a>
+    <a href="#/themes" data-tab="themes"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H17a4 4 0 0 0 4-4c0-4.4-4.03-8.3-9-8.3Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><small>Themes</small></a>
     <a href="#/create" data-tab="create" class="fab"><span aria-hidden="true">＋</span><small>New</small></a>
-    <a href="#/focus" data-tab="focus" id="tab-focus-link" hidden><span aria-hidden="true">⏱️</span><small>Focus</small></a>
-    <a href="#/settings" data-tab="settings"><span aria-hidden="true">⚙️</span><small>Settings</small></a>
+    <a href="#/focus" data-tab="focus" id="tab-focus-link" hidden><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg></span><small>Focus</small></a>
+    <a href="#/settings" data-tab="settings"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span><small>Settings</small></a>
   </nav>
   <div id="modal-root"></div>
   <script src="./app.js" defer></script>

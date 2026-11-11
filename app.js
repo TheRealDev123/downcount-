@@ -26,6 +26,11 @@ const SOUND_KEY = 'downcount.sound.v1';
 const SOUND_STYLE_KEY = 'downcount.soundStyle.v1';
 const FINALE_STYLE_KEY = 'downcount.finaleStyle.v1';
 const FOCUS_STATS_KEY = 'downcount.focusStats.v1';
+const svgI = (body, sz = 18) => `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const ICON_PIN = svgI('<path d="M9 3h6l-1 6 3 3v1.5H7V12l3-3-1-6Z"/><path d="M12 13.5V21"/>', 16);
+const ICON_SEARCH = svgI('<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>', 16);
+const ICON_SUN = svgI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', 19);
+const ICON_MOON = svgI('<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/>', 19);
 const DAY = 864e5;
 
 /* --------- Settings-gated Cool Extras (ALL OFF BY DEFAULT) --------- */
@@ -100,26 +105,26 @@ const DISPLAY_MODES = [
 
 const PARTICLE_FX = [
   ['none', 'None'],
-  ['sparkles', '✨ Sparkles'],
-  ['bubbles', '🫧 Orbs'],
-  ['snow', '❄️ Snow'],
-  ['petals', '🌸 Petals'],
-  ['matrix', '⚡ Matrix'],
-  ['embers', '🔥 Embers']
+  ['sparkles', 'Sparkles'],
+  ['bubbles', 'Orbs'],
+  ['snow', 'Snow'],
+  ['petals', 'Petals'],
+  ['matrix', 'Matrix'],
+  ['embers', 'Embers']
 ];
 
 const FINALE_STYLES = [
-  ['confetti', '🎊 Confetti Cannon'],
-  ['fireworks', '🎆 Fireworks Burst'],
-  ['emojis', '🥳 Emoji Fountain'],
-  ['disco', '🪩 Cyber Strobe']
+  ['confetti', 'Confetti Cannon'],
+  ['fireworks', 'Fireworks Burst'],
+  ['emojis', 'Emoji Fountain'],
+  ['disco', 'Cyber Strobe']
 ];
 
 const SOUND_STYLES = [
-  ['chime', '🔔 Crystal Chord'],
-  ['arcade', '👾 8-Bit Arcade Win'],
-  ['fanfare', '🎺 Royal Fanfare'],
-  ['gong', '🧘 Warm Zen Bowl']
+  ['chime', 'Crystal Chord'],
+  ['arcade', '8-Bit Arcade Win'],
+  ['fanfare', 'Royal Fanfare'],
+  ['gong', 'Warm Zen Bowl']
 ];
 
 const CATEGORIES = ['Personal', 'Travel', 'Work', 'Birthday', 'Launch', 'Holiday', 'Other'];
@@ -707,7 +712,7 @@ function widgetHtml(ev, o = {}) {
     return `<div class="digit"><strong data-unit="${u}">00</strong><small>${label}</small></div>`;
   }).join('') + (hasMs ? `<div class="digit ms-digit"><strong data-unit="tenths">.0</strong><small>Sec/10</small></div>` : '');
 
-  const repeatLabel = ev.repeat && ev.repeat !== 'none' ? `<span class="w-badge">🔁 ${esc(ev.repeat[0].toUpperCase() + ev.repeat.slice(1))}</span>` : '';
+  const repeatLabel = ev.repeat && ev.repeat !== 'none' ? `<span class="w-badge">${esc(ev.repeat[0].toUpperCase() + ev.repeat.slice(1))}</span>` : '';
   const catLabel = ev.category ? `<span class="w-badge">${esc(ev.category)}</span>` : '';
   const fxCanvas = fx !== 'none' ? `<canvas class="w-fx-canvas" data-fx="${esc(fx)}"></canvas>` : '';
 
@@ -719,7 +724,7 @@ function widgetHtml(ev, o = {}) {
     + ((repeatLabel || (showMilestones && catLabel)) ? `<div class="w-badges">${catLabel}${repeatLabel}</div>` : '')
     + `<div class="digits" role="timer" aria-label="Time remaining">${unitsHtml}</div>`
     + `<div class="w-bar-wrap"><div class="w-bar" aria-hidden="true"><i></i></div>`
-    + (showMilestones ? `<div class="w-milestones"><span>Start</span><span>25%</span><span>50% Halfway</span><span>75%</span><span>Goal 🎯</span></div>` : '')
+    + (showMilestones ? `<div class="w-milestones"><span>Start</span><span>25%</span><span>50% Halfway</span><span>75%</span><span>Goal </span></div>` : '')
     + `</div><p class="w-status" data-status></p>`
     + (credit ? `<a class="w-credit" href="${esc(countdownUrl(ev))}" target="_blank" rel="noopener">Made with Downcount ↗</a>` : '')
     + '</div>';
@@ -761,8 +766,8 @@ function tickWidget(w, now) {
   const status = w.querySelector('[data-status]');
   if (status) {
     status.textContent = remaining > 0
-      ? (remaining < DAY ? '⚡ Happening within 24 hours – almost there!' : `${Math.round(pct)}% of the wait is complete`)
-      : `🎉 It's here! Reached ${agoText(now - end)}`;
+      ? (remaining < DAY ? 'Happening within 24 hours – almost there!' : `${Math.round(pct)}% of the wait is complete`)
+      : `It's here! Reached ${agoText(now - end)}`;
   }
   if (remaining === 0) {
     if (!w.classList.contains('done')) {
@@ -789,7 +794,7 @@ function tickAll() {
   });
   if (liveTitle) {
     const r = liveTitle.end - now;
-    document.title = r > 0 ? `${shortLeft(r)} · ${liveTitle.name}` : `🎉 ${liveTitle.name} is here!`;
+    document.title = r > 0 ? `${shortLeft(r)} · ${liveTitle.name}` : `${liveTitle.name} is here!`;
   }
   triggerParticleLoop();
 }
@@ -1000,39 +1005,39 @@ async function exportShareImage(ev) {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1500);
-    showNotice('📸 Downloaded shareable countdown image card!');
+    showNotice('Downloaded shareable countdown image card!');
   }, 'image/png');
 }
 
 /* --------- home --------- */
 const FEATURES = [
-  ['🎨', 'Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
-  ['😀', 'Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
-  ['🔁', 'Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
-  ['📸', 'PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
-  ['📌', 'Pin, Tag & Filter', 'Organize countdowns by category, pin top priorities, and search instantly.'],
-  ['🔗', 'Share & Embed Anywhere', 'Copy a link, iframe or script tag — custom themes carry right over into embeds.'],
-  ['⚙️', 'Opt-In Cool Extras', 'Turn on 3D Flip Clocks, Particle Effects, Focus Timer & Audio Chimes anytime in Settings.'],
-  ['📲', 'Offline-Ready PWA', 'Install Downcount to your home screen or dock. 100% private and local-first.']
+  ['Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
+  ['Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
+  ['Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
+  ['PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
+  ['Pin, Tag & Filter', 'Organize countdowns by category, pin top priorities, and search instantly.'],
+  ['Share & Embed Anywhere', 'Copy a link, iframe or script tag — custom themes carry right over into embeds.'],
+  ['Opt-In Cool Extras', 'Turn on 3D Flip Clocks, Particle Effects, Focus Timer & Audio Chimes anytime in Settings.'],
+  ['Offline-Ready PWA', 'Install Downcount to your home screen or dock. 100% private and local-first.']
 ];
 
 function cardHtml(ev) {
   const ex = getExtras();
   const ct = resolveThemeForEvent(ev);
   const cardBrand = ct ? ` style="--brand:${esc(ct.acc)}"` : '';
-  const repTag = ev.repeat && ev.repeat !== 'none' ? `<span class="meta-tag">🔁 ${esc(ev.repeat)}</span>` : '';
+  const repTag = ev.repeat && ev.repeat !== 'none' ? `<span class="meta-tag">${esc(ev.repeat)}</span>` : '';
   const catTag = ev.category ? `<span class="meta-tag">${esc(ev.category)}</span>` : '';
-  const fxTag = ex.particles && ev.fx && ev.fx !== 'none' ? `<span class="meta-tag">✨ ${esc(ev.fx)}</span>` : '';
+  const fxTag = ex.particles && ev.fx && ev.fx !== 'none' ? `<span class="meta-tag">${esc(ev.fx)}</span>` : '';
   const tasksDone = (ev.checklist || []).filter((c) => c.done).length;
   const tasksTotal = (ev.checklist || []).length;
-  const taskTag = ex.detailPanels && tasksTotal ? `<span class="meta-tag">✅ ${tasksDone}/${tasksTotal}</span>` : '';
+  const taskTag = ex.detailPanels && tasksTotal ? `<span class="meta-tag">${tasksDone}/${tasksTotal} tasks</span>` : '';
   return `<article class="saved-card s-${esc(ev.style)}${ev.pinned ? ' pinned' : ''}"${cardBrand} data-id="${esc(ev.id)}">`
     + `<a class="card-main" href="#${esc(countdownHash(ev))}">`
     + `<span class="card-emoji" aria-hidden="true">${renderEmoji(ev.emoji)}</span>`
-    + `<div class="card-text"><strong class="saved-title">${ev.pinned ? '📌 ' : ''}${esc(ev.name)}</strong><small>${esc(fmtShort(ev.end))}</small><div class="card-meta-tags">${catTag}${repTag}${fxTag}${taskTag}</div></div>`
+    + `<div class="card-text"><strong class="saved-title">${esc(ev.name)}</strong><small>${esc(fmtShort(ev.end))}</small><div class="card-meta-tags">${catTag}${repTag}${fxTag}${taskTag}</div></div>`
     + `<span class="chip" data-live="${ev.end}"></span></a>`
     + `<div class="saved-actions">`
-    + `<button class="pin-btn ${ev.pinned ? 'on' : ''}" type="button" data-pin="${esc(ev.id)}" title="${ev.pinned ? 'Unpin' : 'Pin to top'}">📌</button>`
+    + `<button class="pin-btn ${ev.pinned ? 'on' : ''}" type="button" data-pin="${esc(ev.id)}" title="${ev.pinned ? 'Unpin' : 'Pin to top'}">${ICON_PIN}</button>`
     + `<button type="button" data-share="${esc(ev.id)}">Share</button>`
     + `<button type="button" data-edit="${esc(ev.id)}">Edit</button>`
     + `<button class="remove-event" type="button" data-remove="${esc(ev.id)}">Remove</button>`
@@ -1044,7 +1049,7 @@ function renderHome() {
   const events = readEvents();
   if (!events.length) {
     const demo = normalize({ name: 'Summer vacation', end: Date.now() + ((12 * 24 + 8) * 3600 + 34 * 60 + 56) * 1000, start: Date.now() - 20 * DAY, emoji: '🏖️', style: 'ocean', display: ex.clockModes ? 'flip' : 'cards', fx: ex.particles ? 'sparkles' : 'none', category: 'Travel', note: 'Flights booked & bags packed!' });
-    app.innerHTML = `<section class="hero"><div><div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE SOMETHING TO LOOK FORWARD TO</div><h1>Countdown to <span>anything</span> that matters</h1><p class="hero-copy">Create clean, customizable live countdowns with your own custom themes and uploaded emojis. Share them with a link, export a PNG card, or embed them anywhere.</p><div class="hero-btns"><a class="button" href="#/create">+ Create a countdown</a><a class="button secondary-button" href="#/themes">🎨 Theme Studio</a>${ex.focusStudio ? '<a class="button secondary-button" href="#/focus">⏱️ Focus Timer</a>' : '<a class="button secondary-button" href="#/settings">⚙️ Cool Extras in Settings</a>'}</div></div><div class="preview-wrap"><div class="preview-glow"></div><div class="preview">${widgetHtml(demo, { showMilestones: true })}</div></div></section><section class="features">${FEATURES.map(([icon, title, text]) => `<div class="feature"><div class="feature-icon">${icon}</div><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`).join('')}</section>`;
+    app.innerHTML = `<section class="hero"><div><div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE SOMETHING TO LOOK FORWARD TO</div><h1>Countdown to <span>anything</span> that matters</h1><p class="hero-copy">Create clean, customizable live countdowns with your own custom themes and uploaded emojis. Share them with a link, export a PNG card, or embed them anywhere.</p><div class="hero-btns"><a class="button" href="#/create">+ Create a countdown</a><a class="button secondary-button" href="#/themes">Theme Studio</a>${ex.focusStudio ? '<a class="button secondary-button" href="#/focus">Focus Timer</a>' : '<a class="button secondary-button" href="#/settings">Cool Extras in Settings</a>'}</div></div><div class="preview-wrap"><div class="preview-glow"></div><div class="preview">${widgetHtml(demo, { showMilestones: true })}</div></div></section><section class="features">${FEATURES.map(([title, text]) => `<div class="feature"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`).join('')}</section>`;
     return;
   }
 
@@ -1067,20 +1072,20 @@ function renderHome() {
     return a.end - b.end;
   };
 
-  const up = filtered.filter((e) => e.end > now).sort(sortFn);
+  const up = filtered.filter((e) => e.end > now && !(next && e.id === next.id)).sort(sortFn);
   const done = filtered.filter((e) => e.end <= now).sort((a, b) => b.end - a.end);
 
   const filterCats = ['All', 'Pinned', ...CATEGORIES];
   const toolbar = `<div class="home-toolbar">`
-    + `<div class="search-input-wrap"><span class="search-icon">🔍</span><input id="home-search" type="search" placeholder="Search countdowns…" value="${esc(homeFilter.search)}"></div>`
-    + `<div class="filter-pills">${filterCats.map((c) => `<button type="button" class="filter-pill ${homeFilter.category === c ? 'on' : ''}" data-cat-filter="${esc(c)}">${c === 'Pinned' ? '📌 Pinned' : esc(c)}</button>`).join('')}</div>`
-    + `<select id="home-sort" class="sort-select" aria-label="Sort countdowns"><option value="soonest"${homeFilter.sort === 'soonest' ? ' selected' : ''}>Sort: Soonest</option><option value="furthest"${homeFilter.sort === 'furthest' ? ' selected' : ''}>Sort: Furthest</option><option value="name"${homeFilter.sort === 'name' ? ' selected' : ''}>Sort: Name (A–Z)</option></select>`
+    + `<div class="search-input-wrap"><span class="search-icon">${ICON_SEARCH}</span><input id="home-search" type="search" placeholder="Search countdowns…" value="${esc(homeFilter.search)}"></div>`
+    + `<div class="filter-pills">${filterCats.map((c) => `<button type="button" class="filter-pill ${homeFilter.category === c ? 'on' : ''}" data-cat-filter="${esc(c)}">${c === 'Pinned' ? 'Pinned' : esc(c)}</button>`).join('')}</div>`
+    + `<select id="home-sort" class="sort-select" aria-label="Sort countdowns"><option value="soonest"${homeFilter.sort === 'soonest' ? ' selected' : ''}>Soonest</option><option value="furthest"${homeFilter.sort === 'furthest' ? ' selected' : ''}>Furthest</option><option value="name"${homeFilter.sort === 'name' ? ' selected' : ''}>A–Z</option></select>`
     + `</div>`;
 
   const section = (label, list) => list.length ? `<section class="saved-section"><div class="section-heading"><h2>${label} (${list.length})</h2></div><div class="saved-grid">${list.map(cardHtml).join('')}</div></section>` : '';
   const emptyFiltered = !up.length && !done.length ? `<p class="small-note center" style="padding:32px 0">No countdowns match your current filter. <button class="text-link" type="button" id="reset-filters">Reset filters</button></p>` : '';
 
-  app.innerHTML = `<section class="next-up"><div class="section-heading"><div><span class="eyebrow">${next ? (next.pinned ? '📌 PINNED SPOTLIGHT' : 'NEXT UP') : 'YOUR COUNTDOWNS'}</span></div><div style="display:flex;gap:8px">${ex.focusStudio ? '<a class="button secondary-button small-button" href="#/focus">⏱️ Focus</a>' : ''}<a class="button secondary-button small-button" href="#/themes">🎨 Themes</a><a class="button small-button" href="#/create">+ New</a></div></div>${next ? `<a class="next-link" href="#${esc(countdownHash(next))}">${widgetHtml(next, { showMilestones: true })}</a>` : ''}</section>`
+  app.innerHTML = `<section class="next-up"><div class="section-heading"><div><span class="eyebrow">${next ? (next.pinned ? 'PINNED SPOTLIGHT' : 'NEXT UP') : 'YOUR COUNTDOWNS'}</span></div><div style="display:flex;gap:8px">${ex.focusStudio ? '<a class="button secondary-button small-button" href="#/focus">Focus</a>' : ''}<a class="button secondary-button small-button" href="#/themes">Themes</a><a class="button small-button" href="#/create">+ New</a></div></div>${next ? `<a class="next-link" href="#${esc(countdownHash(next))}">${widgetHtml(next, { showMilestones: true })}</a>` : ''}</section>`
     + toolbar
     + section('Upcoming', up)
     + section('Completed', done)
@@ -1163,7 +1168,7 @@ function openEmojiPickerModal(currentEmoji, onSelect) {
     + `<div class="emoji-cats" id="emoji-cats"></div>`
     + `<div class="emoji-picker-grid" id="emoji-grid"></div>`
     + `<div class="upload-emoji-box">`
-    + `<div class="upload-emoji-info"><strong>✨ Upload your own custom emoji / sticker</strong><span>PNG, JPG, GIF, WebP or SVG — saved locally in your browser</span></div>`
+    + `<div class="upload-emoji-info"><strong>Upload your own custom emoji / sticker</strong><span>PNG, JPG, GIF, WebP or SVG — saved locally in your browser</span></div>`
     + `<button class="button small-button" type="button" id="trigger-emoji-upload">+ Upload Image</button>`
     + `<input id="emoji-file-input" type="file" accept="image/*" hidden>`
     + `</div></div>`;
@@ -1178,7 +1183,7 @@ function openEmojiPickerModal(currentEmoji, onSelect) {
 
   const renderGrid = () => {
     const customList = readCustomEmojis();
-    catsEl.innerHTML = cats.map((c) => `<button type="button" class="emoji-cat-btn ${state.cat === c ? 'on' : ''}" data-ecat="${esc(c)}">${c === 'Custom Uploaded' ? `🖼️ Custom (${customList.length})` : esc(c)}</button>`).join('');
+    catsEl.innerHTML = cats.map((c) => `<button type="button" class="emoji-cat-btn ${state.cat === c ? 'on' : ''}" data-ecat="${esc(c)}">${c === 'Custom Uploaded' ? `Custom (${customList.length})` : esc(c)}</button>`).join('');
 
     const q = state.query.trim().toLowerCase();
     const items = [];
@@ -1291,13 +1296,13 @@ function renderForm(existing) {
       + `<div class="field-row-2"><div class="field" style="margin:0"><label for="event-cat">Category</label><select id="event-cat">${CATEGORIES.map((c) => `<option value="${esc(c)}"${st.category === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></div>`
       + `<div class="field" style="margin:0"><label for="event-rep">Repeat cycle</label><select id="event-rep">${REPEATS.map(([v, l]) => `<option value="${v}"${st.repeat === v ? ' selected' : ''}>${l}</option>`).join('')}</select></div></div>`
       + `<div class="field"><label for="event-note">Optional note or milestone subtitle</label><input id="event-note" type="text" maxlength="140" placeholder="e.g. Flight JL 005 departs Terminal 1" value="${editing && existing.note ? esc(existing.note) : ''}"></div>`
-      + `<div class="field"><div class="field-label"><span>Emoji / Custom Sticker</span><button type="button" class="text-link" id="open-emoji-picker">😀 Browse 70+ & Upload Custom…</button></div>`
+      + `<div class="field"><div class="field-label"><span>Emoji / Custom Sticker</span><button type="button" class="text-link" id="open-emoji-picker">Browse 70+ & Upload Custom…</button></div>`
       + `<div class="emoji-row">`
       + customEmojis.map((ce) => `<button type="button" data-emoji="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
       + quickSet.map((e) => `<button type="button" data-emoji="${esc(e)}">${renderEmoji(e)}</button>`).join('')
       + `<button type="button" class="emoji-more-btn" id="open-emoji-picker-btn">＋ Picker / Upload</button>`
       + `</div></div>`
-      + `<div class="field"><div class="field-label"><span>Theme</span><a class="text-link" href="#/themes">🎨 Open Theme Studio →</a></div>`
+      + `<div class="field"><div class="field-label"><span>Theme</span><a class="text-link" href="#/themes">Open Theme Studio →</a></div>`
       + `<div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, st.style)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-theme-modal">＋ New Custom Theme</button></div></div>`
       + (ex.clockModes ? `<div class="field"><label>Clock Display Mode</label><div class="seg" id="disp-seg">${DISPLAY_MODES.map(([k, l]) => `<button type="button" data-disp="${k}" class="${st.display === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.particles ? `<div class="field"><label>Ambient Particle Effect</label><div class="seg" id="fx-seg">${PARTICLE_FX.map(([k, l]) => `<button type="button" data-fx="${k}" class="${st.fx === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
@@ -1469,7 +1474,7 @@ function openQuickThemeEditorModal(existingTheme, onSave) {
   });
   const root = document.createElement('div');
   root.className = 'modal-backdrop';
-  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>🎨 Custom Theme Editor</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-theme-body"></div></div>`;
+  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>Custom Theme Editor</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-theme-body"></div></div>`;
   modalRoot.append(root);
   document.body.classList.add('modal-open');
 
@@ -1477,7 +1482,7 @@ function openQuickThemeEditorModal(existingTheme, onSave) {
     const body = $('#quick-theme-body', root);
     const demoEv = normalize({ name: draft.name || 'Custom Theme', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: draft.id, customTheme: draft, fx: draft.fx, display: draft.display });
     body.innerHTML = `<div class="share-preview" id="qt-preview">${widgetHtml(demoEv, { size: 'compact' })}</div>`
-      + `<div class="field"><label>Theme Name <button type="button" class="text-link" id="qt-random">🎲 Randomize Palette</button></label><input id="qt-name" type="text" maxlength="32" value="${esc(draft.name)}"></div>`
+      + `<div class="field"><label>Theme Name <button type="button" class="text-link" id="qt-random">Randomize Palette</button></label><input id="qt-name" type="text" maxlength="32" value="${esc(draft.name)}"></div>`
       + `<div class="color-grid">`
       + `<div class="color-field"><label>Background Start</label><div class="color-input-row"><input type="color" id="qt-bg1" value="${esc(draft.bg1)}"><input type="text" id="qt-bg1-hex" value="${esc(draft.bg1)}"></div></div>`
       + `<div class="color-field"><label>Background End</label><div class="color-input-row"><input type="color" id="qt-bg2" value="${esc(draft.bg2)}"><input type="text" id="qt-bg2-hex" value="${esc(draft.bg2)}"></div></div>`
@@ -1558,7 +1563,7 @@ function renderThemeStudio() {
       + `<div class="section-heading"><div><span class="eyebrow"><span class="eyebrow-dot"></span> THEME STUDIO</span><h1 style="margin:10px 0 4px;font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px">Design your own custom themes</h1><p class="small-note" style="margin:0">Craft gradients, solid surfaces, digit typography and neon glows. Custom themes carry over into share links and embeds.</p></div></div>`
       + `<div class="theme-studio-grid">`
       + `<div class="form-card">`
-      + `<div class="field"><label for="ts-name"><span>Theme Name</span><button type="button" class="text-link" id="ts-random">🎲 Randomize Harmony</button></label><input id="ts-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Neon Sunset"></div>`
+      + `<div class="field"><label for="ts-name"><span>Theme Name</span><button type="button" class="text-link" id="ts-random">Randomize Harmony</button></label><input id="ts-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Neon Sunset"></div>`
       + `<div class="field-label">Quick Starter Templates</div>`
       + `<div class="presets">${THEME_STARTERS.map((s, idx) => `<button type="button" data-starter="${idx}">${esc(s.name)}</button>`).join('')}</div>`
       + `<div class="field"><label>Background Mode</label><div class="seg" id="ts-mode"><button type="button" data-mode="gradient" class="${activeDraft.mode === 'gradient' ? 'on' : ''}">Linear Gradient</button><button type="button" data-mode="solid" class="${activeDraft.mode === 'solid' ? 'on' : ''}">Solid Color</button></div></div>`
@@ -1573,7 +1578,7 @@ function renderThemeStudio() {
       + (ex.particles ? `<div class="field"><label>Ambient Particle Canvas</label><div class="seg">${PARTICLE_FX.map(([v, l]) => `<button type="button" data-ts-fx="${v}" class="${activeDraft.fx === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + `<div class="field"><label>Digit Typography</label><div class="seg">${[['sans', 'Modern Sans'], ['mono', 'Code Mono'], ['serif', 'Editorial Serif'], ['rounded', 'Soft Rounded']].map(([v, l]) => `<button type="button" data-font="${v}" class="${activeDraft.font === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
       + `<div class="opt-row" style="margin-bottom:20px"><span>Neon Glow Effect</span><button type="button" class="toggle ${activeDraft.glow ? 'on' : ''}" id="ts-glow"></button></div>`
-      + `<div style="display:flex;gap:10px"><button class="button" type="button" id="ts-save">${isEditingExisting ? 'Update Custom Theme' : '💾 Save Custom Theme'}</button>${isEditingExisting ? `<button class="button secondary-button" type="button" id="ts-cancel-edit" style="flex:0 0 auto;width:auto">New</button>` : ''}</div>`
+      + `<div style="display:flex;gap:10px"><button class="button" type="button" id="ts-save">${isEditingExisting ? 'Update Custom Theme' : 'Save Custom Theme'}</button>${isEditingExisting ? `<button class="button secondary-button" type="button" id="ts-cancel-edit" style="flex:0 0 auto;width:auto">New</button>` : ''}</div>`
       + `</div>`
       + `<div class="preview-pane">`
       + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE THEME PREVIEW</div>`
@@ -1584,7 +1589,7 @@ function renderThemeStudio() {
             const bg = t.mode === 'solid' ? t.bg1 : `linear-gradient(${t.angle || 135}deg,${t.bg1},${t.bg2})`;
             return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.acc)}">09:42</span></div><div class="theme-card-actions"><button type="button" data-use-theme="${esc(t.id)}">Use</button><button type="button" data-edit-theme="${esc(t.id)}">Edit</button><button type="button" class="danger" data-del-theme="${esc(t.id)}">Delete</button></div></div>`;
           }).join('')}</div>`
-        : `<p class="small-note" style="margin:0">You haven’t saved any custom themes yet. Customize the palette on the left and click <strong>Save Custom Theme</strong>!</p>`)
+        : `<p class="small-note" style="margin:0">You haven’t saved any custom themes yet. Customize the palette in the editor and click <strong>Save Custom Theme</strong>!</p>`)
       + `</div></div></div></section>`;
 
     const refreshPreview = () => {
@@ -1772,7 +1777,7 @@ function startAmbientSoundscape(type) {
 
 function renderFocusStudio() {
   if (!getExtras().focusStudio) {
-    app.innerHTML = `<section class="page not-found"><h1>Focus Studio is turned off</h1><p>You can turn on the Focus & Ambient Soundscape Studio anytime from Settings.</p><a class="button" href="#/settings">⚙️ Go to Settings</a></section>`;
+    app.innerHTML = `<section class="page not-found"><h1>Focus Studio is turned off</h1><p>You can turn on the Focus & Ambient Soundscape Studio anytime from Settings.</p><a class="button" href="#/settings">Go to Settings</a></section>`;
     return;
   }
   const stats = readJson(FOCUS_STATS_KEY, { sessions: 0, totalMinutes: 0 });
@@ -1790,28 +1795,28 @@ function renderFocusStudio() {
       + `<div class="focus-wrap">`
       + `<div class="focus-stage">`
       + `<div class="seg" style="width:100%">`
-      + [['1500', '🍅 25m Focus'], ['300', '☕ 5m Break'], ['900', '🌿 15m Rest'], ['3600', '🚀 60m Deep']].map(([sec, label]) => `<button type="button" data-fpreset="${sec}" data-flabel="${esc(label)}" class="${focusState.durationSec === Number(sec) ? 'on' : ''}">${label}</button>`).join('')
+      + [['1500', '25m Focus'], ['300', '5m Break'], ['900', '15m Rest'], ['3600', '60m Deep']].map(([sec, label]) => `<button type="button" data-fpreset="${sec}" data-flabel="${esc(label)}" class="${focusState.durationSec === Number(sec) ? 'on' : ''}">${label}</button>`).join('')
       + `</div>`
       + `<div class="focus-ring-box">`
       + `<svg class="focus-ring-svg" viewBox="0 0 220 220"><circle class="focus-ring-bg" cx="110" cy="110" r="${r}"/><circle class="focus-ring-fg" id="focus-ring-circle" cx="110" cy="110" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${offset}"/></svg>`
       + `<div><div class="focus-time-readout" id="focus-readout">${pad(mins)}:${pad(secs)}</div><div class="focus-sub-readout">${esc(focusState.modeLabel)}</div></div>`
       + `</div>`
       + `<div style="display:flex;gap:10px;width:100%;max-width:340px">`
-      + `<button class="button" type="button" id="focus-toggle" style="flex:1">${focusState.running ? '⏸ Pause' : '▶ Start Focus'}</button>`
+      + `<button class="button" type="button" id="focus-toggle" style="flex:1">${focusState.running ? 'Pause' : '▶ Start Focus'}</button>`
       + `<button class="button secondary-button" type="button" id="focus-reset" style="flex:0 0 auto;width:auto">↺ Reset</button>`
       + `</div>`
       + `</div>`
       + `<div style="display:flex;flex-direction:column;gap:14px">`
-      + `<div class="settings-card" style="margin:0"><h3>🎧 Synthesized Ambient Soundscapes</h3><p>Generated live in your browser using Web Audio — zero external audio files required.</p>`
+      + `<div class="settings-card" style="margin:0"><h3>Synthesized Ambient Soundscapes</h3><p>Generated live in your browser using Web Audio — zero external audio files required.</p>`
       + `<div class="soundscape-grid">`
       + [
-          ['off', '🔇', 'Silent', 'No background audio'],
-          ['rain', '🌧️', 'Soft Pink Rain', 'Filtered warm rainfall noise'],
-          ['drone', '🌌', 'Warm Harmonics', 'Ambient A2/E3 sine chord'],
-          ['binaural', '🧠', 'Theta Binaural', '200Hz / 206Hz focus wave']
-        ].map(([k, icon, title, desc]) => `<button type="button" class="sound-card ${focusState.soundscape === k ? 'on' : ''}" data-soundscape="${k}"><span class="sound-card-icon">${icon}</span><div><strong>${title}</strong><small>${desc}</small></div></button>`).join('')
+          ['off', '', 'Silent', 'No background audio'],
+          ['rain', '', 'Soft Pink Rain', 'Filtered warm rainfall noise'],
+          ['drone', '', 'Warm Harmonics', 'Ambient A2/E3 sine chord'],
+          ['binaural', '', 'Theta Binaural', '200Hz / 206Hz focus wave']
+        ].map(([k, icon, title, desc]) => `<button type="button" class="sound-card ${focusState.soundscape === k ? 'on' : ''}" data-soundscape="${k}"><div><strong>${title}</strong><small>${desc}</small></div></button>`).join('')
       + `</div></div>`
-      + `<div class="settings-card" style="margin:0"><h3>📊 Your Focus Stats</h3><div class="stats" style="grid-template-columns:1fr 1fr;margin-top:8px"><div class="stat"><strong>${stats.sessions}</strong><small>COMPLETED SESSIONS</small></div><div class="stat"><strong>${stats.totalMinutes}m</strong><small>TOTAL FOCUS TIME</small></div></div></div>`
+      + `<div class="settings-card" style="margin:0"><h3>Your Focus Stats</h3><div class="stats" style="grid-template-columns:1fr 1fr;margin-top:8px"><div class="stat"><strong>${stats.sessions}</strong><small>COMPLETED SESSIONS</small></div><div class="stat"><strong>${stats.totalMinutes}m</strong><small>TOTAL FOCUS TIME</small></div></div></div>`
       + `</div></div></section>`;
 
     $$('[data-fpreset]', app).forEach((b) => b.addEventListener('click', () => {
@@ -1849,7 +1854,7 @@ function renderFocusStudio() {
             writeJson(FOCUS_STATS_KEY, curStats);
             celebrateFinale('🍅');
             playChime();
-            showNotice(`🎉 Completed ${focusState.modeLabel}!`);
+            showNotice(`Completed ${focusState.modeLabel}!`);
             if (parseHash().path === '/focus') renderFocusStudio();
           }
         }, 1000);
@@ -1895,12 +1900,12 @@ function renderCountdown() {
   const canRollRepeat = stored.repeat && stored.repeat !== 'none' && stored.end <= Date.now();
 
   const worldZones = [
-    ['📍 Your Local Time', undefined],
-    ['🌐 UTC / GMT', 'UTC'],
-    ['🗽 New York (ET)', 'America/New_York'],
-    ['🎡 London (UK)', 'Europe/London'],
-    ['🗼 Tokyo (JST)', 'Asia/Tokyo'],
-    ['🦘 Sydney (AEST)', 'Australia/Sydney']
+    ['Your Local Time', undefined],
+    ['UTC / GMT', 'UTC'],
+    ['New York (ET)', 'America/New_York'],
+    ['London (UK)', 'Europe/London'],
+    ['Tokyo (JST)', 'Asia/Tokyo'],
+    ['Sydney (AEST)', 'Australia/Sydney']
   ];
 
   const drawDetail = () => {
@@ -1910,28 +1915,28 @@ function renderCountdown() {
     app.innerHTML = `<section class="page"><a class="back" href="#/">← My countdowns</a>`
       + `<div class="stage">${widgetHtml(stored, { showMilestones: true })}`
       + `<div class="stage-controls">`
-      + (ex.clockModes ? `<button class="stage-btn" id="cycle-disp" type="button" title="Switch Clock Display Style">🕰️ ${esc(stored.display)}</button>` : '')
-      + (ex.particles ? `<button class="stage-btn" id="cycle-fx" type="button" title="Switch Particle Effect">✨ ${esc(stored.fx)}</button>` : '')
+      + (ex.clockModes ? `<button class="stage-btn" id="cycle-disp" type="button" title="Switch Clock Display Style">${esc(stored.display)}</button>` : '')
+      + (ex.particles ? `<button class="stage-btn" id="cycle-fx" type="button" title="Switch Particle Effect">${esc(stored.fx)}</button>` : '')
       + `<button class="stage-btn" id="fs" type="button" title="Toggle Full screen">⛶</button>`
       + `</div></div>`
-      + (canRollRepeat ? `<div style="margin-top:12px"><button class="button" id="roll-repeat" type="button" style="width:100%">🔁 Roll over to next ${esc(stored.repeat)} occurrence</button></div>` : '')
+      + (canRollRepeat ? `<div style="margin-top:12px"><button class="button" id="roll-repeat" type="button" style="width:100%">Roll over to next ${esc(stored.repeat)} occurrence</button></div>` : '')
       + `<div class="action-row">`
-      + `<button class="button" id="share" type="button">🔗 Share</button>`
-      + `<button class="button secondary-button" id="export-img" type="button">📸 PNG Card</button>`
-      + `<button class="button secondary-button" id="remind-me" type="button">🔔 Reminder</button>`
-      + `<button class="button secondary-button" id="add-cal" type="button">📅 Calendar</button>`
-      + `<button class="button secondary-button" id="celebrate-now" type="button">🎉 Celebrate</button>`
+      + `<button class="button" id="share" type="button">Share</button>`
+      + `<button class="button secondary-button" id="export-img" type="button">PNG Card</button>`
+      + `<button class="button secondary-button" id="remind-me" type="button">Reminder</button>`
+      + `<button class="button secondary-button" id="add-cal" type="button">Calendar</button>`
+      + `<button class="button secondary-button" id="celebrate-now" type="button">Celebrate</button>`
       + `</div>`
       + `<div class="stats"><div class="stat"><strong data-stat="weeks" data-end="${stored.end}">0</strong><small>WEEKS</small></div><div class="stat"><strong data-stat="days" data-end="${stored.end}">0</strong><small>DAYS</small></div><div class="stat"><strong data-stat="hours" data-end="${stored.end}">0</strong><small>HOURS</small></div><div class="stat"><strong data-stat="minutes" data-end="${stored.end}">0</strong><small>MINUTES</small></div></div>`
       + (ex.detailPanels ? (`<div class="detail-panels">`
-        + `<div class="detail-card"><h3><span>✅ Event Checklist</span><small style="color:var(--muted)">${doneCount}/${checklist.length}</small></h3>`
+        + `<div class="detail-card"><h3><span>Event Checklist</span><small style="color:var(--muted)">${doneCount}/${checklist.length}</small></h3>`
         + `<form class="checklist-form" id="add-check-form"><input id="check-input" type="text" maxlength="80" placeholder="Add a task or packing item…"><button type="submit">Add</button></form>`
         + `<div class="checklist-items">${checklist.length ? checklist.map((item) => `<div class="check-row ${item.done ? 'done' : ''}"><input type="checkbox" data-toggle-check="${esc(item.id)}"${item.done ? ' checked' : ''}><span>${esc(item.text)}</span><button type="button" data-del-check="${esc(item.id)}" title="Remove">✕</button></div>`).join('') : `<p class="small-note" style="margin:6px 0">No checklist tasks yet. Add milestones or packing items above!</p>`}</div>`
         + `</div>`
-        + `<div class="detail-card"><h3><span>🌍 World Launch Times</span><small style="color:var(--muted)">Global Sync</small></h3>`
+        + `<div class="detail-card"><h3><span>World Launch Times</span><small style="color:var(--muted)">Global Sync</small></h3>`
         + `<div class="tz-list">${worldZones.map(([label, tz]) => `<div class="tz-row"><strong>${label}</strong><span>${esc(formatZoneTime(stored.end, tz))}</span></div>`).join('')}</div>`
         + `</div></div>`) : '')
-      + `<div class="countdown-actions"><a href="#/edit/${encodeURIComponent(stored.id)}">✏️ Edit countdown</a><a href="#/themes">🎨 Theme Studio</a><button type="button" id="open-embed-direct">🧩 Embed on a website</button></div></section>`;
+      + `<div class="countdown-actions"><a href="#/edit/${encodeURIComponent(stored.id)}">Edit countdown</a><a href="#/themes">Theme Studio</a><button type="button" id="open-embed-direct">Embed on a website</button></div></section>`;
 
     $('#share').addEventListener('click', () => openShare(stored, 'link'));
     $('#open-embed-direct').addEventListener('click', () => openShare(stored, 'embed'));
@@ -2089,7 +2094,7 @@ function openShare(ev, initialTab = 'link') {
     const emb = st.tab === 'embed';
     const linkPane = `<div class="share-box"><input id="share-field" aria-label="Shareable countdown link" readonly value="${esc(url)}"><button type="button" data-copy="#share-field">Copy link</button></div>`
       + `<div class="share-apps">`
-      + `<button type="button" data-dl-img>📸 Download PNG Card</button>`
+      + `<button type="button" data-dl-img>Download PNG Card</button>`
       + `<a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" target="_blank" rel="noopener">WhatsApp</a>`
       + `<a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}" target="_blank" rel="noopener">X</a>`
       + `<a href="mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(url)}" target="_blank" rel="noopener">Email</a>`
@@ -2157,7 +2162,7 @@ const getThemePref = () => { const v = localStorage.getItem(THEME_KEY) || localS
 function applyTheme() {
   const pref = getThemePref(); const dark = pref === 'dark' || (pref === 'auto' && darkMq.matches);
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  themeButton.textContent = dark ? '☀️' : '🌙';
+  themeButton.innerHTML = dark ? ICON_SUN : ICON_MOON;
   const meta = $('meta[name=theme-color]'); if (meta) meta.content = dark ? '#171727' : '#f6f7fb';
 }
 
@@ -2183,21 +2188,21 @@ function renderSettings() {
   const customEmojis = readCustomEmojis();
 
   app.innerHTML = `<section class="page"><h1 class="page-title">Settings</h1>`
-    + `<div class="settings-card"><h3>✨ Cool Features & Pro Extras (Opt-In)</h3><p>All extra features below are <strong>off by default</strong> so Downcount stays clean until you turn them on here.</p>`
+    + `<div class="settings-card"><h3>Cool Features & Pro Extras (Opt-In)</h3><p>All extra features below are <strong>off by default</strong> so Downcount stays clean until you turn them on here.</p>`
     + `<div class="opt-row" style="padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px"><span><strong>Enable All Cool Extras</strong></span><button type="button" class="toggle ${allOn ? 'on' : ''}" id="toggle-all-extras"></button></div>`
-    + `<div class="opt-row"><span>🕰️ 3D Flip Clock, SVG Progress Rings & Tenths (.0)</span><button type="button" class="toggle ${ex.clockModes ? 'on' : ''}" data-extra-toggle="clockModes"></button></div>`
-    + `<div class="opt-row"><span>✨ Animated Particle Backgrounds (Sparkles, Snow, Matrix)</span><button type="button" class="toggle ${ex.particles ? 'on' : ''}" data-extra-toggle="particles"></button></div>`
-    + `<div class="opt-row"><span>⏱️ Focus / Pomodoro Timer & Ambient Soundscapes Tab</span><button type="button" class="toggle ${ex.focusStudio ? 'on' : ''}" data-extra-toggle="focusStudio"></button></div>`
-    + `<div class="opt-row"><span>✅ Event Checklists & 🌍 World Launch Timezones</span><button type="button" class="toggle ${ex.detailPanels ? 'on' : ''}" data-extra-toggle="detailPanels"></button></div>`
-    + `<div class="opt-row" style="margin-bottom:0"><span>🎆 Extra Finale Animations (Fireworks, Emoji Fountain, Strobe)</span><button type="button" class="toggle ${ex.extraFinals ? 'on' : ''}" data-extra-toggle="extraFinals"></button></div>`
+    + `<div class="opt-row"><span>3D Flip Clock, SVG Progress Rings & Tenths (.0)</span><button type="button" class="toggle ${ex.clockModes ? 'on' : ''}" data-extra-toggle="clockModes"></button></div>`
+    + `<div class="opt-row"><span>Animated Particle Backgrounds (Sparkles, Snow, Matrix)</span><button type="button" class="toggle ${ex.particles ? 'on' : ''}" data-extra-toggle="particles"></button></div>`
+    + `<div class="opt-row"><span>Focus / Pomodoro Timer & Ambient Soundscapes Tab</span><button type="button" class="toggle ${ex.focusStudio ? 'on' : ''}" data-extra-toggle="focusStudio"></button></div>`
+    + `<div class="opt-row"><span>Event Checklists & World Launch Timezones</span><button type="button" class="toggle ${ex.detailPanels ? 'on' : ''}" data-extra-toggle="detailPanels"></button></div>`
+    + `<div class="opt-row" style="margin-bottom:0"><span>Extra Finale Animations (Fireworks, Emoji Fountain, Strobe)</span><button type="button" class="toggle ${ex.extraFinals ? 'on' : ''}" data-extra-toggle="extraFinals"></button></div>`
     + (ex.extraFinals ? `<div class="field" style="margin:12px 0 0"><label>Active Finale Effect</label><div class="seg">${FINALE_STYLES.map(([k, l]) => `<button type="button" data-finale-style="${k}" class="${finaleStyle === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
     + `</div>`
-    + `<div class="settings-card"><h3>🔊 Celebration Sound & Audio Chimes (Opt-In)</h3><p>Audio is <strong>off by default</strong>. Turn it on below if you want a synthesized chime when a countdown reaches zero.</p>`
+    + `<div class="settings-card"><h3>Celebration Sound & Audio Chimes (Opt-In)</h3><p>Audio is <strong>off by default</strong>. Turn it on below if you want a synthesized chime when a countdown reaches zero.</p>`
     + `<div class="opt-row" style="margin-bottom:${soundOn ? '12px' : '0'}"><span>Play celebration sound when countdown reaches 0</span><button type="button" class="toggle ${soundOn ? 'on' : ''}" id="toggle-sound"></button></div>`
-    + (soundOn ? `<div class="field" style="margin-bottom:12px"><label>Synthesized Audio Chime</label><div class="seg">${SOUND_STYLES.map(([k, l]) => `<button type="button" data-sound-style="${k}" class="${soundStyle === k ? 'on' : ''}">${l}</button>`).join('')}</div></div><button class="button secondary-button small-button" type="button" id="test-chime" style="flex:0 0 auto;width:auto">🔊 Test Sound & Finale</button>` : '')
+    + (soundOn ? `<div class="field" style="margin-bottom:12px"><label>Synthesized Audio Chime</label><div class="seg">${SOUND_STYLES.map(([k, l]) => `<button type="button" data-sound-style="${k}" class="${soundStyle === k ? 'on' : ''}">${l}</button>`).join('')}</div></div><button class="button secondary-button small-button" type="button" id="test-chime" style="flex:0 0 auto;width:auto">Test Sound & Finale</button>` : '')
     + `</div>`
     + `<div class="settings-card"><h3>Appearance</h3><div class="seg" id="theme-seg">${[['auto', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => `<button type="button" data-theme-pref="${v}" class="${pref === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-    + `<div class="settings-card"><h3>Custom Themes & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'} and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">🎨 Open Theme Studio</a><button class="button secondary-button" id="manage-emojis-btn" type="button">😀 Manage Custom Emojis</button></div></div>`
+    + `<div class="settings-card"><h3>Custom Themes & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'} and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">Open Theme Studio</a><button class="button secondary-button" id="manage-emojis-btn" type="button">Manage Custom Emojis</button></div></div>`
     + `<div class="settings-card"><h3>Notifications</h3><p>${permText}</p>${perm === 'default' ? '<button class="button secondary-button" id="enable-notif" type="button">Enable notifications</button>' : ''}</div>`
     + `<div class="settings-card"><h3>App & Offline</h3><p>${standalone ? 'Downcount is running as an installed app.' : 'Install Downcount to launch it instantly from your home screen or dock.'}</p>${standalone ? '' : '<button class="button secondary-button" id="install-2" type="button">Install app</button>'}</div>`
     + `<div class="settings-card"><h3>Backup & Data</h3><p>Your countdowns, custom themes, uploaded emojis and settings are saved locally in this browser.</p><div class="row"><button class="button secondary-button" id="export-data" type="button">Export Full Backup</button><button class="button secondary-button" id="import-data" type="button">Import Backup</button><button class="button secondary-button danger" id="clear-data" type="button">Clear all</button></div><p class="fine">Downcount v4 · Built with vanilla JS & CSS · Clean, private & local-first.</p></div></section>`;
@@ -2207,7 +2212,7 @@ function renderSettings() {
     setExtras({ clockModes: target, particles: target, focusStudio: target, detailPanels: target, extraFinals: target });
     buzz();
     renderSettings();
-    showNotice(target ? '✨ All Cool Extras turned ON!' : 'Cool Extras turned OFF.');
+    showNotice(target ? 'All Cool Extras turned ON!' : 'Cool Extras turned OFF.');
   });
 
   $$('[data-extra-toggle]', app).forEach((b) => b.addEventListener('click', () => {
