@@ -38,7 +38,7 @@ if (openSettingsBtn && settingsModal) {
 
 // --- 3. SHARE DATA BUTTON LOGIC (Inside Settings Menu) ---
 const shareDataBtn = document.getElementById('share-data-btn');
-const shareLinkBox = document.getElementById('share-link-box');
+const shareLinkContainer = document.getElementById('share-link-container');
 const shareLinkInput = document.getElementById('share-link-input');
 const copyLinkBtn = document.getElementById('copy-link-btn');
 
@@ -61,7 +61,7 @@ if (shareDataBtn) {
 
       // Show link container and populate input
       shareLinkInput.value = shareUrl;
-      shareLinkBox.style.display = 'block';
+      shareLinkContainer.style.display = 'block';
 
       // Copy automatically to clipboard
       navigator.clipboard.writeText(shareUrl).then(() => {
