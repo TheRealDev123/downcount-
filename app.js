@@ -2169,9 +2169,55 @@ function applyTheme() {
 function setThemePref(v) { try { localStorage.setItem(THEME_KEY, v); } catch { /* ignore */ } applyTheme(); }
 
 async function triggerInstall() {
-  if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; installButton.hidden = true; return; }
+  if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; return; }
   if (/iphone|ipad|ipod/i.test(navigator.userAgent)) showNotice('To install: tap Share in Safari, then choose “Add to Home Screen”.');
   else showNotice('Open your browser menu and choose “Install app” or “Add to Home Screen”.');
+}
+
+/* ---------- download / install page ---------- */
+function detectPlatform() {
+  const ua = navigator.userAgent || '';
+  if (/android/i.test(ua)) return 'android';
+  if (/iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
+  if (/windows/i.test(ua)) return 'windows';
+  return 'other';
+}
+const PLATFORM_ICONS = {
+  windows: svgI('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>', 24),
+  ios: svgI('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>', 24),
+  android: svgI('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><circle cx="12" cy="6" r=".7"/><path d="M10.5 18.5h3"/>', 24)
+};
+const PLATFORMS = [
+  { id: 'windows', name: 'Windows', browser: 'Chrome or Edge', steps: ['Open Downcount in Chrome or Edge.', 'Click the install icon at the right end of the address bar, or open the browser menu and choose “Install Downcount”.', 'Click Install. Downcount opens in its own window and shows up in your Start menu.'] },
+  { id: 'ios', name: 'iOS', browser: 'Safari on iPhone or iPad', steps: ['Open Downcount in Safari.', 'Tap the Share button.', 'Scroll down, tap “Add to Home Screen”, then tap Add.'] },
+  { id: 'android', name: 'Android', browser: 'Chrome', steps: ['Open Downcount in Chrome.', 'Tap the menu (three dots) in the top corner.', 'Tap “Install app” or “Add to Home screen”, then confirm.'] }
+];
+function renderDownload() {
+  const here = detectPlatform();
+  const standalone = document.documentElement.classList.contains('standalone');
+  const cards = PLATFORMS.map((p) => `<article class="platform-card${here === p.id ? ' here' : ''}" data-platform="${p.id}">`
+    + `<div class="platform-head"><div class="platform-icon">${PLATFORM_ICONS[p.id]}</div><div><h2>${p.name}</h2><small>${p.browser}</small></div>${here === p.id ? '<span class="platform-tag">Your device</span>' : ''}</div>`
+    + `<ol>${p.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
+    + `<button class="button" type="button" data-dl="${p.id}">Download for ${p.name}</button></article>`).join('');
+  app.innerHTML = `<section class="page wide download-page"><a class="back" href="#/">← Back</a>`
+    + `<h1 class="page-title">Download Downcount</h1>`
+    + `<p class="download-lead">${standalone ? 'Downcount is already installed on this device.' : 'Pick your device. Downcount installs straight from your browser, with no app store, and works offline.'}</p>`
+    + `<div class="platform-grid">${cards}</div>`
+    + (here === 'other' && !standalone ? '<p class="small-note">On a Mac or Linux computer, use Chrome or Edge and click the install icon in the address bar.</p>' : '')
+    + `<div class="download-foot"><span>Installing on another device?</span><button class="button secondary-button small-button" type="button" id="copy-app-link">Copy link</button></div></section>`;
+  $$('[data-dl]').forEach((b) => b.addEventListener('click', () => {
+    const p = PLATFORMS.find((x) => x.id === b.dataset.dl);
+    if (standalone) { showNotice('Downcount is already installed on this device.'); return; }
+    if (p.id === here) {
+      if (installPrompt) { triggerInstall(); return; }
+      const card = b.closest('.platform-card');
+      card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
+      showNotice(p.id === 'ios' ? 'Follow the steps: tap Share, then Add to Home Screen.' : 'Follow the steps to install from your browser menu.');
+    } else {
+      copyText(baseUrl()).then((ok) => showNotice(ok ? `Link copied. Open it on your ${p.name} device to install.` : `Open Downcount on your ${p.name} device to install it.`));
+    }
+  }));
+  $('#copy-app-link').addEventListener('click', async () => showNotice((await copyText(baseUrl())) ? 'Link copied.' : 'Couldn’t copy the link.'));
 }
 
 function renderSettings() {
@@ -2204,7 +2250,7 @@ function renderSettings() {
     + `<div class="settings-card"><h3>Appearance</h3><div class="seg" id="theme-seg">${[['auto', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => `<button type="button" data-theme-pref="${v}" class="${pref === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
     + `<div class="settings-card"><h3>Custom Themes & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'} and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">Open Theme Studio</a><button class="button secondary-button" id="manage-emojis-btn" type="button">Manage Custom Emojis</button></div></div>`
     + `<div class="settings-card"><h3>Notifications</h3><p>${permText}</p>${perm === 'default' ? '<button class="button secondary-button" id="enable-notif" type="button">Enable notifications</button>' : ''}</div>`
-    + `<div class="settings-card"><h3>App & Offline</h3><p>${standalone ? 'Downcount is running as an installed app.' : 'Install Downcount to launch it instantly from your home screen or dock.'}</p>${standalone ? '' : '<button class="button secondary-button" id="install-2" type="button">Install app</button>'}</div>`
+    + `<div class="settings-card"><h3>App & Offline</h3><p>${standalone ? 'Downcount is running as an installed app.' : 'Install Downcount to launch it instantly from your home screen or dock.'}</p>${standalone ? '' : '<button class="button secondary-button" id="install-2" type="button">Download app</button>'}</div>`
     + `<div class="settings-card"><h3>Backup & Data</h3><p>Your countdowns, custom themes, uploaded emojis and settings are saved locally in this browser.</p><div class="row"><button class="button secondary-button" id="export-data" type="button">Export Full Backup</button><button class="button secondary-button" id="import-data" type="button">Import Backup</button><button class="button secondary-button danger" id="clear-data" type="button">Clear all</button></div><p class="fine">Downcount v4 · Built with vanilla JS & CSS · Clean, private & local-first.</p></div></section>`;
 
   $('#toggle-all-extras').addEventListener('click', () => {
@@ -2236,7 +2282,7 @@ function renderSettings() {
   if (testBtn) testBtn.addEventListener('click', () => { playChime(); celebrateFinale('🎉'); });
   $('#manage-emojis-btn').addEventListener('click', () => openEmojiPickerModal('✨', () => renderSettings()));
   const en = $('#enable-notif'); if (en) en.addEventListener('click', async () => { await Notification.requestPermission(); renderSettings(); });
-  const ins = $('#install-2'); if (ins) ins.addEventListener('click', triggerInstall);
+  const ins = $('#install-2'); if (ins) ins.addEventListener('click', () => { location.hash = '/download'; });
 
   $('#export-data').addEventListener('click', () => {
     const bundle = {
@@ -2344,6 +2390,7 @@ function route() {
     if (!ev) { location.hash = '/'; return; }
     renderForm(ev); tab = 'create';
   } else if (path === '/settings') { renderSettings(); tab = 'settings'; }
+  else if (path === '/download') { renderDownload(); tab = 'settings'; }
   else renderHome();
   $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === (tab === 'themes' ? 'create' : tab)));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === tab));
@@ -2375,9 +2422,10 @@ startTicker();
 if (!IS_EMBED) {
   setInterval(checkReminders, 15000);
   checkReminders();
-  window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); installPrompt = event; installButton.hidden = false; });
-  installButton.addEventListener('click', triggerInstall);
-  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); showNotice('Downcount is installed.'); });
+  installButton.hidden = document.documentElement.classList.contains('standalone');
+  window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); installPrompt = event; });
+  installButton.addEventListener('click', () => { location.hash = '/download'; });
+  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); showNotice('Downcount is installed.'); if (parseHash().path === '/download') renderDownload(); });
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(() => { $('#offline-indicator').hidden = false; }).catch((error) => console.info('ServiceWorker error:', error)));
   }

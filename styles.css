@@ -536,3 +536,22 @@ h1 span{color:var(--purple)}
 .new-menu small{color:var(--muted);font-size:12px}
 @keyframes menu-pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 @media(min-width:781px){.new-menu{display:none!important}}
+
+/* Download page */
+.download-lead{max-width:560px;margin:-4px 0 0;color:var(--muted);line-height:1.6}
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.platform-card{display:flex;flex-direction:column;gap:16px;padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.platform-card.here{order:-1;border-color:var(--purple);box-shadow:0 0 0 3px rgba(109,93,252,.14)}
+.platform-card.flash{animation:flash .8s ease 2}
+@keyframes flash{50%{box-shadow:0 0 0 6px rgba(109,93,252,.3)}}
+.platform-head{display:flex;align-items:center;gap:12px}
+.platform-head h2{margin:0;font-size:20px;letter-spacing:-.4px}
+.platform-head small{display:block;margin-top:2px;color:var(--muted);font-size:12px}
+.platform-icon{flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center;border-radius:14px;color:var(--purple);background:color-mix(in srgb,var(--purple) 12%,transparent)}
+.platform-tag{margin-left:auto;padding:4px 9px;border-radius:99px;color:var(--purple);background:color-mix(in srgb,var(--purple) 12%,transparent);font-size:11px;font-weight:800;white-space:nowrap}
+.platform-card ol{margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.65}
+.platform-card ol li+li{margin-top:6px}
+.platform-card .button{width:100%;margin-top:auto}
+.download-foot{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:13px}
+.download-foot .button{flex:0 0 auto}
+@media(max-width:780px){.platform-grid{grid-template-columns:1fr;gap:10px;margin-top:16px}.platform-card{padding:16px;gap:14px}.install-button{padding:0 11px}}
