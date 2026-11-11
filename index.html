@@ -37,11 +37,13 @@
   <footer class="footer">Make every moment count. ▫ <span id="offline-indicator" hidden>· Offline ready</span></footer>
   <nav class="tabbar" aria-label="App tabs">
     <a href="#/" data-tab="home"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg></span><small>Home</small></a>
-    <a href="#/themes" data-tab="themes"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H17a4 4 0 0 0 4-4c0-4.4-4.03-8.3-9-8.3Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><small>Themes</small></a>
-    <a href="#/create" data-tab="create" class="fab"><span aria-hidden="true">＋</span><small>New</small></a>
-    <a href="#/focus" data-tab="focus" id="tab-focus-link" hidden><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg></span><small>Focus</small></a>
+    <button type="button" class="tab-new" id="tab-new" data-tab="create" aria-haspopup="menu" aria-expanded="false" aria-controls="new-menu"><span aria-hidden="true">＋</span><small>New</small></button>
     <a href="#/settings" data-tab="settings"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span><small>Settings</small></a>
   </nav>
+  <div class="new-menu" id="new-menu" role="menu" aria-label="Create something new" hidden>
+    <a role="menuitem" href="#/create"><strong>New countdown</strong><small>Count down to a date</small></a>
+    <a role="menuitem" href="#/themes"><strong>New theme</strong><small>Design colors, fonts &amp; gradients</small></a>
+  </div>
   <div id="modal-root"></div>
   <script src="./app.js" defer></script>
 </body>

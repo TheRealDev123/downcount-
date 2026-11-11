@@ -2328,6 +2328,7 @@ async function checkReminders() {
 /* --------- router --------- */
 function route() {
   closeModal();
+  closeNewMenu();
   syncExtrasShellUI();
   const { path } = parseHash();
   liveTitle = null; document.title = DEFAULT_TITLE;
@@ -2344,7 +2345,7 @@ function route() {
     renderForm(ev); tab = 'create';
   } else if (path === '/settings') { renderSettings(); tab = 'settings'; }
   else renderHome();
-  $$('.tabbar a').forEach((a) => a.classList.toggle('active', a.dataset.tab === tab));
+  $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === (tab === 'themes' ? 'create' : tab)));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === tab));
   app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter');
   if (path !== '/embed') window.scrollTo(0, 0);
@@ -2354,6 +2355,16 @@ function route() {
 window.addEventListener('hashchange', route);
 window.addEventListener('storage', (e) => { if ([STORAGE_KEY, CUSTOM_THEMES_KEY, CUSTOM_EMOJIS_KEY, EXTRAS_KEY].includes(e.key) && ['/', '/settings', '/themes'].includes(parseHash().path)) route(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) { tickAll(); checkReminders(); } });
+
+const newMenu = $('#new-menu');
+const newBtn = $('#tab-new');
+function closeNewMenu() { if (!newMenu) return; newMenu.hidden = true; if (newBtn) newBtn.setAttribute('aria-expanded', 'false'); }
+if (newBtn && newMenu) {
+  newBtn.addEventListener('click', (e) => { e.stopPropagation(); const open = newMenu.hidden; newMenu.hidden = !open; newBtn.setAttribute('aria-expanded', String(open)); buzz(); });
+  newMenu.addEventListener('click', closeNewMenu);
+  document.addEventListener('click', (e) => { if (!newMenu.hidden && !newMenu.contains(e.target) && !newBtn.contains(e.target)) closeNewMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNewMenu(); });
+}
 
 applyTheme();
 darkMq.addEventListener('change', applyTheme);

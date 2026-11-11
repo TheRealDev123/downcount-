@@ -450,7 +450,7 @@ h1 span{color:var(--purple)}
   .feature p{font-size:13px;line-height:1.5}
 
   /* home */
-  .next-up .section-heading .small-button.secondary-button{display:none}
+  .next-up .section-heading a[href="#/themes"]{display:none}
   .home-toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:16px 0 6px;padding:10px;border-radius:14px}
   .home-toolbar .search-input-wrap{min-width:0}
   .home-toolbar .sort-select{width:auto;max-width:118px;padding:0 8px}
@@ -522,3 +522,17 @@ h1 span{color:var(--purple)}
   .modal .seg button{flex:1}
   .modal-head{margin-bottom:10px}
 }
+
+/* New button + popup menu */
+.tabbar .tab-new{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border:0;background:none;color:var(--muted);font:inherit;font-size:11px;font-weight:650;cursor:pointer}
+.tabbar .tab-new span{width:46px;height:46px;display:grid;place-items:center;margin-top:-20px;border-radius:50%;color:#fff;background:var(--purple);box-shadow:0 8px 18px rgba(109,93,252,.35);font-size:26px;line-height:1;transition:transform .2s}
+.tabbar .tab-new[aria-expanded=true] span{transform:rotate(45deg)}
+.tabbar .tab-new.active{color:var(--purple)}
+.new-menu{position:fixed;left:50%;bottom:calc(var(--tabbar-h) + var(--sab) + 18px);transform:translateX(-50%);z-index:45;width:min(260px,calc(100vw - 32px));padding:6px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 16px 40px rgba(20,18,50,.22);animation:menu-pop .16s ease both}
+.new-menu::after{content:'';position:absolute;left:50%;bottom:-6px;width:12px;height:12px;margin-left:-6px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.new-menu a{display:flex;flex-direction:column;gap:2px;padding:11px 14px;border-radius:11px;color:var(--ink);text-decoration:none}
+.new-menu a:active,.new-menu a:hover{background:color-mix(in srgb,var(--purple) 10%,var(--bg))}
+.new-menu strong{font-size:15px}
+.new-menu small{color:var(--muted);font-size:12px}
+@keyframes menu-pop{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@media(min-width:781px){.new-menu{display:none!important}}

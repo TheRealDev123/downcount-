@@ -1,4 +1,4 @@
-const CACHE_NAME = 'downcount-shell-v4b';
+const CACHE_NAME = 'downcount-shell-v4c';
 const APP_SHELL = ['./', './index.html', './app.js', './styles.css', './embed.js', './manifest.webmanifest', './icon.svg', './icons/icon.svg', './icons/icon-192.svg', './icons/icon-512.svg'];
 
 self.addEventListener('install', (event) => {
