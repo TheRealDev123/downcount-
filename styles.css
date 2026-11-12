@@ -611,3 +611,12 @@ html.theme-anim,html.theme-anim *{transition:background-color .3s ease,color .3s
   .filter-pill{scroll-snap-align:start}
 }
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.tabbar.hide{transform:none}}
+
+/* ===== tab bar: solid, clean, no see-through content ===== */
+.tabbar{background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none;border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(20,18,50,.08)}
+:root[data-theme=dark] .tabbar{box-shadow:0 -8px 22px rgba(0,0,0,.4)}
+.tabbar .tab-new span{box-shadow:0 0 0 5px var(--surface),0 6px 14px rgba(109,93,252,.38)}
+.tabbar .fab span{box-shadow:0 0 0 5px var(--surface),0 6px 14px rgba(109,93,252,.38)}
+main{padding-bottom:calc(var(--tabbar-h) + var(--sab) + 36px)}
+@media(min-width:781px){main{padding-bottom:80px}}
+:root[data-theme=dark] .s-mono{--brand:#d4d4e4}
