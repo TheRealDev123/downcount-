@@ -745,6 +745,10 @@ function tickWidget(w, now) {
         el.classList.remove('tick-pop');
         void el.offsetWidth;
         el.classList.add('tick-pop');
+      } else if (u === 'seconds' && !document.hidden) {
+        el.classList.remove('val-tick');
+        void el.offsetWidth;
+        el.classList.add('val-tick');
       }
     }
   }
@@ -1128,9 +1132,14 @@ app.addEventListener('click', (e) => {
 
 function removeEvent(ev) {
   const before = readEvents();
-  saveEvents(before.filter((e) => e.id !== ev.id));
-  buzz(); route();
-  showNotice(`Deleted "${ev.name}".`, { label: 'Undo', fn: () => { saveEvents(before); route(); } });
+  const finish = () => {
+    saveEvents(before.filter((e) => e.id !== ev.id));
+    buzz(); route();
+    showNotice(`Deleted “${ev.name}”.`, { label: 'Undo', fn: () => { saveEvents(before); route(); } });
+  };
+  const card = $$('.saved-card').find((c) => c.dataset.id === ev.id);
+  if (card && !matchMedia('(prefers-reduced-motion: reduce)').matches) { card.classList.add('leaving'); setTimeout(finish, 230); }
+  else finish();
 }
 
 /* --------- Emoji Picker & Custom Emoji Uploader Modal --------- */
@@ -2166,7 +2175,12 @@ function applyTheme() {
   const meta = $('meta[name=theme-color]'); if (meta) meta.content = dark ? '#171727' : '#f6f7fb';
 }
 
-function setThemePref(v) { try { localStorage.setItem(THEME_KEY, v); } catch { /* ignore */ } applyTheme(); }
+function setThemePref(v) {
+  try { localStorage.setItem(THEME_KEY, v); } catch { /* ignore */ }
+  const root = document.documentElement; root.classList.add('theme-anim');
+  applyTheme();
+  clearTimeout(setThemePref.t); setThemePref.t = setTimeout(() => root.classList.remove('theme-anim'), 450);
+}
 
 async function triggerInstall() {
   if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; return; }
@@ -2220,6 +2234,154 @@ function renderDownload() {
   $('#copy-app-link').addEventListener('click', async () => showNotice((await copyText(baseUrl())) ? 'Link copied.' : 'Couldn’t copy the link.'));
 }
 
+/* ---------- share my data: one link that carries everything ---------- */
+function buildShareBundle(st) {
+  const b = { v: 5, t: Date.now() };
+  if (st.events) b.events = readEvents();
+  if (st.themes) b.customThemes = readCustomThemes();
+  if (st.emojis) b.customEmojis = readCustomEmojis();
+  if (st.settings) b.settings = { extras: getExtras(), theme: getThemePref(), sound: isSoundEnabled(), soundStyle: getSoundStyle(), finale: localStorage.getItem(FINALE_STYLE_KEY) || 'confetti' };
+  return b;
+}
+async function readStreamLimited(stream, limit) {
+  const reader = stream.getReader(); const chunks = []; let n = 0;
+  for (;;) {
+    const { done, value } = await reader.read(); if (done) break;
+    n += value.length; if (n > limit) { reader.cancel(); throw new Error('too big'); }
+    chunks.push(value);
+  }
+  const out = new Uint8Array(n); let o = 0; for (const c of chunks) { out.set(c, o); o += c.length; }
+  return out;
+}
+async function packBundle(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  let out = bytes; let tag = 'j';
+  if (typeof CompressionStream === 'function') {
+    try { out = await readStreamLimited(new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw')), 20e6); tag = 'z'; } catch { out = bytes; tag = 'j'; }
+  }
+  let bin = ''; for (let i = 0; i < out.length; i += 0x8000) bin += String.fromCharCode.apply(null, out.subarray(i, i + 0x8000));
+  return tag + '.' + btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+async function unpackBundle(str) {
+  const m = /^([jz])\.([A-Za-z0-9_-]+)$/.exec(str);
+  if (!m) throw new Error('bad link');
+  const b64 = m[2].replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(b64 + '='.repeat((4 - b64.length % 4) % 4));
+  let bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+  if (m[1] === 'z') {
+    if (typeof DecompressionStream !== 'function') throw new Error('unsupported');
+    bytes = await readStreamLimited(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')), 8e6);
+  }
+  const obj = JSON.parse(new TextDecoder().decode(bytes));
+  if (!obj || typeof obj !== 'object') throw new Error('bad data');
+  return obj;
+}
+function exportBackupFile() {
+  const bundle = { version: 4, exportedAt: new Date().toISOString(), events: readEvents(), customThemes: readCustomThemes(), customEmojis: readCustomEmojis(), extras: getExtras() };
+  download('downcount-backup.json', JSON.stringify(bundle, null, 2), 'application/json');
+}
+function openShareData() {
+  closeModal();
+  const counts = { events: readEvents().length, themes: readCustomThemes().length, emojis: readCustomEmojis().length };
+  const st = { events: counts.events > 0, themes: counts.themes > 0, emojis: counts.emojis > 0, settings: true };
+  const root = document.createElement('div'); root.className = 'modal-backdrop';
+  root.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="sd-title"><div class="modal-head"><h2 id="sd-title">Share my data</h2><button class="icon-button" type="button" data-close aria-label="Close">✕</button></div><div id="sd-body"></div></div>';
+  modalRoot.append(root); document.body.classList.add('modal-open');
+  const body = $('#sd-body', root); let token = 0;
+  const rows = [['events', 'Countdowns', counts.events], ['themes', 'Custom themes', counts.themes], ['emojis', 'Uploaded emojis', counts.emojis], ['settings', 'Settings & preferences', null]].filter((r) => r[2] === null || r[2] > 0);
+  const draw = async () => {
+    const my = ++token;
+    const payload = await packBundle(buildShareBundle(st));
+    if (my !== token) return;
+    const url = `${baseUrl()}#/import/${payload}`;
+    const len = url.length;
+    const size = len > 1000 ? `${(len / 1000).toFixed(1)} KB` : `${len} characters`;
+    const level = len > 60000 ? 'bad' : (len > 8000 ? 'warn' : 'ok');
+    const msg = { ok: `Link size: ${size}. Works in most apps.`, warn: `Link size: ${size}. Some chat apps may cut long links. Try turning off uploaded emojis, or send a backup file instead.`, bad: `This is too long to share as a link (${size}). Turn off uploaded emojis, or send a backup file instead.` }[level];
+    const none = !st.events && !st.themes && !st.emojis && !st.settings;
+    body.innerHTML = `<p class="share-hint" style="margin:0 0 14px">Make one link that carries your data. Open it on another device to bring everything over.</p>`
+      + rows.map(([k, label, n]) => `<div class="opt-row"><span>${label}${n === null ? '' : ` <small class="muted-count">(${n})</small>`}</span><button type="button" class="toggle${st[k] ? ' on' : ''}" role="switch" aria-checked="${st[k]}" aria-label="${label}" data-sd="${k}"></button></div>`).join('')
+      + (none ? '<p class="share-hint">Turn something on to create a link.</p>' : (level === 'bad'
+        ? `<p class="share-hint sd-${level}">${msg}</p><button class="button" type="button" data-export>Download backup file</button>`
+        : `<div class="share-box"><input id="sd-link" aria-label="Link with your data" readonly value="${esc(url)}"><button type="button" data-copy-link>Copy link</button></div><div class="share-apps">${navigator.share ? '<button type="button" data-native>Share…</button>' : ''}<button type="button" data-export>Download backup file</button></div><p class="share-hint sd-${level}">${msg}</p>`))
+      + '<p class="share-hint">Anyone who has this link can see and import your data, so only send it to yourself or people you trust. The data is inside the link and isn’t uploaded anywhere.</p>';
+  };
+  root.addEventListener('click', async (e) => {
+    const t = e.target;
+    if (t === root || t.closest('[data-close]')) { closeModal(); return; }
+    const tg = t.closest('[data-sd]');
+    if (tg) { st[tg.dataset.sd] = !st[tg.dataset.sd]; draw(); return; }
+    if (t.closest('[data-export]')) { exportBackupFile(); return; }
+    const cp = t.closest('[data-copy-link]');
+    if (cp) {
+      const ok = await copyText($('#sd-link', root).value);
+      const old = cp.textContent; cp.textContent = ok ? 'Copied ✓' : 'Press Ctrl/Cmd+C'; buzz();
+      setTimeout(() => { if (cp.isConnected) cp.textContent = old; }, 1600); return;
+    }
+    if (t.closest('[data-native]')) {
+      try { await navigator.share({ title: 'My Downcount data', url: $('#sd-link', root).value }); } catch (err) { if (err.name !== 'AbortError') showNotice('Use Copy link to share your data.'); }
+    }
+  });
+  draw();
+  $('[data-close]', root).focus();
+}
+async function renderImport(payload) {
+  app.innerHTML = '<section class="page"><p class="small-note">Reading your link…</p></section>';
+  let data;
+  try { data = await unpackBundle(payload); }
+  catch {
+    app.innerHTML = '<section class="page not-found"><h1>Link couldn’t be read</h1><p>It may have been cut off when it was sent. Ask for the link again, or use a backup file from Settings.</p><a class="button" href="#/">Go home</a></section>'; return;
+  }
+  const has = { events: Array.isArray(data.events), themes: Array.isArray(data.customThemes), emojis: Array.isArray(data.customEmojis), settings: !!data.settings && typeof data.settings === 'object' };
+  const events = (has.events ? data.events : []).filter((e) => e && e.name && Number.isFinite(Number(e.end))).slice(0, 100).map(normalize);
+  const themes = (has.themes ? data.customThemes : []).slice(0, 40).map(normalizeCustomThemeObj).filter(Boolean);
+  const emojis = (has.emojis ? data.customEmojis : []).filter((x) => x && x.id && /^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,/.test(String(x.dataUrl || ''))).slice(0, 40);
+  if (!events.length && !themes.length && !emojis.length && !has.settings) {
+    app.innerHTML = '<section class="page not-found"><h1>Nothing to import</h1><p>This link doesn’t contain any Downcount data.</p><a class="button" href="#/">Go home</a></section>'; return;
+  }
+  const st = { mode: 'merge', settings: has.settings };
+  const names = events.slice(0, 5).map((e) => esc(e.name)).join(', ') + (events.length > 5 ? `, and ${events.length - 5} more` : '');
+  const li = (n, label, extra = '') => n ? `<li><strong>${n}</strong> ${label}${extra ? `<span>${extra}</span>` : ''}</li>` : '';
+  const draw = () => {
+    app.innerHTML = `<section class="page import-page"><a class="back" href="#/">← Cancel</a><h1 class="page-title">Bring your data over</h1><p class="download-lead">This link was shared from another device. Check what’s inside, then choose how to add it.</p>`
+      + `<div class="settings-card"><h3>In this link</h3><ul class="import-list">${li(events.length, events.length === 1 ? 'countdown' : 'countdowns', names)}${li(themes.length, themes.length === 1 ? 'custom theme' : 'custom themes')}${li(emojis.length, emojis.length === 1 ? 'uploaded emoji' : 'uploaded emojis')}${has.settings ? '<li>Settings &amp; preferences</li>' : ''}</ul></div>`
+      + `<div class="settings-card"><h3>How to add it</h3><div class="seg"><button type="button" data-mode="merge" class="${st.mode === 'merge' ? 'on' : ''}">Add to this device</button><button type="button" data-mode="replace" class="${st.mode === 'replace' ? 'on' : ''}">Replace what’s here</button></div>`
+      + `<p class="fine">${st.mode === 'merge' ? 'Keeps what you already have on this device and adds anything new. Duplicates are skipped.' : 'Removes the countdowns, themes and emojis in this link’s categories from this device first, then adds the shared ones.'}</p>`
+      + (has.settings ? `<div class="opt-row" style="margin-top:14px"><span>Also apply the shared settings</span><button type="button" class="toggle${st.settings ? ' on' : ''}" role="switch" aria-checked="${st.settings}" aria-label="Apply settings" data-imp-settings></button></div>` : '')
+      + `</div><button class="button" type="button" id="imp-go" style="width:100%">Import data</button></section>`;
+    $$('[data-mode]').forEach((b) => b.addEventListener('click', () => { st.mode = b.dataset.mode; draw(); }));
+    const ts = $('[data-imp-settings]'); if (ts) ts.addEventListener('click', () => { st.settings = !st.settings; draw(); });
+    $('#imp-go').addEventListener('click', () => {
+      if (st.mode === 'replace' && !confirm('Replace the data on this device with what’s in this link?')) return;
+      let added = 0;
+      if (st.mode === 'replace') {
+        if (has.events) saveEvents([]);
+        if (has.themes) saveCustomThemes([]);
+        if (has.emojis) saveCustomEmojis([]);
+      }
+      for (const ev of events) {
+        if (findByNameEnd(ev.name, ev.end)) continue;
+        const clash = readEvents().some((x) => x.id === ev.id);
+        upsertEvent(clash ? { ...ev, id: newId() } : ev); added++;
+      }
+      if (themes.length) { const seen = new Set(); saveCustomThemes([...themes, ...readCustomThemes()].filter((t) => !seen.has(t.id) && seen.add(t.id))); }
+      if (emojis.length) { const seen = new Set(); saveCustomEmojis([...emojis, ...readCustomEmojis()].filter((x) => !seen.has(x.id) && seen.add(x.id))); }
+      if (has.settings && st.settings) {
+        const s = data.settings;
+        if (s.extras && typeof s.extras === 'object') setExtras(s.extras);
+        if (['auto', 'light', 'dark'].includes(s.theme)) setThemePref(s.theme);
+        if (typeof s.sound === 'boolean') setSoundEnabled(s.sound);
+        if (SOUND_STYLES.some(([k]) => k === s.soundStyle)) setSoundStyle(s.soundStyle);
+        if (FINALE_STYLES.some(([k]) => k === s.finale)) setFinaleStyle(s.finale);
+      }
+      buzz();
+      showNotice(added ? `Imported ${added} countdown${added === 1 ? '' : 's'} and your other data.` : 'Your data was imported.');
+      location.hash = '/';
+    });
+  };
+  draw();
+}
+
 function renderSettings() {
   const pref = getThemePref();
   const ex = getExtras();
@@ -2251,7 +2413,7 @@ function renderSettings() {
     + `<div class="settings-card"><h3>Custom Themes & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'} and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">Open Theme Studio</a><button class="button secondary-button" id="manage-emojis-btn" type="button">Manage Custom Emojis</button></div></div>`
     + `<div class="settings-card"><h3>Notifications</h3><p>${permText}</p>${perm === 'default' ? '<button class="button secondary-button" id="enable-notif" type="button">Enable notifications</button>' : ''}</div>`
     + `<div class="settings-card"><h3>App & Offline</h3><p>${standalone ? 'Downcount is running as an installed app.' : 'Install Downcount to launch it instantly from your home screen or dock.'}</p>${standalone ? '' : '<button class="button secondary-button" id="install-2" type="button">Download app</button>'}</div>`
-    + `<div class="settings-card"><h3>Backup & Data</h3><p>Your countdowns, custom themes, uploaded emojis and settings are saved locally in this browser.</p><div class="row"><button class="button secondary-button" id="export-data" type="button">Export Full Backup</button><button class="button secondary-button" id="import-data" type="button">Import Backup</button><button class="button secondary-button danger" id="clear-data" type="button">Clear all</button></div><p class="fine">Downcount v4 · Built with vanilla JS & CSS · Clean, private & local-first.</p></div></section>`;
+    + `<div class="settings-card"><h3>Backup & Data</h3><p>Your countdowns, custom themes, uploaded emojis and settings are saved locally in this browser. Use Share my data to move them to another device.</p><div class="row"><button class="button" id="share-data" type="button" style="flex:1 1 100%">Share my data</button><button class="button secondary-button" id="export-data" type="button">Export Full Backup</button><button class="button secondary-button" id="import-data" type="button">Import Backup</button><button class="button secondary-button danger" id="clear-data" type="button">Clear all</button></div><p class="fine">Downcount v4 · Built with vanilla JS & CSS · Clean, private & local-first.</p></div></section>`;
 
   $('#toggle-all-extras').addEventListener('click', () => {
     const target = !allOn;
@@ -2284,17 +2446,8 @@ function renderSettings() {
   const en = $('#enable-notif'); if (en) en.addEventListener('click', async () => { await Notification.requestPermission(); renderSettings(); });
   const ins = $('#install-2'); if (ins) ins.addEventListener('click', () => { location.hash = '/download'; });
 
-  $('#export-data').addEventListener('click', () => {
-    const bundle = {
-      version: 4,
-      exportedAt: new Date().toISOString(),
-      events: readEvents(),
-      customThemes: readCustomThemes(),
-      customEmojis: readCustomEmojis(),
-      extras: getExtras()
-    };
-    download('downcount-backup.json', JSON.stringify(bundle, null, 2), 'application/json');
-  });
+  $('#share-data').addEventListener('click', openShareData);
+  $('#export-data').addEventListener('click', exportBackupFile);
 
   $('#import-data').addEventListener('click', () => {
     const input = document.createElement('input'); input.type = 'file'; input.accept = '.json,application/json';
@@ -2391,12 +2544,15 @@ function route() {
     renderForm(ev); tab = 'create';
   } else if (path === '/settings') { renderSettings(); tab = 'settings'; }
   else if (path === '/download') { renderDownload(); tab = 'settings'; }
+  else if (path.startsWith('/import/')) { renderImport(path.slice(8)); tab = 'settings'; }
   else renderHome();
   $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === (tab === 'themes' ? 'create' : tab)));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === tab));
   app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter');
+  const bar = $('.tabbar'); if (bar) bar.classList.remove('hide');
   if (path !== '/embed') window.scrollTo(0, 0);
   tickAll();
+  initReveal();
 }
 
 window.addEventListener('hashchange', route);
@@ -2405,13 +2561,75 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) { ti
 
 const newMenu = $('#new-menu');
 const newBtn = $('#tab-new');
-function closeNewMenu() { if (!newMenu) return; newMenu.hidden = true; if (newBtn) newBtn.setAttribute('aria-expanded', 'false'); }
+const newScrim = document.createElement('div'); newScrim.className = 'menu-scrim'; newScrim.hidden = true; document.body.append(newScrim);
+function closeNewMenu() { if (!newMenu) return; newMenu.hidden = true; newScrim.hidden = true; if (newBtn) newBtn.setAttribute('aria-expanded', 'false'); }
 if (newBtn && newMenu) {
-  newBtn.addEventListener('click', (e) => { e.stopPropagation(); const open = newMenu.hidden; newMenu.hidden = !open; newBtn.setAttribute('aria-expanded', String(open)); buzz(); });
+  newBtn.addEventListener('click', (e) => { e.stopPropagation(); const open = newMenu.hidden; newMenu.hidden = !open; newScrim.hidden = !open; newBtn.setAttribute('aria-expanded', String(open)); buzz(); });
   newMenu.addEventListener('click', closeNewMenu);
   document.addEventListener('click', (e) => { if (!newMenu.hidden && !newMenu.contains(e.target) && !newBtn.contains(e.target)) closeNewMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNewMenu(); });
 }
+
+
+/* ---------- small motion & touch polish ---------- */
+const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+let revealIO;
+function initReveal() {
+  if (revealIO) revealIO.disconnect();
+  if (!('IntersectionObserver' in window) || reducedMotion()) return;
+  const els = $$('.feature, .saved-card, .platform-card, .settings-card, .stat, .import-page .button').filter((el) => !el.closest('.modal'));
+  revealIO = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      const el = en.target; revealIO.unobserve(el); el.classList.add('in');
+      setTimeout(() => { el.classList.remove('reveal', 'in'); el.style.removeProperty('--ri'); }, 900);
+    });
+  }, { rootMargin: '0px 0px -5% 0px', threshold: 0.05 });
+  els.forEach((el, i) => { el.classList.add('reveal'); el.style.setProperty('--ri', Math.min(i, 6)); revealIO.observe(el); });
+  setTimeout(() => els.forEach((el) => { el.classList.add('in'); }), 2600);
+}
+// the tab bar slides away while you scroll down and comes back when you scroll up
+(function tabbarAutoHide() {
+  let lastY = window.scrollY, ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY; const bar = $('.tabbar'); const d = y - lastY;
+      if (bar && matchMedia('(max-width:780px)').matches) {
+        if (y < 80 || d < -6 || (newMenu && !newMenu.hidden)) bar.classList.remove('hide');
+        else if (d > 10 && !document.body.classList.contains('modal-open')) bar.classList.add('hide');
+      }
+      lastY = y; ticking = false;
+    });
+  }, { passive: true });
+})();
+// drag the top of a bottom sheet down to close it
+(function sheetSwipe() {
+  let el = null, backdrop = null, startY = 0, dy = 0;
+  modalRoot.addEventListener('touchstart', (e) => {
+    const m = e.target.closest('.modal');
+    if (!m || !matchMedia('(max-width:780px)').matches) return;
+    const t = e.touches[0];
+    if (t.clientY - m.getBoundingClientRect().top > 60) return;
+    el = m; backdrop = m.parentElement; startY = t.clientY; dy = 0; el.style.transition = 'none';
+  }, { passive: true });
+  modalRoot.addEventListener('touchmove', (e) => {
+    if (!el) return;
+    dy = Math.max(0, e.touches[0].clientY - startY);
+    el.style.transform = `translateY(${dy}px)`;
+    backdrop.style.opacity = String(Math.max(0.2, 1 - dy / 420));
+  }, { passive: true });
+  const end = () => {
+    if (!el) return;
+    const m = el, b = backdrop; el = null;
+    m.style.transition = 'transform .2s ease';
+    if (dy > 110) { m.style.transform = 'translateY(105%)'; b.style.transition = 'opacity .2s'; b.style.opacity = '0'; setTimeout(closeModal, 190); }
+    else { m.style.transform = ''; b.style.opacity = ''; }
+  };
+  modalRoot.addEventListener('touchend', end); modalRoot.addEventListener('touchcancel', end);
+})();
+// a light tap buzz on supported phones for toggles, chips and tabs
+document.addEventListener('click', (e) => { if (e.target.closest('.toggle, .style-chip, .filter-pill, .seg button, .tabbar a, .tab-new, .pin-btn')) buzz(); }, true);
 
 applyTheme();
 darkMq.addEventListener('change', applyTheme);
