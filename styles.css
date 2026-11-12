@@ -33,7 +33,7 @@ footer{padding:30px 20px;color:#9598a8;text-align:center;font-size:12px}
 .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;color:var(--muted);text-decoration:none;font-size:11px;font-weight:650}
 .tabbar a span{font-size:20px;line-height:1}
 .tabbar a.active{color:var(--purple)}
-.tabbar .fab span{width:46px;height:46px;display:grid;place-items:center;margin-top:-20px;border-radius:50%;color:#fff;background:var(--purple);box-shadow:0 8px 18px rgba(109,93,252,.35)}
+.tabbar .fab span{width:46px;height:70px;display:grid;place-items:center;margin-top:-20px;border-radius:50%;color:#fff;background:var(--purple);box-shadow:0 8px 18px rgba(109,93,252,.35)}
 
 /* embed mode */
 .embed .topbar,.embed .tabbar,.embed footer,.embed .notice{display:none!important}
