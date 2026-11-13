@@ -22,7 +22,6 @@ const THEME_KEY = 'downcount.theme.v2';
 const CUSTOM_THEMES_KEY = 'downcount.customThemes.v1';
 const CUSTOM_EMOJIS_KEY = 'downcount.customEmojis.v1';
 const CUSTOM_ANIMS_KEY = 'downcount.customAnims.v1';
-const ANIM_UNLOCK_KEY = 'downcount.animInstalled.v1';
 const EXTRAS_KEY = 'downcount.extras.v1';
 const SOUND_KEY = 'downcount.sound.v1';
 const SOUND_STYLE_KEY = 'downcount.soundStyle.v1';
@@ -217,7 +216,7 @@ const ANIM_SHAPES = [
   ['heart', 'Hearts'],
   ['streak', 'Streaks'],
   ['spiral', 'Galaxies'],
-  ['char', 'Custom Text / Emoji']
+  ['char', 'Custom Emoji / Sticker']
 ];
 
 const ANIM_MOTIONS = [
@@ -234,17 +233,17 @@ const ANIM_MOTIONS = [
 const DEFAULT_KEYFRAME_HEART = [
   { items: [
     { t: 'stroke', c: '#ff2a85', sz: 6, glow: 16, pts: [[0.5,0.35],[0.42,0.24],[0.3,0.28],[0.28,0.42],[0.5,0.68],[0.72,0.42],[0.7,0.28],[0.58,0.24],[0.5,0.35]] },
-    { t: 'stamp', ch: '✨', x: 0.22, y: 0.25, sz: 24, c: '#38bdf8' },
-    { t: 'stamp', ch: '✨', x: 0.78, y: 0.25, sz: 24, c: '#38bdf8' }
+    { t: 'stamp', ch: '✨', x: 0.22, y: 0.25, sz: 26, c: '#38bdf8' },
+    { t: 'stamp', ch: '✨', x: 0.78, y: 0.25, sz: 26, c: '#38bdf8' }
   ]},
   { items: [
     { t: 'stroke', c: '#00f5d4', sz: 8, glow: 22, pts: [[0.5,0.32],[0.4,0.2],[0.25,0.25],[0.23,0.42],[0.5,0.73],[0.77,0.42],[0.75,0.25],[0.6,0.2],[0.5,0.32]] },
-    { t: 'stamp', ch: '⚡', x: 0.2, y: 0.52, sz: 28, c: '#facc15' },
-    { t: 'stamp', ch: '⚡', x: 0.8, y: 0.52, sz: 28, c: '#facc15' }
+    { t: 'stamp', ch: '⚡', x: 0.2, y: 0.52, sz: 30, c: '#facc15' },
+    { t: 'stamp', ch: '⚡', x: 0.8, y: 0.52, sz: 30, c: '#facc15' }
   ]},
   { items: [
     { t: 'stroke', c: '#a855f7', sz: 7, glow: 18, pts: [[0.5,0.34],[0.41,0.22],[0.28,0.27],[0.26,0.42],[0.5,0.7],[0.74,0.42],[0.72,0.27],[0.59,0.22],[0.5,0.34]] },
-    { t: 'stamp', ch: '💖', x: 0.5, y: 0.46, sz: 32, c: '#ff2a85' }
+    { t: 'stamp', ch: '💖', x: 0.5, y: 0.46, sz: 34, c: '#ff2a85' }
   ]}
 ];
 
@@ -302,11 +301,23 @@ function readCustomEmojis() {
 }
 function saveCustomEmojis(list) { return writeJson(CUSTOM_EMOJIS_KEY, list.slice(0, 40)); }
 
+const emojiImgCache = new Map();
+function getCachedEmojiImage(val) {
+  const url = resolveEmojiDataUrl(val);
+  if (!url) return null;
+  if (emojiImgCache.has(url)) return emojiImgCache.get(url);
+  const img = new Image();
+  img.src = url;
+  emojiImgCache.set(url, img);
+  return img;
+}
+
 function isAppInstalledForAnim() {
   return document.documentElement.classList.contains('standalone')
     || navigator.standalone === true
     || matchMedia('(display-mode: standalone)').matches
-    || localStorage.getItem(ANIM_UNLOCK_KEY) === '1';
+    || matchMedia('(display-mode: window-controls-overlay)').matches
+    || matchMedia('(display-mode: fullscreen)').matches;
 }
 
 function normalizeKeyframesList(rawKf) {
@@ -341,9 +352,9 @@ function normalizeKeyframesList(rawKf) {
       if (it.t === 'stamp') {
         return {
           t: 'stamp',
-          ch: String(it.ch || '✨').slice(0, 8),
+          ch: String(it.ch || '✨').slice(0, 48),
           c: String(it.c || '#ffffff').slice(0, 9),
-          sz: Math.min(64, Math.max(10, Number(it.sz) || 26)),
+          sz: Math.min(72, Math.max(10, Number(it.sz) || 28)),
           x: Math.round(Number(it.x || 0.5) * 1000) / 1000,
           y: Math.round(Number(it.y || 0.5) * 1000) / 1000
         };
@@ -361,7 +372,7 @@ function normalizeCustomAnimObj(raw) {
     id: String(raw.id || 'ca_' + newId()),
     name: String(raw.name || 'Custom Animation').trim().slice(0, 32) || 'Custom Animation',
     shape: ANIM_SHAPES.some(([k]) => k === raw.shape) ? raw.shape : 'circle',
-    customChar: String(raw.customChar || '✨').slice(0, 14) || '✨',
+    customChar: String(raw.customChar || '✨').slice(0, 48) || '✨',
     motion: ANIM_MOTIONS.some(([k]) => k === raw.motion) ? raw.motion : 'float',
     count: Math.min(120, Math.max(0, Number(raw.count ?? 48))),
     speed: Math.min(6, Math.max(0.2, Number(raw.speed) || 1.5)),
@@ -996,10 +1007,18 @@ function renderKeyframeItems(ctx, items, W, H, alphaMul = 1, nextItems = null, t
     } else if (it.t === 'stamp') {
       const sx = lerp(it.x, nxt ? nxt.x : it.x) * W;
       const sy = lerp(it.y, nxt ? nxt.y : it.y) * H;
-      ctx.font = `700 ${Math.round(it.sz || 26)}px Inter, system-ui, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(it.ch || '✨', sx, sy);
+      const sz = Math.round(it.sz || 28);
+      if (isImageEmoji(it.ch)) {
+        const img = getCachedEmojiImage(it.ch);
+        if (img && img.complete && img.naturalWidth > 0) {
+          ctx.drawImage(img, sx - sz / 2, sy - sz / 2, sz, sz);
+        }
+      } else {
+        ctx.font = `700 ${sz}px Inter, system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(it.ch || '✨', sx, sy);
+      }
     }
     ctx.restore();
   }
@@ -1059,7 +1078,15 @@ function drawAnimShape(ctx, shape, r, ch) {
     }
     ctx.stroke();
   } else if (shape === 'char') {
-    ctx.font = `700 ${Math.max(10, Math.round(r * 1.8))}px Inter, system-ui, monospace`;
+    const sz = Math.max(12, Math.round(r * 2.1));
+    if (isImageEmoji(ch)) {
+      const img = getCachedEmojiImage(ch);
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, -sz / 2, -sz / 2, sz, sz);
+        return;
+      }
+    }
+    ctx.font = `700 ${sz}px Inter, system-ui, monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(ch || '✨', 0, 0);
@@ -1090,7 +1117,9 @@ function stepCustomAnimCanvases() {
     let state = customAnimMap.get(c);
     if (!state || state.sig !== sig) {
       const palette = [cfg.color1 || '#6d5dfc', cfg.color2 || '#ec4899', cfg.color3 || '#38bdf8'];
-      const chars = [...(cfg.customChar || '✨')];
+      const rawCh = cfg.customChar || '✨';
+      const isCustomImg = isImageEmoji(rawCh);
+      const chars = isCustomImg ? [rawCh] : [...rawCh];
       const count = Math.min(120, Math.max(0, Number(cfg.count ?? 48)));
       const pts = Array.from({ length: count }, (_, idx) => {
         const angle = (idx / Math.max(1, count)) * Math.PI * 2 + Math.random() * 0.5;
@@ -1603,7 +1632,7 @@ async function exportShareImage(ev) {
 /* --------- home --------- */
 const FEATURES = [
   ['Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
-  ['Keyframe Animation Maker', 'Draw custom neon strokes, shapes & stamps across keyframes with onion-skinning and particle physics overlays.'],
+  ['Keyframe Animation Maker', 'Draw custom neon strokes, shapes & emoji stamps across keyframes with onion-skinning and particle physics overlays.'],
   ['Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
   ['Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
   ['PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
@@ -2362,22 +2391,15 @@ function openQuickAnimEditorModal(existingAnim, onSave) {
   const renderModalEditor = () => {
     const body = $('#quick-anim-body', root);
     if (!isAppInstalledForAnim()) {
-      body.innerHTML = `<div class="install-gate-card" style="margin:0;padding:20px">`
-        + `<span class="install-gate-badge">✨ App Exclusive Studio</span>`
+      body.innerHTML = `<div class="install-gate-card" style="margin:0;padding:22px">`
+        + `<span class="install-gate-badge">📲 App Required</span>`
         + `<h2 style="margin:0 0 8px">Install the app to use this</h2>`
-        + `<p style="font-size:13.5px;margin-bottom:16px">Install Downcount to your device to unlock the Keyframe Drawing & Particle Animation Maker.</p>`
-        + `<div style="display:flex;gap:8px;flex-wrap:wrap">`
-        + `<button class="button" type="button" id="qa-install-now" style="flex:1">Install the app to use this</button>`
-        + `<button class="button secondary-button" type="button" id="qa-unlock-studio" style="flex:1">I Installed It — Open Studio</button>`
-        + `</div></div>`;
+        + `<p style="font-size:13.5px;margin-bottom:18px">The Keyframe & Particle Animation Maker is only available inside the installed Downcount app. Install Downcount to your device and open it from your home screen, dock, or Start menu.</p>`
+        + `<button class="button" type="button" id="qa-install-now" style="width:100%">Install the app to use this</button>`
+        + `</div>`;
       $('#qa-install-now', root).addEventListener('click', () => {
         if (installPrompt) { triggerInstall(); }
         else { closeModal(); location.hash = '/download'; }
-      });
-      $('#qa-unlock-studio', root).addEventListener('click', () => {
-        try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
-        buzz();
-        renderModalEditor();
       });
       return;
     }
@@ -2388,6 +2410,7 @@ function openQuickAnimEditorModal(existingAnim, onSave) {
       + `<div class="field-label">Templates</div><div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-qa-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
       + `<div class="field"><label>Mode</label><div class="seg"><button type="button" data-qa-bgmode="replace" class="${draft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme</button><button type="button" data-qa-bgmode="overlay" class="${draft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
       + `<div class="field"><label>Particle Shape</label><div class="seg">${ANIM_SHAPES.map(([k, l]) => `<button type="button" data-qa-shape="${k}" class="${draft.shape === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + (draft.shape === 'char' ? `<div class="field"><div class="field-label"><span>Custom Emoji / Sticker</span><button type="button" class="text-link" id="qa-emoji-pick">Open Emoji Picker / Upload…</button></div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:24px;padding:4px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">${renderEmoji(draft.customChar)}</span><input id="qa-char-input" type="text" maxlength="14" value="${isImageEmoji(draft.customChar) ? '' : esc(draft.customChar)}" placeholder="Or type text / symbols…"></div></div>` : '')
       + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([k, l]) => `<button type="button" data-qa-motion="${k}" class="${draft.motion === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
       + `<div style="display:flex;gap:8px"><button class="button" type="button" id="qa-save" style="flex:1">Save & Apply</button><a class="button secondary-button" href="#/animations" style="flex:0 0 auto;width:auto">Full Keyframe Studio →</a></div>`;
 
@@ -2398,6 +2421,17 @@ function openQuickAnimEditorModal(existingAnim, onSave) {
     };
 
     $('#qa-name', root).addEventListener('input', (e) => { draft.name = e.target.value; updatePreviewOnly(); });
+    const qaCharInp = $('#qa-char-input', root);
+    if (qaCharInp) qaCharInp.addEventListener('input', (e) => { draft.customChar = e.target.value || '✨'; updatePreviewOnly(); });
+    const qaEmojiBtn = $('#qa-emoji-pick', root);
+    if (qaEmojiBtn) {
+      qaEmojiBtn.addEventListener('click', () => {
+        openEmojiPickerModal(draft.customChar, (picked) => {
+          draft.customChar = picked;
+          openQuickAnimEditorModal(draft, onSave);
+        });
+      });
+    }
     $$('[data-qa-tpl]', root).forEach((b) => b.addEventListener('click', () => {
       const tpl = ANIM_TEMPLATES[Number(b.dataset.qaTpl)];
       if (tpl) { Object.assign(draft, JSON.parse(JSON.stringify(tpl)), { id: draft.id }); renderModalEditor(); }
@@ -2438,39 +2472,30 @@ function renderAnimationMaker() {
       animId: ANIM_TEMPLATES[0].id,
       customAnim: ANIM_TEMPLATES[0],
       category: 'Launch',
-      note: 'Install the app to draw keyframes & custom animations!'
+      note: 'Install the app to use the Keyframe & Particle Animation Maker!'
     });
-    app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
+    app.innerHTML = `<section class="page studio-full"><a class="back" href="#/">← Back to Countdowns</a>`
       + `<div class="install-gate-card">`
-      + `<span class="install-gate-badge">✨ Pro Keyframe & Drawing Studio</span>`
+      + `<span class="install-gate-badge">📲 App Exclusive Studio</span>`
       + `<h1>Install the app to use this</h1>`
-      + `<p>The <strong>Animation Maker & Keyframe Drawing Studio</strong> lets you draw custom neon strokes, shapes, and emoji stamps frame-by-frame with onion skinning, auto-tweening, and particle physics overlays.</p>`
-      + `<div style="max-width:520px;margin:0 auto 22px;text-align:left">${widgetHtml(demoEv, { size: 'compact' })}</div>`
+      + `<p>The <strong>Animation Maker & Keyframe Drawing Studio</strong> is only unlocked when you install Downcount as an app on your device. Install it in one click and launch Downcount from your home screen, dock, or Start menu to draw keyframes and build custom animations.</p>`
+      + `<div style="max-width:540px;margin:0 auto 22px;text-align:left">${widgetHtml(demoEv, { size: 'compact' })}</div>`
       + `<div class="install-gate-features">`
-      + `<div class="install-gate-feat"><strong>🖌️ Freehand & Neon Brush</strong><small>Draw glowing lines, circles, boxes & emoji stamps right on the canvas.</small></div>`
-      + `<div class="install-gate-feat"><strong>🎞️ Keyframe Timeline</strong><small>Add keyframes, toggle onion-skinning, duplicate frames & auto-tween motion.</small></div>`
-      + `<div class="install-gate-feat"><strong>🌌 Particle + Theme Modes</strong><small>Combine your keyframe drawings with 8 particle physics modes & custom backdrops.</small></div>`
+      + `<div class="install-gate-feat"><strong>🖌️ Keyframe Drawing Canvas</strong><small>Draw glowing neon strokes, lines, boxes, circles & custom uploaded emoji stamps across keyframes.</small></div>`
+      + `<div class="install-gate-feat"><strong>🎞️ Onion-Skin & Auto-Tween</strong><small>Add up to 24 keyframes, duplicate frames, preview ghost frames & morph motion smoothly.</small></div>`
+      + `<div class="install-gate-feat"><strong>🌌 Particle + Theme Modes</strong><small>Layer 8 particle physics generators with custom emoji stickers over any theme or backdrop.</small></div>`
       + `</div>`
       + `<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">`
-      + `<button class="button" type="button" id="gate-install-btn">📲 Install the app to use this</button>`
-      + `<button class="button secondary-button" type="button" id="gate-unlock-btn" style="flex:0 0 auto;width:auto">Already installed / Unlock Studio →</button>`
+      + `<button class="button" type="button" id="gate-install-btn" style="min-width:260px">📲 Install the app to use this</button>`
       + `</div>`
       + `</div></section>`;
 
     $('#gate-install-btn').addEventListener('click', async () => {
       if (installPrompt) {
         await triggerInstall();
-        try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
-        renderAnimationMaker();
       } else {
         location.hash = '/download';
       }
-    });
-    $('#gate-unlock-btn').addEventListener('click', () => {
-      try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
-      buzz();
-      showNotice('Animation Maker Studio unlocked!');
-      renderAnimationMaker();
     });
     tickAll();
     return;
@@ -2487,6 +2512,7 @@ function renderAnimationMaker() {
 
   let isEditingExisting = false;
   let previewThemeStyle = 'ocean';
+  let studioTab = 'draw';
   let curFrameIdx = 0;
   let isPlayingKf = false;
   let onionSkin = true;
@@ -2509,6 +2535,7 @@ function renderAnimationMaker() {
     ensureFrames();
     if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
     const savedAnims = readCustomAnims();
+    const customEmojis = readCustomEmojis();
     const stylesMap = getAllStylesMap();
     const previewEv = normalize({
       name: activeDraft.name || 'Animation Preview',
@@ -2522,37 +2549,40 @@ function renderAnimationMaker() {
       note: 'Your drawn keyframes & particles animate live on the countdown!'
     });
 
-    const stampsList = ['✨', '⚡', '🔥', '💖', '🚀', '⭐', '💎', '🌸', '🎉', '👑'];
+    const quickStamps = ['✨', '⚡', '🔥', '💖', '🚀', '⭐', '💎', '🌸', '🎉', '👑'];
+    if (stampChar && !quickStamps.includes(stampChar) && !stampChar.startsWith('ce_')) quickStamps.unshift(stampChar);
 
-    app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
-      + `<div class="section-heading"><div><span class="eyebrow"><span class="eyebrow-dot"></span> KEYFRAME & PARTICLE ANIMATION MAKER</span><h1 style="margin:10px 0 4px;font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px">Draw keyframes & custom animations</h1><p class="small-note" style="margin:0">Draw glowing neon art across keyframes, enable smooth auto-tweening, and layer interactive particle physics. Use your animation <strong>instead of a theme</strong> or <strong>overlay it on any countdown</strong>.</p></div></div>`
-      + `<div class="theme-studio-grid">`
-      + `<div class="form-card">`
-      + `<div class="field"><label for="am-name"><span>Animation Name</span><button type="button" class="text-link" id="am-random">🎲 Randomize Particles</button></label><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Neon Lightning"></div>`
-      + `<div class="field-label"><span>Starter Templates (${ANIM_TEMPLATES.length})</span><small style="color:var(--muted);font-weight:600">Click to load</small></div>`
-      + `<div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-am-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
-
-      + `<div class="kf-studio-box">`
-      + `<div class="field-label" style="margin-bottom:8px"><span>🎨 Keyframe Drawing Canvas</span><small style="color:var(--muted)">Draw directly on Keyframe #${curFrameIdx + 1}</small></div>`
+    const drawTabHtml = `<div class="kf-studio-box">`
       + `<div class="kf-toolbar">`
       + `<div class="kf-tools">`
-      + [['brush', '🖌️ Brush'], ['line', '📏 Line'], ['rect', '▭ Box'], ['circle', '◯ Circle'], ['stamp', '⭐ Stamp'], ['eraser', '🧽 Erase']].map(([k, label]) => `<button type="button" class="kf-tool-btn ${drawTool === k ? 'on' : ''}" data-kf-tool="${k}">${label}</button>`).join('')
+      + [['brush', '🖌️ Brush'], ['line', '📏 Line'], ['rect', '▭ Box'], ['circle', '◯ Circle'], ['stamp', '😀 Emoji Stamp'], ['eraser', '🧽 Erase']].map(([k, label]) => `<button type="button" class="kf-tool-btn ${drawTool === k ? 'on' : ''}" data-kf-tool="${k}">${label}</button>`).join('')
       + `</div>`
       + `<div class="kf-tools">`
-      + `<button type="button" class="kf-tool-btn" id="kf-undo" title="Undo last stroke">↶ Undo</button>`
+      + `<button type="button" class="kf-tool-btn" id="kf-undo" title="Undo last item">↶ Undo</button>`
       + `<button type="button" class="kf-tool-btn" id="kf-clear" title="Clear this keyframe">🗑️ Clear</button>`
       + `</div></div>`
 
-      + `<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px;padding:8px 10px;border-radius:11px;background:var(--surface);border:1px solid var(--line)">`
-      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Color <input type="color" id="kf-brush-color" value="${esc(brushColor)}" style="width:28px;height:28px;border:0;padding:0;background:none;cursor:pointer"></label>`
-      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Size <input type="range" id="kf-brush-size" min="2" max="28" value="${brushSize}" style="width:75px;accent-color:var(--purple)"><span id="kf-size-lbl">${brushSize}px</span></label>`
-      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Glow <input type="range" id="kf-brush-glow" min="0" max="30" value="${brushGlow}" style="width:70px;accent-color:var(--purple)"></label>`
-      + (drawTool === 'stamp' ? `<div style="display:flex;gap:4px;align-items:center;width:100%;padding-top:4px;border-top:1px solid var(--line)"><span style="font-size:11px;font-weight:750;color:var(--muted)">Stamp:</span>${stampsList.map((st) => `<button type="button" class="kf-tool-btn ${stampChar === st ? 'on' : ''}" data-kf-stamp="${esc(st)}" style="padding:0 7px;height:28px">${st}</button>`).join('')}</div>` : '')
+      + `<div class="kf-brush-bar">`
+      + `<label class="kf-brush-item">Color <input type="color" id="kf-brush-color" value="${esc(brushColor)}"></label>`
+      + `<label class="kf-brush-item">Size <input type="range" id="kf-brush-size" min="2" max="28" value="${brushSize}"><span id="kf-size-lbl">${brushSize}px</span></label>`
+      + `<label class="kf-brush-item">Neon Glow <input type="range" id="kf-brush-glow" min="0" max="30" value="${brushGlow}"><span id="kf-glow-lbl">${brushGlow}px</span></label>`
       + `</div>`
 
+      + (drawTool === 'stamp'
+        ? `<div class="kf-stamp-bar">`
+          + `<span style="font-size:12px;font-weight:800;color:var(--muted);margin-right:4px">Active Stamp:</span>`
+          + customEmojis.map((ce) => `<button type="button" class="kf-stamp-chip ${stampChar === ce.id ? 'on' : ''}" data-kf-stamp="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
+          + quickStamps.map((st) => `<button type="button" class="kf-stamp-chip ${stampChar === st ? 'on' : ''}" data-kf-stamp="${esc(st)}">${renderEmoji(st)}</button>`).join('')
+          + `<button type="button" class="kf-stamp-picker-btn" id="kf-open-emoji-picker">＋ Emoji Picker / Upload Sticker…</button>`
+          + `</div>`
+        : '')
+
       + `<div class="kf-stage-wrap" id="kf-stage-wrap" style="background:linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})">`
-      + `<div class="kf-stage-hud"><span class="kf-hud-pill" id="kf-hud-status">${isPlayingKf ? '▶ Playing Keyframes' : `Editing Keyframe ${curFrameIdx + 1} / ${activeDraft.keyframes.length}`}</span>${onionSkin && !isPlayingKf ? '<span class="kf-hud-pill">🧅 Onion Skin On</span>' : ''}</div>`
-      + `<canvas class="kf-draw-canvas" id="kf-draw-canvas" width="600" height="338"></canvas>`
+      + `<div class="kf-stage-hud">`
+      + `<span class="kf-hud-pill" id="kf-hud-status">${isPlayingKf ? '▶ Playing Keyframes' : `Keyframe ${curFrameIdx + 1} of ${activeDraft.keyframes.length} · ${drawTool === 'stamp' ? 'Click canvas to stamp emoji' : 'Drag on canvas to draw'}`}</span>`
+      + `${onionSkin && !isPlayingKf ? '<span class="kf-hud-pill">🧅 Onion Skin On</span>' : ''}`
+      + `</div>`
+      + `<canvas class="kf-draw-canvas" id="kf-draw-canvas" width="720" height="405"></canvas>`
       + `</div>`
 
       + `<div class="kf-timeline">`
@@ -2563,30 +2593,29 @@ function renderAnimationMaker() {
       + `<button type="button" class="kf-tool-btn ${activeDraft.tween ? 'on' : ''}" id="kf-tween-btn" title="Smoothly morph strokes between keyframes">✨ Auto-Tween</button>`
       + `</div>`
       + `<div class="kf-tools">`
-      + `<label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:750">Speed <input type="range" id="kf-fps" min="1" max="16" value="${activeDraft.fps || 6}" style="width:72px;accent-color:var(--purple)"><span id="kf-fps-lbl">${activeDraft.fps || 6} FPS</span></label>`
+      + `<label class="kf-brush-item">Speed <input type="range" id="kf-fps" min="1" max="16" value="${activeDraft.fps || 6}"><span id="kf-fps-lbl">${activeDraft.fps || 6} FPS</span></label>`
       + `</div></div>`
 
       + `<div class="kf-frames-strip">`
       + activeDraft.keyframes.map((fr, idx) => `<button type="button" class="kf-frame-thumb ${idx === curFrameIdx ? 'on' : ''}" data-kf-idx="${idx}"><strong>KF ${idx + 1}</strong><small>${(fr.items || []).length} item${(fr.items || []).length === 1 ? '' : 's'}</small></button>`).join('')
       + `<button type="button" class="kf-frame-add" id="kf-add-frame" title="Add new blank keyframe">＋</button>`
-      + `<button type="button" class="kf-tool-btn" id="kf-dup-frame" title="Duplicate current keyframe so you can move or tweak it" style="height:56px">📋 Duplicate KF</button>`
-      + (activeDraft.keyframes.length > 1 ? `<button type="button" class="kf-tool-btn" id="kf-del-frame" title="Delete current keyframe" style="height:56px;color:#bc3d53">✕ Delete KF</button>` : '')
+      + `<button type="button" class="kf-tool-btn" id="kf-dup-frame" title="Duplicate current keyframe" style="height:58px">📋 Duplicate KF</button>`
+      + (activeDraft.keyframes.length > 1 ? `<button type="button" class="kf-tool-btn" id="kf-del-frame" title="Delete current keyframe" style="height:58px;color:#bc3d53">✕ Delete KF</button>` : '')
       + `</div>`
-      + `</div></div>`
+      + `</div></div>`;
 
-      + `<div class="field"><label>How It Works with Themes</label><div class="seg"><button type="button" data-am-bgmode="replace" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme (Own Backdrop)</button><button type="button" data-am-bgmode="overlay" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
-      + (activeDraft.bgMode === 'replace'
-        ? `<div class="color-grid">`
-          + `<div class="color-field"><label>Backdrop Start</label><div class="color-input-row"><input type="color" id="am-bg1" value="${esc(activeDraft.bg1)}"><input type="text" id="am-bg1-hex" value="${esc(activeDraft.bg1)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Backdrop End</label><div class="color-input-row"><input type="color" id="am-bg2" value="${esc(activeDraft.bg2)}"><input type="text" id="am-bg2-hex" value="${esc(activeDraft.bg2)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Heading & Text Color</label><div class="color-input-row"><input type="color" id="am-fg" value="${esc(activeDraft.fg)}"><input type="text" id="am-fg-hex" value="${esc(activeDraft.fg)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Digit & Bar Accent</label><div class="color-input-row"><input type="color" id="am-acc" value="${esc(activeDraft.acc)}"><input type="text" id="am-acc-hex" value="${esc(activeDraft.acc)}" maxlength="7"></div></div>`
-          + `</div>`
-          + `<div class="field"><label for="am-angle"><span>Backdrop Gradient Angle</span><span id="am-angle-val">${activeDraft.angle}°</span></label><div class="range-row"><input type="range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div></div>`
-        : `<div class="field"><label>Test Overlay Against Theme</label><div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, previewThemeStyle).replace('data-style=', 'data-am-test-theme=')).join('')}</div></div>`)
-      + `<div class="field"><label>Overlay Layer Position</label><div class="seg"><button type="button" data-am-layer="under" class="${activeDraft.layer === 'under' ? 'on' : ''}">Behind Digits (Subtle)</button><button type="button" data-am-layer="over" class="${activeDraft.layer === 'over' ? 'on' : ''}">Over Everything (Full Overlay)</button></div></div>`
+    const particlesTabHtml = `<div class="kf-studio-box">`
       + `<div class="field"><label>Particle Generator Shape (Set Count to 0 for Drawn Keyframes Only)</label><div class="seg">${ANIM_SHAPES.map(([v, l]) => `<button type="button" data-am-shape="${v}" class="${activeDraft.shape === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + (activeDraft.shape === 'char' ? `<div class="field"><label for="am-char">Custom Text, Characters or Emojis</label><input id="am-char" type="text" maxlength="14" value="${esc(activeDraft.customChar)}" placeholder="e.g. 01 or ✨🚀🔥"></div>` : '')
+      + (activeDraft.shape === 'char'
+        ? `<div class="field"><div class="field-label"><span>Particle Emoji / Custom Uploaded Sticker</span><button type="button" class="text-link" id="am-open-emoji-picker">Browse 70+ & Upload Custom Emoji…</button></div>`
+          + `<div class="emoji-row" style="margin-bottom:10px">`
+          + customEmojis.map((ce) => `<button type="button" class="${activeDraft.customChar === ce.id ? 'on' : ''}" data-am-emoji="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
+          + quickStamps.map((e) => `<button type="button" class="${activeDraft.customChar === e ? 'on' : ''}" data-am-emoji="${esc(e)}">${renderEmoji(e)}</button>`).join('')
+          + `<button type="button" class="emoji-more-btn" id="am-open-emoji-picker-btn">＋ Emoji Picker / Upload</button>`
+          + `</div>`
+          + `<input id="am-char" type="text" maxlength="14" value="${isImageEmoji(activeDraft.customChar) ? '' : esc(activeDraft.customChar)}" placeholder="Or type custom text / characters (e.g. 01 or ✨🚀)…">`
+          + `</div>`
+        : '')
       + `<div class="field"><label>Particle Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([v, l]) => `<button type="button" data-am-motion="${v}" class="${activeDraft.motion === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
       + `<div class="field-label">Particle Color Palette</div>`
       + `<div class="color-3-grid">`
@@ -2602,35 +2631,72 @@ function renderAnimationMaker() {
       + `<div class="field" style="margin:0"><label for="am-size"><span>Element Size</span><span id="am-size-val">${activeDraft.size}px</span></label><div class="range-row"><input type="range" id="am-size" min="2" max="36" step="1" value="${activeDraft.size}"></div></div>`
       + `<div class="field" style="margin:0"><label for="am-glow"><span>Neon Glow Blur</span><span id="am-glow-val">${activeDraft.glow}px</span></label><div class="range-row"><input type="range" id="am-glow" min="0" max="32" step="1" value="${activeDraft.glow}"></div></div>`
       + `</div>`
-      + `<div class="field"><label for="am-opacity"><span>Overlay Opacity</span><span id="am-opacity-val">${activeDraft.opacity}%</span></label><div class="range-row"><input type="range" id="am-opacity" min="15" max="100" step="5" value="${activeDraft.opacity}"></div></div>`
       + `<div class="opt-row"><span>Constellation Connecting Lines</span><button type="button" class="toggle ${activeDraft.connectLines ? 'on' : ''}" data-am-toggle="connectLines"></button></div>`
       + `<div class="opt-row"><span>Motion Blur Trails</span><button type="button" class="toggle ${activeDraft.trails ? 'on' : ''}" data-am-toggle="trails"></button></div>`
       + `<div class="opt-row"><span>Interactive Cursor / Touch Repulsion</span><button type="button" class="toggle ${activeDraft.mouseInteract ? 'on' : ''}" data-am-toggle="mouseInteract"></button></div>`
       + `<div class="opt-row"><span>Twinkle & Size Pulse</span><button type="button" class="toggle ${activeDraft.pulse ? 'on' : ''}" data-am-toggle="pulse"></button></div>`
       + `<div class="opt-row"><span>Auto-Spin Elements</span><button type="button" class="toggle ${activeDraft.spin ? 'on' : ''}" data-am-toggle="spin"></button></div>`
-      + `<div class="opt-row" style="margin-bottom:20px"><span>Rainbow Spectrum Cycle</span><button type="button" class="toggle ${activeDraft.rainbow ? 'on' : ''}" data-am-toggle="rainbow"></button></div>`
-      + `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="button" type="button" id="am-save" style="flex:1">${isEditingExisting ? 'Update Custom Animation' : 'Save Custom Animation'}</button><button class="button secondary-button" type="button" id="am-apply-all" style="flex:0 0 auto;width:auto">Apply to All Countdowns</button>${isEditingExisting ? `<button class="button secondary-button" type="button" id="am-cancel-edit" style="flex:0 0 auto;width:auto">New</button>` : ''}</div>`
+      + `<div class="opt-row" style="margin-bottom:4px"><span>Rainbow Spectrum Cycle</span><button type="button" class="toggle ${activeDraft.rainbow ? 'on' : ''}" data-am-toggle="rainbow"></button></div>`
+      + `</div>`;
+
+    const backdropTabHtml = `<div class="kf-studio-box">`
+      + `<div class="field"><label>How It Works with Themes</label><div class="seg"><button type="button" data-am-bgmode="replace" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme (Own Backdrop)</button><button type="button" data-am-bgmode="overlay" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
+      + (activeDraft.bgMode === 'replace'
+        ? `<div class="color-grid">`
+          + `<div class="color-field"><label>Backdrop Start</label><div class="color-input-row"><input type="color" id="am-bg1" value="${esc(activeDraft.bg1)}"><input type="text" id="am-bg1-hex" value="${esc(activeDraft.bg1)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Backdrop End</label><div class="color-input-row"><input type="color" id="am-bg2" value="${esc(activeDraft.bg2)}"><input type="text" id="am-bg2-hex" value="${esc(activeDraft.bg2)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Heading & Text Color</label><div class="color-input-row"><input type="color" id="am-fg" value="${esc(activeDraft.fg)}"><input type="text" id="am-fg-hex" value="${esc(activeDraft.fg)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Digit & Bar Accent</label><div class="color-input-row"><input type="color" id="am-acc" value="${esc(activeDraft.acc)}"><input type="text" id="am-acc-hex" value="${esc(activeDraft.acc)}" maxlength="7"></div></div>`
+          + `</div>`
+          + `<div class="field"><label for="am-angle"><span>Backdrop Gradient Angle</span><span id="am-angle-val">${activeDraft.angle}°</span></label><div class="range-row"><input type="range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div></div>`
+        : `<div class="field"><label>Test Overlay Against Theme</label><div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, previewThemeStyle).replace('data-style=', 'data-am-test-theme=')).join('')}</div></div>`)
+      + `<div class="field"><label>Overlay Layer Position</label><div class="seg"><button type="button" data-am-layer="under" class="${activeDraft.layer === 'under' ? 'on' : ''}">Behind Digits (Subtle)</button><button type="button" data-am-layer="over" class="${activeDraft.layer === 'over' ? 'on' : ''}">Over Everything (Full Overlay)</button></div></div>`
+      + `<div class="field" style="margin-bottom:4px"><label for="am-opacity"><span>Master Overlay Opacity</span><span id="am-opacity-val">${activeDraft.opacity}%</span></label><div class="range-row"><input type="range" id="am-opacity" min="15" max="100" step="5" value="${activeDraft.opacity}"></div></div>`
+      + `</div>`;
+
+    app.innerHTML = `<section class="page studio-full">`
+      + `<div class="section-heading" style="margin-bottom:12px"><div><a class="back" href="#/" style="margin-bottom:6px">← Back to Countdowns</a><h1 style="margin:0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1.3px">Animation Maker & Keyframe Studio</h1></div>`
+      + `<div style="display:flex;gap:8px;flex-wrap:wrap">`
+      + `<button class="button secondary-button small-button" type="button" id="am-random">🎲 Randomize</button>`
+      + `<button class="button secondary-button small-button" type="button" id="am-apply-all">Apply to All Countdowns</button>`
+      + `<button class="button small-button" type="button" id="am-save">${isEditingExisting ? '💾 Update Animation' : '💾 Save Animation'}</button>`
+      + `${isEditingExisting ? `<button class="button secondary-button small-button" type="button" id="am-cancel-edit">New</button>` : ''}`
+      + `</div></div>`
+
+      + `<div class="anim-studio-shell">`
+      + `<div class="anim-workspace-card">`
+      + `<div class="anim-top-row">`
+      + `<div class="anim-name-wrap"><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="Animation Name (e.g. Neon Pulse)"></div>`
+      + `<div class="presets" style="margin:0">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-am-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
       + `</div>`
-      + `<div class="preview-pane">`
+
+      + `<div class="anim-tabs">`
+      + `<button type="button" class="anim-tab ${studioTab === 'draw' ? 'on' : ''}" data-studio-tab="draw">🎨 1. Draw & Keyframes (${activeDraft.keyframes.length})</button>`
+      + `<button type="button" class="anim-tab ${studioTab === 'particles' ? 'on' : ''}" data-studio-tab="particles">✨ 2. Particles & Emoji Stickers</button>`
+      + `<button type="button" class="anim-tab ${studioTab === 'backdrop' ? 'on' : ''}" data-studio-tab="backdrop">🌌 3. Theme Mode & Backdrop</button>`
+      + `</div>`
+
+      + (studioTab === 'draw' ? drawTabHtml : (studioTab === 'particles' ? particlesTabHtml : backdropTabHtml))
+      + `</div>`
+
+      + `<div class="preview-pane" style="top:78px">`
       + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE COUNTDOWN PREVIEW</div>`
       + `<div id="am-live-preview" style="width:100%">${widgetHtml(previewEv, { showMilestones: true })}</div>`
-      + `<div class="settings-card" style="width:100%;margin-top:8px"><h3>Built-In Templates (${ANIM_TEMPLATES.length})</h3>`
-      + `<div class="saved-themes-grid">${ANIM_TEMPLATES.map((t, idx) => {
-          const bg = `linear-gradient(135deg,${t.bg1},${t.bg2})`;
-          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Load in Studio</button></div></div>`;
-        }).join('')}</div></div>`
-      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Your Saved Custom Animations (${savedAnims.length})</h3>`
+      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Your Saved Animations (${savedAnims.length})</h3>`
       + (savedAnims.length
         ? `<div class="saved-themes-grid">${savedAnims.map((a) => {
             const bg = `linear-gradient(135deg,${a.color1},${a.color2})`;
             const kfCount = (a.keyframes || []).filter((f) => f && f.items && f.items.length).length;
             return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:#fff"><span>${esc(a.name)}</span><span>${kfCount ? `${kfCount} KF` : esc(a.shape)}</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">Delete</button></div></div>`;
           }).join('')}</div>`
-        : `<p class="small-note" style="margin:0">You haven’t saved any custom animations yet. Draw on the keyframe canvas or tweak the particles and click <strong>Save Custom Animation</strong>!</p>`)
-      + `</div></div></div></section>`;
-
-    const drawCanvas = $('#kf-draw-canvas');
-    const dCtx = drawCanvas.getContext('2d');
+        : `<p class="small-note" style="margin:0">No custom animations saved yet. Draw keyframes or customize particles on the left and click <strong>Save Animation</strong>!</p>`)
+      + `</div>`
+      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Starter Templates (${ANIM_TEMPLATES.length})</h3>`
+      + `<div class="saved-themes-grid">${ANIM_TEMPLATES.map((t, idx) => {
+          const bg = `linear-gradient(135deg,${t.bg1},${t.bg2})`;
+          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Customize</button></div></div>`;
+        }).join('')}</div></div>`
+      + `</div></div></section>`;
 
     const refreshPreview = () => {
       const stageWrap = $('#kf-stage-wrap');
@@ -2662,243 +2728,287 @@ function renderAnimationMaker() {
       }
     };
 
-    const paintKeyframeEditorCanvas = () => {
-      if (!drawCanvas.isConnected) return;
-      const W = drawCanvas.width;
-      const H = drawCanvas.height;
-      dCtx.clearRect(0, 0, W, H);
-
-      dCtx.save();
-      dCtx.strokeStyle = 'rgba(255,255,255,0.06)';
-      dCtx.lineWidth = 1;
-      for (let gx = 1; gx < 6; gx++) {
-        dCtx.beginPath(); dCtx.moveTo((W / 6) * gx, 0); dCtx.lineTo((W / 6) * gx, H); dCtx.stroke();
-      }
-      for (let gy = 1; gy < 4; gy++) {
-        dCtx.beginPath(); dCtx.moveTo(0, (H / 4) * gy); dCtx.lineTo(W, (H / 4) * gy); dCtx.stroke();
-      }
-      dCtx.restore();
-
-      if (isPlayingKf) {
-        const nonEmpty = activeDraft.keyframes.filter((f) => f && f.items && f.items.length);
-        const pool = nonEmpty.length ? nonEmpty : activeDraft.keyframes;
-        const fps = Math.max(1, Number(activeDraft.fps) || 6);
-        const dur = 1000 / fps;
-        const pos = (performance.now() / dur) % pool.length;
-        const idx = Math.floor(pos);
-        const frac = pos - idx;
-        const cur = pool[idx];
-        const nxt = pool[(idx + 1) % pool.length];
-        if (cur && cur.items) {
-          renderKeyframeItems(dCtx, cur.items, W, H, 1, activeDraft.tween && nxt ? nxt.items : null, activeDraft.tween ? frac : 0);
-        }
-        kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
-        return;
-      }
-
-      if (onionSkin && curFrameIdx > 0) {
-        const prevFrame = activeDraft.keyframes[curFrameIdx - 1];
-        if (prevFrame && Array.isArray(prevFrame.items)) {
-          renderKeyframeItems(dCtx, prevFrame.items, W, H, 0.28);
-        }
-      }
-
-      const curFrame = activeDraft.keyframes[curFrameIdx];
-      if (curFrame && Array.isArray(curFrame.items)) {
-        renderKeyframeItems(dCtx, curFrame.items, W, H, 1);
-      }
-      if (activePointerDrawing) {
-        renderKeyframeItems(dCtx, [activePointerDrawing], W, H, 0.95);
-      }
-    };
-
-    const getNormCoords = (ev) => {
-      const r = drawCanvas.getBoundingClientRect();
-      const x = Math.min(1, Math.max(0, (ev.clientX - r.left) / Math.max(1, r.width)));
-      const y = Math.min(1, Math.max(0, (ev.clientY - r.top) / Math.max(1, r.height)));
-      return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000];
-    };
-
-    drawCanvas.addEventListener('pointerdown', (ev) => {
-      if (isPlayingKf) {
-        isPlayingKf = false;
-        if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
-        const playBtn = $('#kf-play-btn');
-        if (playBtn) { playBtn.classList.remove('on'); playBtn.textContent = '▶ Play Keyframes'; }
-      }
-      drawCanvas.setPointerCapture(ev.pointerId);
-      const [nx, ny] = getNormCoords(ev);
-      const curFrame = activeDraft.keyframes[curFrameIdx];
-
-      if (drawTool === 'eraser') {
-        if (curFrame && Array.isArray(curFrame.items)) {
-          curFrame.items = curFrame.items.filter((it) => {
-            if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
-            if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
-            if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
-            return true;
-          });
-          paintKeyframeEditorCanvas();
-          refreshPreview();
-        }
-        activePointerDrawing = { t: 'eraser' };
-        return;
-      }
-
-      if (drawTool === 'stamp') {
-        curFrame.items.push({ t: 'stamp', ch: stampChar, c: brushColor, sz: Math.max(16, brushSize * 3.5), x: nx, y: ny });
-        buzz();
-        paintKeyframeEditorCanvas();
-        refreshPreview();
-        const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
-        if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
-        return;
-      }
-
-      if (drawTool === 'brush') {
-        activePointerDrawing = { t: 'stroke', c: brushColor, sz: brushSize, glow: brushGlow, pts: [[nx, ny]] };
-      } else if (drawTool === 'line' || drawTool === 'rect' || drawTool === 'circle') {
-        activePointerDrawing = { t: drawTool, c: brushColor, sz: brushSize, glow: brushGlow, x1: nx, y1: ny, x2: nx, y2: ny };
-      }
-      paintKeyframeEditorCanvas();
-    });
-
-    drawCanvas.addEventListener('pointermove', (ev) => {
-      if (!activePointerDrawing) return;
-      const [nx, ny] = getNormCoords(ev);
-      const curFrame = activeDraft.keyframes[curFrameIdx];
-
-      if (activePointerDrawing.t === 'eraser') {
-        if (curFrame && Array.isArray(curFrame.items)) {
-          curFrame.items = curFrame.items.filter((it) => {
-            if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
-            if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
-            if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
-            return true;
-          });
-          paintKeyframeEditorCanvas();
-          refreshPreview();
-        }
-        return;
-      }
-
-      if (activePointerDrawing.t === 'stroke') {
-        const pts = activePointerDrawing.pts;
-        const last = pts[pts.length - 1];
-        if (!last || Math.hypot(nx - last[0], ny - last[1]) > 0.008) {
-          pts.push([nx, ny]);
-        }
-      } else {
-        activePointerDrawing.x2 = nx;
-        activePointerDrawing.y2 = ny;
-      }
-      paintKeyframeEditorCanvas();
-    });
-
-    const finishPointerDraw = () => {
-      if (!activePointerDrawing) return;
-      if (activePointerDrawing.t !== 'eraser') {
-        const curFrame = activeDraft.keyframes[curFrameIdx];
-        curFrame.items.push(activePointerDrawing);
-        const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
-        if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
-      }
-      activePointerDrawing = null;
-      paintKeyframeEditorCanvas();
-      refreshPreview();
-    };
-
-    drawCanvas.addEventListener('pointerup', finishPointerDraw);
-    drawCanvas.addEventListener('pointercancel', finishPointerDraw);
-
-    $$('[data-kf-tool]', app).forEach((b) => b.addEventListener('click', () => { drawTool = b.dataset.kfTool; drawMaker(); }));
-    $$('[data-kf-stamp]', app).forEach((b) => b.addEventListener('click', () => { stampChar = b.dataset.kfStamp; drawMaker(); }));
-    $('#kf-brush-color').addEventListener('input', (e) => { brushColor = e.target.value; });
-    $('#kf-brush-size').addEventListener('input', (e) => { brushSize = Number(e.target.value); $('#kf-size-lbl').textContent = `${brushSize}px`; });
-    $('#kf-brush-glow').addEventListener('input', (e) => { brushGlow = Number(e.target.value); });
-
-    $('#kf-undo').addEventListener('click', () => {
-      const curFrame = activeDraft.keyframes[curFrameIdx];
-      if (curFrame && curFrame.items.length) {
-        curFrame.items.pop();
-        buzz();
-        drawMaker();
-      }
-    });
-
-    $('#kf-clear').addEventListener('click', () => {
-      const curFrame = activeDraft.keyframes[curFrameIdx];
-      if (curFrame) {
-        curFrame.items = [];
-        buzz();
-        drawMaker();
-      }
-    });
-
-    $$('[data-kf-idx]', app).forEach((b) => b.addEventListener('click', () => {
-      curFrameIdx = Number(b.dataset.kfIdx);
+    $$('[data-studio-tab]', app).forEach((b) => b.addEventListener('click', () => {
+      studioTab = b.dataset.studioTab;
       isPlayingKf = false;
+      buzz();
       drawMaker();
     }));
 
-    $('#kf-add-frame').addEventListener('click', () => {
-      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
-      activeDraft.keyframes.splice(curFrameIdx + 1, 0, { items: [] });
-      curFrameIdx++;
-      isPlayingKf = false;
-      buzz();
-      drawMaker();
-    });
+    const drawCanvas = $('#kf-draw-canvas');
+    if (drawCanvas) {
+      const dCtx = drawCanvas.getContext('2d');
+      const paintKeyframeEditorCanvas = () => {
+        if (!drawCanvas.isConnected) return;
+        const W = drawCanvas.width;
+        const H = drawCanvas.height;
+        dCtx.clearRect(0, 0, W, H);
 
-    $('#kf-dup-frame').addEventListener('click', () => {
-      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
-      const clone = JSON.parse(JSON.stringify(activeDraft.keyframes[curFrameIdx] || { items: [] }));
-      activeDraft.keyframes.splice(curFrameIdx + 1, 0, clone);
-      curFrameIdx++;
-      isPlayingKf = false;
-      buzz();
-      drawMaker();
-    });
+        dCtx.save();
+        dCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+        dCtx.lineWidth = 1;
+        for (let gx = 1; gx < 6; gx++) {
+          dCtx.beginPath(); dCtx.moveTo((W / 6) * gx, 0); dCtx.lineTo((W / 6) * gx, H); dCtx.stroke();
+        }
+        for (let gy = 1; gy < 4; gy++) {
+          dCtx.beginPath(); dCtx.moveTo(0, (H / 4) * gy); dCtx.lineTo(W, (H / 4) * gy); dCtx.stroke();
+        }
+        dCtx.restore();
 
-    const delKfBtn = $('#kf-del-frame');
-    if (delKfBtn) {
-      delKfBtn.addEventListener('click', () => {
-        if (activeDraft.keyframes.length <= 1) return;
-        activeDraft.keyframes.splice(curFrameIdx, 1);
-        if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
+        if (isPlayingKf) {
+          const nonEmpty = activeDraft.keyframes.filter((f) => f && f.items && f.items.length);
+          const pool = nonEmpty.length ? nonEmpty : activeDraft.keyframes;
+          const fps = Math.max(1, Number(activeDraft.fps) || 6);
+          const dur = 1000 / fps;
+          const pos = (performance.now() / dur) % pool.length;
+          const idx = Math.floor(pos);
+          const frac = pos - idx;
+          const cur = pool[idx];
+          const nxt = pool[(idx + 1) % pool.length];
+          if (cur && cur.items) {
+            renderKeyframeItems(dCtx, cur.items, W, H, 1, activeDraft.tween && nxt ? nxt.items : null, activeDraft.tween ? frac : 0);
+          }
+          kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
+          return;
+        }
+
+        if (onionSkin && curFrameIdx > 0) {
+          const prevFrame = activeDraft.keyframes[curFrameIdx - 1];
+          if (prevFrame && Array.isArray(prevFrame.items)) {
+            renderKeyframeItems(dCtx, prevFrame.items, W, H, 0.28);
+          }
+        }
+
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+        if (curFrame && Array.isArray(curFrame.items)) {
+          renderKeyframeItems(dCtx, curFrame.items, W, H, 1);
+        }
+        if (activePointerDrawing) {
+          renderKeyframeItems(dCtx, [activePointerDrawing], W, H, 0.95);
+        }
+      };
+
+      const getNormCoords = (ev) => {
+        const r = drawCanvas.getBoundingClientRect();
+        const x = Math.min(1, Math.max(0, (ev.clientX - r.left) / Math.max(1, r.width)));
+        const y = Math.min(1, Math.max(0, (ev.clientY - r.top) / Math.max(1, r.height)));
+        return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000];
+      };
+
+      drawCanvas.addEventListener('pointerdown', (ev) => {
+        if (isPlayingKf) {
+          isPlayingKf = false;
+          if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+          const playBtn = $('#kf-play-btn');
+          if (playBtn) { playBtn.classList.remove('on'); playBtn.textContent = '▶ Play Keyframes'; }
+        }
+        drawCanvas.setPointerCapture(ev.pointerId);
+        const [nx, ny] = getNormCoords(ev);
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+
+        if (drawTool === 'eraser') {
+          if (curFrame && Array.isArray(curFrame.items)) {
+            curFrame.items = curFrame.items.filter((it) => {
+              if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
+              if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
+              if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
+              return true;
+            });
+            paintKeyframeEditorCanvas();
+            refreshPreview();
+          }
+          activePointerDrawing = { t: 'eraser' };
+          return;
+        }
+
+        if (drawTool === 'stamp') {
+          if (isImageEmoji(stampChar)) getCachedEmojiImage(stampChar);
+          curFrame.items.push({ t: 'stamp', ch: stampChar, c: brushColor, sz: Math.max(20, brushSize * 4), x: nx, y: ny });
+          buzz();
+          paintKeyframeEditorCanvas();
+          refreshPreview();
+          const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+          if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
+          return;
+        }
+
+        if (drawTool === 'brush') {
+          activePointerDrawing = { t: 'stroke', c: brushColor, sz: brushSize, glow: brushGlow, pts: [[nx, ny]] };
+        } else if (drawTool === 'line' || drawTool === 'rect' || drawTool === 'circle') {
+          activePointerDrawing = { t: drawTool, c: brushColor, sz: brushSize, glow: brushGlow, x1: nx, y1: ny, x2: nx, y2: ny };
+        }
+        paintKeyframeEditorCanvas();
+      });
+
+      drawCanvas.addEventListener('pointermove', (ev) => {
+        if (!activePointerDrawing) return;
+        const [nx, ny] = getNormCoords(ev);
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+
+        if (activePointerDrawing.t === 'eraser') {
+          if (curFrame && Array.isArray(curFrame.items)) {
+            curFrame.items = curFrame.items.filter((it) => {
+              if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
+              if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
+              if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
+              return true;
+            });
+            paintKeyframeEditorCanvas();
+            refreshPreview();
+          }
+          return;
+        }
+
+        if (activePointerDrawing.t === 'stroke') {
+          const pts = activePointerDrawing.pts;
+          const last = pts[pts.length - 1];
+          if (!last || Math.hypot(nx - last[0], ny - last[1]) > 0.008) {
+            pts.push([nx, ny]);
+          }
+        } else {
+          activePointerDrawing.x2 = nx;
+          activePointerDrawing.y2 = ny;
+        }
+        paintKeyframeEditorCanvas();
+      });
+
+      const finishPointerDraw = () => {
+        if (!activePointerDrawing) return;
+        if (activePointerDrawing.t !== 'eraser') {
+          const curFrame = activeDraft.keyframes[curFrameIdx];
+          curFrame.items.push(activePointerDrawing);
+          const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+          if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
+        }
+        activePointerDrawing = null;
+        paintKeyframeEditorCanvas();
+        refreshPreview();
+      };
+
+      drawCanvas.addEventListener('pointerup', finishPointerDraw);
+      drawCanvas.addEventListener('pointercancel', finishPointerDraw);
+
+      $$('[data-kf-tool]', app).forEach((b) => b.addEventListener('click', () => { drawTool = b.dataset.kfTool; drawMaker(); }));
+      $$('[data-kf-stamp]', app).forEach((b) => b.addEventListener('click', () => { stampChar = b.dataset.kfStamp; drawMaker(); }));
+      const openStampEmojiBtn = $('#kf-open-emoji-picker');
+      if (openStampEmojiBtn) {
+        openStampEmojiBtn.addEventListener('click', () => {
+          openEmojiPickerModal(stampChar, (picked) => {
+            stampChar = picked;
+            if (isImageEmoji(picked)) getCachedEmojiImage(picked);
+            drawMaker();
+          });
+        });
+      }
+
+      $('#kf-brush-color').addEventListener('input', (e) => { brushColor = e.target.value; });
+      $('#kf-brush-size').addEventListener('input', (e) => { brushSize = Number(e.target.value); $('#kf-size-lbl').textContent = `${brushSize}px`; });
+      $('#kf-brush-glow').addEventListener('input', (e) => { brushGlow = Number(e.target.value); $('#kf-glow-lbl').textContent = `${brushGlow}px`; });
+
+      $('#kf-undo').addEventListener('click', () => {
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+        if (curFrame && curFrame.items.length) {
+          curFrame.items.pop();
+          buzz();
+          drawMaker();
+        }
+      });
+
+      $('#kf-clear').addEventListener('click', () => {
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+        if (curFrame) {
+          curFrame.items = [];
+          buzz();
+          drawMaker();
+        }
+      });
+
+      $$('[data-kf-idx]', app).forEach((b) => b.addEventListener('click', () => {
+        curFrameIdx = Number(b.dataset.kfIdx);
+        isPlayingKf = false;
+        drawMaker();
+      }));
+
+      $('#kf-add-frame').addEventListener('click', () => {
+        if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+        activeDraft.keyframes.splice(curFrameIdx + 1, 0, { items: [] });
+        curFrameIdx++;
         isPlayingKf = false;
         buzz();
         drawMaker();
       });
+
+      $('#kf-dup-frame').addEventListener('click', () => {
+        if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+        const clone = JSON.parse(JSON.stringify(activeDraft.keyframes[curFrameIdx] || { items: [] }));
+        activeDraft.keyframes.splice(curFrameIdx + 1, 0, clone);
+        curFrameIdx++;
+        isPlayingKf = false;
+        buzz();
+        drawMaker();
+      });
+
+      const delKfBtn = $('#kf-del-frame');
+      if (delKfBtn) {
+        delKfBtn.addEventListener('click', () => {
+          if (activeDraft.keyframes.length <= 1) return;
+          activeDraft.keyframes.splice(curFrameIdx, 1);
+          if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
+          isPlayingKf = false;
+          buzz();
+          drawMaker();
+        });
+      }
+
+      $('#kf-play-btn').addEventListener('click', () => {
+        isPlayingKf = !isPlayingKf;
+        buzz();
+        drawMaker();
+      });
+
+      $('#kf-onion-btn').addEventListener('click', () => {
+        onionSkin = !onionSkin;
+        buzz();
+        drawMaker();
+      });
+
+      $('#kf-tween-btn').addEventListener('click', () => {
+        activeDraft.tween = !activeDraft.tween;
+        buzz();
+        drawMaker();
+      });
+
+      $('#kf-fps').addEventListener('input', (e) => {
+        activeDraft.fps = Number(e.target.value);
+        $('#kf-fps-lbl').textContent = `${activeDraft.fps} FPS`;
+        refreshPreview();
+      });
+
+      paintKeyframeEditorCanvas();
     }
-
-    $('#kf-play-btn').addEventListener('click', () => {
-      isPlayingKf = !isPlayingKf;
-      buzz();
-      drawMaker();
-    });
-
-    $('#kf-onion-btn').addEventListener('click', () => {
-      onionSkin = !onionSkin;
-      buzz();
-      drawMaker();
-    });
-
-    $('#kf-tween-btn').addEventListener('click', () => {
-      activeDraft.tween = !activeDraft.tween;
-      buzz();
-      drawMaker();
-    });
-
-    $('#kf-fps').addEventListener('input', (e) => {
-      activeDraft.fps = Number(e.target.value);
-      $('#kf-fps-lbl').textContent = `${activeDraft.fps} FPS`;
-      refreshPreview();
-    });
 
     $('#am-name').addEventListener('input', (e) => { activeDraft.name = e.target.value; refreshPreview(); });
     const charInput = $('#am-char');
     if (charInput) charInput.addEventListener('input', (e) => { activeDraft.customChar = e.target.value || '✨'; refreshPreview(); });
+
+    $$('[data-am-emoji]', app).forEach((b) => b.addEventListener('click', () => {
+      activeDraft.customChar = b.dataset.amEmoji;
+      if (isImageEmoji(activeDraft.customChar)) getCachedEmojiImage(activeDraft.customChar);
+      buzz();
+      drawMaker();
+    }));
+
+    const handleParticleEmojiModal = () => {
+      openEmojiPickerModal(activeDraft.customChar, (picked) => {
+        activeDraft.customChar = picked;
+        if (isImageEmoji(picked)) getCachedEmojiImage(picked);
+        drawMaker();
+      });
+    };
+    const pEmojiBtn1 = $('#am-open-emoji-picker');
+    const pEmojiBtn2 = $('#am-open-emoji-picker-btn');
+    if (pEmojiBtn1) pEmojiBtn1.addEventListener('click', handleParticleEmojiModal);
+    if (pEmojiBtn2) pEmojiBtn2.addEventListener('click', handleParticleEmojiModal);
 
     for (const [idKey, prop] of [['bg1', 'bg1'], ['bg2', 'bg2'], ['fg', 'fg'], ['acc', 'acc'], ['c1', 'color1'], ['c2', 'color2'], ['c3', 'color3']]) {
       const picker = $(`#am-${idKey}`);
@@ -3018,7 +3128,6 @@ function renderAnimationMaker() {
       }, 60);
     }));
 
-    paintKeyframeEditorCanvas();
     tickAll();
   };
 
@@ -4063,7 +4172,7 @@ if (!IS_EMBED) {
   installButton.hidden = document.documentElement.classList.contains('standalone');
   window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); installPrompt = event; });
   installButton.addEventListener('click', () => { location.hash = '/download'; });
-  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {} showNotice('Downcount is installed.'); if (parseHash().path === '/download') renderDownload(); if (parseHash().path === '/animations') renderAnimationMaker(); });
+  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); showNotice('Downcount is installed.'); if (parseHash().path === '/download') renderDownload(); if (parseHash().path === '/animations') renderAnimationMaker(); });
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(() => { $('#offline-indicator').hidden = false; }).catch((error) => console.info('ServiceWorker error:', error)));
   }
