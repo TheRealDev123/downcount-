@@ -21,6 +21,7 @@ const ALERT_KEY = 'downcount.alerts.v1';
 const THEME_KEY = 'downcount.theme.v2';
 const CUSTOM_THEMES_KEY = 'downcount.customThemes.v1';
 const CUSTOM_EMOJIS_KEY = 'downcount.customEmojis.v1';
+const CUSTOM_ANIMS_KEY = 'downcount.customAnims.v1';
 const EXTRAS_KEY = 'downcount.extras.v1';
 const SOUND_KEY = 'downcount.sound.v1';
 const SOUND_STYLE_KEY = 'downcount.soundStyle.v1';
@@ -207,6 +208,39 @@ const EMOJI_CATALOG = [
   { e: '⏰', c: 'Symbols', k: 'alarm clock time wake' }
 ];
 
+const ANIM_SHAPES = [
+  ['circle', 'Orbs'],
+  ['star', 'Stars'],
+  ['ring', 'Rings'],
+  ['diamond', 'Diamonds'],
+  ['heart', 'Hearts'],
+  ['streak', 'Streaks'],
+  ['spiral', 'Galaxies'],
+  ['char', 'Custom Text / Emoji']
+];
+
+const ANIM_MOTIONS = [
+  ['float', 'Zero-G Float'],
+  ['fall', 'Rain Down'],
+  ['rise', 'Anti-Gravity Rise'],
+  ['vortex', 'Vortex Swirl'],
+  ['wave', 'Sine Wave'],
+  ['fountain', 'Gravity Fountain'],
+  ['bounce', 'Bouncing Arcade'],
+  ['chaos', 'Hyper Chaos']
+];
+
+const ANIM_TEMPLATES = [
+  { id: 'at_matrix', name: 'Cyber Matrix Rain', shape: 'char', customChar: '01', motion: 'fall', count: 55, speed: 2.6, size: 14, opacity: 80, glow: 14, connectLines: false, trails: true, mouseInteract: true, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#00f5d4', color2: '#00bbf9', color3: '#10b981', bgMode: 'replace', bg1: '#050b14', bg2: '#0a192f', fg: '#e2f1ff', acc: '#00f5d4', angle: 160 },
+  { id: 'at_nexus', name: 'Cosmic Constellation', shape: 'circle', customChar: '✦', motion: 'float', count: 48, speed: 1.1, size: 5, opacity: 85, glow: 16, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: false, rainbow: false, layer: 'under', color1: '#8b5cf6', color2: '#38bdf8', color3: '#f472b6', bgMode: 'replace', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#38bdf8', angle: 135 },
+  { id: 'at_portal', name: 'Vortex Warp Portal', shape: 'ring', customChar: '◎', motion: 'vortex', count: 60, speed: 2.2, size: 9, opacity: 80, glow: 20, connectLines: false, trails: true, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#f43f5e', color2: '#fb923c', color3: '#facc15', bgMode: 'replace', bg1: '#180510', bg2: '#3b0728', fg: '#fff1f2', acc: '#fb923c', angle: 135 },
+  { id: 'at_sakura', name: 'Sakura Blossom Breeze', shape: 'heart', customChar: '🌸', motion: 'wave', count: 42, speed: 1.4, size: 11, opacity: 85, glow: 10, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: false, layer: 'over', color1: '#f472b6', color2: '#fbcfe8', color3: '#fb7185', bgMode: 'overlay', bg1: '#1e1124', bg2: '#4a153b', fg: '#ffffff', acc: '#f472b6', angle: 135 },
+  { id: 'at_synth', name: 'Synthwave Laser Streaks', shape: 'streak', customChar: '|', motion: 'fall', count: 55, speed: 3.5, size: 22, opacity: 75, glow: 18, connectLines: false, trails: false, mouseInteract: false, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#ff007f', color2: '#00f0ff', color3: '#a855f7', bgMode: 'replace', bg1: '#120428', bg2: '#2e0938', fg: '#ffffff', acc: '#00f0ff', angle: 165 },
+  { id: 'at_fireflies', name: 'Enchanted Fireflies', shape: 'star', customChar: '✨', motion: 'rise', count: 45, speed: 1.2, size: 10, opacity: 90, glow: 22, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#fde047', color2: '#a3e635', color3: '#34d399', bgMode: 'replace', bg1: '#061512', bg2: '#0f2922', fg: '#ecfdf5', acc: '#fde047', angle: 140 },
+  { id: 'at_fountain', name: 'Neon Party Fountain', shape: 'diamond', customChar: '🎉', motion: 'fountain', count: 55, speed: 2.4, size: 10, opacity: 90, glow: 14, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: true, layer: 'over', color1: '#6d5dfc', color2: '#ec4899', color3: '#22d3ee', bgMode: 'overlay', bg1: '#0f172a', bg2: '#1e1b4b', fg: '#ffffff', acc: '#22d3ee', angle: 135 },
+  { id: 'at_galaxy', name: 'Supernova Spiral', shape: 'spiral', customChar: '🌀', motion: 'vortex', count: 40, speed: 1.8, size: 12, opacity: 85, glow: 18, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#38bdf8', color2: '#818cf8', color3: '#c084fc', bgMode: 'replace', bg1: '#050816', bg2: '#111827', fg: '#f8fafc', acc: '#38bdf8', angle: 135 }
+];
+
 const THEME_STARTERS = [
   { name: 'Cyberpunk', mode: 'gradient', bg1: '#0f051d', bg2: '#2b0938', fg: '#ffffff', acc: '#00f5d4', angle: 135, font: 'mono', glow: true, fx: 'matrix', display: 'flip' },
   { name: 'Midnight Gold', mode: 'gradient', bg1: '#0f172a', bg2: '#3b2106', fg: '#fef3c7', acc: '#fbbf24', angle: 145, font: 'serif', glow: false, fx: 'sparkles', display: 'rings' },
@@ -249,6 +283,57 @@ function readCustomEmojis() {
   return Array.isArray(list) ? list.filter((e) => e && e.id && e.dataUrl) : [];
 }
 function saveCustomEmojis(list) { return writeJson(CUSTOM_EMOJIS_KEY, list.slice(0, 40)); }
+
+function normalizeCustomAnimObj(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const cleanHex = (v, fb) => /^#[0-9a-fA-F]{6}$/.test(String(v || '')) ? String(v) : fb;
+  return {
+    id: String(raw.id || 'ca_' + newId()),
+    name: String(raw.name || 'Custom Animation').trim().slice(0, 32) || 'Custom Animation',
+    shape: ANIM_SHAPES.some(([k]) => k === raw.shape) ? raw.shape : 'circle',
+    customChar: String(raw.customChar || '✨').slice(0, 14) || '✨',
+    motion: ANIM_MOTIONS.some(([k]) => k === raw.motion) ? raw.motion : 'float',
+    count: Math.min(120, Math.max(8, Number(raw.count) || 48)),
+    speed: Math.min(6, Math.max(0.2, Number(raw.speed) || 1.5)),
+    size: Math.min(40, Math.max(2, Number(raw.size) || 9)),
+    opacity: Math.min(100, Math.max(15, Number(raw.opacity) || 85)),
+    glow: Math.min(35, Math.max(0, Number(raw.glow) ?? 14)),
+    connectLines: !!raw.connectLines,
+    trails: !!raw.trails,
+    mouseInteract: raw.mouseInteract !== undefined ? !!raw.mouseInteract : true,
+    pulse: !!raw.pulse,
+    spin: !!raw.spin,
+    rainbow: !!raw.rainbow,
+    layer: raw.layer === 'over' ? 'over' : 'under',
+    color1: cleanHex(raw.color1, '#6d5dfc'),
+    color2: cleanHex(raw.color2, '#ec4899'),
+    color3: cleanHex(raw.color3, '#38bdf8'),
+    bgMode: raw.bgMode === 'overlay' ? 'overlay' : 'replace',
+    bg1: cleanHex(raw.bg1, '#090718'),
+    bg2: cleanHex(raw.bg2, '#1e1b4b'),
+    fg: cleanHex(raw.fg, '#ffffff'),
+    acc: cleanHex(raw.acc, '#38bdf8'),
+    angle: Math.min(360, Math.max(0, Number(raw.angle) || 135))
+  };
+}
+
+function readCustomAnims() {
+  const list = readJson(CUSTOM_ANIMS_KEY, []);
+  return Array.isArray(list) ? list.map(normalizeCustomAnimObj).filter(Boolean) : [];
+}
+function saveCustomAnims(list) { writeJson(CUSTOM_ANIMS_KEY, list.slice(0, 40)); }
+function findCustomAnim(id) {
+  if (!id || id === 'none') return null;
+  const tpl = ANIM_TEMPLATES.find((t) => t.id === id);
+  if (tpl) return normalizeCustomAnimObj(tpl);
+  return readCustomAnims().find((a) => a.id === id) || null;
+}
+function getAllAnimsMap() {
+  const map = { none: 'None (Theme only)' };
+  for (const t of ANIM_TEMPLATES) map[t.id] = t.name;
+  for (const a of readCustomAnims()) map[a.id] = a.name;
+  return map;
+}
 
 function isImageEmoji(val) {
   return typeof val === 'string' && (val.startsWith('data:image/') || val.startsWith('ce_'));
@@ -308,6 +393,8 @@ function normalize(raw) {
   const allStyles = getAllStylesMap();
   const customTheme = raw.customTheme ? normalizeCustomThemeObj(raw.customTheme) : (raw.style && raw.style.startsWith('ct_') ? findCustomTheme(raw.style) : null);
   const style = allStyles[raw.style] ? raw.style : (customTheme ? customTheme.id : 'classic');
+  const customAnim = raw.customAnim ? normalizeCustomAnimObj(raw.customAnim) : (raw.animId && raw.animId !== 'none' ? findCustomAnim(raw.animId) : null);
+  const animId = customAnim ? customAnim.id : 'none';
   const display = DISPLAY_MODES.some(([k]) => k === raw.display) ? raw.display : (customTheme && customTheme.display ? customTheme.display : 'cards');
   const fx = PARTICLE_FX.some(([k]) => k === raw.fx) ? raw.fx : (customTheme && customTheme.fx ? customTheme.fx : 'none');
   const checklist = Array.isArray(raw.checklist)
@@ -324,6 +411,8 @@ function normalize(raw) {
     fx,
     showMs,
     customTheme,
+    animId,
+    customAnim,
     category,
     repeat,
     note,
@@ -491,6 +580,19 @@ function resolveThemeForEvent(ev) {
   return null;
 }
 
+function resolveAnimForEvent(ev) {
+  if (!ev) return null;
+  if (ev.customAnim) return normalizeCustomAnimObj(ev.customAnim);
+  if (ev.animId && ev.animId !== 'none') return findCustomAnim(ev.animId);
+  return null;
+}
+
+function customAnimInlineVars(ca) {
+  if (!ca || ca.bgMode !== 'replace') return '';
+  const g = `linear-gradient(${ca.angle || 135}deg, ${ca.bg1}, ${ca.bg2})`;
+  return `--g:${g};--fg:${ca.fg};--acc:${ca.acc};--brand:${ca.acc};--soft:color-mix(in srgb,${ca.fg} 12%,transparent);--track:color-mix(in srgb,${ca.fg} 24%,transparent);--muted2:color-mix(in srgb,${ca.fg} 78%,transparent);border-color:color-mix(in srgb,${ca.fg} 18%,transparent)`;
+}
+
 function customThemeInlineVars(ct) {
   if (!ct) return '';
   const g = ct.mode === 'solid' ? ct.bg1 : `linear-gradient(${ct.angle || 135}deg, ${ct.bg1}, ${ct.bg2})`;
@@ -518,6 +620,35 @@ function paramString(ev, extra = {}) {
     p.set('c_angle', String(ct.angle));
     p.set('c_font', ct.font);
     if (ct.glow) p.set('c_glow', '1');
+  }
+  const ca = resolveAnimForEvent(ev);
+  if (ca) {
+    p.set('anim', ca.id);
+    p.set('a_name', ca.name);
+    p.set('a_shape', ca.shape);
+    p.set('a_char', ca.customChar);
+    p.set('a_motion', ca.motion);
+    p.set('a_count', String(ca.count));
+    p.set('a_speed', String(ca.speed));
+    p.set('a_size', String(ca.size));
+    p.set('a_opacity', String(ca.opacity));
+    p.set('a_glow', String(ca.glow));
+    if (ca.connectLines) p.set('a_lines', '1');
+    if (ca.trails) p.set('a_trails', '1');
+    if (!ca.mouseInteract) p.set('a_mouse', '0');
+    if (ca.pulse) p.set('a_pulse', '1');
+    if (ca.spin) p.set('a_spin', '1');
+    if (ca.rainbow) p.set('a_rainbow', '1');
+    if (ca.layer === 'over') p.set('a_layer', 'over');
+    p.set('a_c1', ca.color1);
+    p.set('a_c2', ca.color2);
+    p.set('a_c3', ca.color3);
+    p.set('a_bgmode', ca.bgMode);
+    p.set('a_bg1', ca.bg1);
+    p.set('a_bg2', ca.bg2);
+    p.set('a_fg', ca.fg);
+    p.set('a_acc', ca.acc);
+    p.set('a_angle', String(ca.angle));
   }
   for (const [k, v] of Object.entries(extra)) p.set(k, v);
   return p.toString();
@@ -553,6 +684,38 @@ function evFromParams(p) {
       display: p.get('disp') || 'cards'
     });
   }
+  let customAnim = null;
+  if (p.get('a_shape') || p.get('anim')) {
+    const existingAnim = p.get('anim') ? findCustomAnim(p.get('anim')) : null;
+    customAnim = p.get('a_shape') ? normalizeCustomAnimObj({
+      id: p.get('anim') || 'ca_shared',
+      name: p.get('a_name') || 'Custom Animation',
+      shape: p.get('a_shape') || 'circle',
+      customChar: p.get('a_char') || '✨',
+      motion: p.get('a_motion') || 'float',
+      count: Number(p.get('a_count')) || 48,
+      speed: Number(p.get('a_speed')) || 1.5,
+      size: Number(p.get('a_size')) || 9,
+      opacity: Number(p.get('a_opacity')) || 85,
+      glow: Number(p.get('a_glow') ?? 14),
+      connectLines: p.get('a_lines') === '1',
+      trails: p.get('a_trails') === '1',
+      mouseInteract: p.get('a_mouse') !== '0',
+      pulse: p.get('a_pulse') === '1',
+      spin: p.get('a_spin') === '1',
+      rainbow: p.get('a_rainbow') === '1',
+      layer: p.get('a_layer') === 'over' ? 'over' : 'under',
+      color1: p.get('a_c1') || '#6d5dfc',
+      color2: p.get('a_c2') || '#ec4899',
+      color3: p.get('a_c3') || '#38bdf8',
+      bgMode: p.get('a_bgmode') || 'replace',
+      bg1: p.get('a_bg1') || '#090718',
+      bg2: p.get('a_bg2') || '#1e1b4b',
+      fg: p.get('a_fg') || '#ffffff',
+      acc: p.get('a_acc') || '#38bdf8',
+      angle: Number(p.get('a_angle')) || 135
+    }) : existingAnim;
+  }
   const stored = findByNameEnd(name, end);
   return normalize({
     ...(stored || {}),
@@ -566,7 +729,9 @@ function evFromParams(p) {
     showMs: p.get('ms') === '1' || (stored ? stored.showMs : false),
     note: p.get('note') ?? (stored ? stored.note : ''),
     repeat: p.get('rep') || (stored ? stored.repeat : 'none'),
-    customTheme: customTheme || (stored ? stored.customTheme : null)
+    customTheme: customTheme || (stored ? stored.customTheme : null),
+    animId: customAnim ? customAnim.id : (stored ? stored.animId : 'none'),
+    customAnim: customAnim || (stored ? stored.customAnim : null)
   });
 }
 
@@ -683,9 +848,257 @@ function initOrStepWidgetCanvases() {
   fxAnimFrame = requestAnimationFrame(initOrStepWidgetCanvases);
 }
 
+let customAnimFrame = null;
+const customAnimMap = new WeakMap();
+const pointerPos = { x: -9999, y: -9999 };
+window.addEventListener('pointermove', (e) => { pointerPos.x = e.clientX; pointerPos.y = e.clientY; }, { passive: true });
+
+function drawAnimShape(ctx, shape, r, ch) {
+  if (shape === 'circle') {
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (shape === 'ring') {
+    ctx.lineWidth = Math.max(1.5, r * 0.32);
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.stroke();
+  } else if (shape === 'diamond') {
+    ctx.beginPath();
+    ctx.moveTo(0, -r * 1.25);
+    ctx.lineTo(r * 1.1, 0);
+    ctx.lineTo(0, r * 1.25);
+    ctx.lineTo(-r * 1.1, 0);
+    ctx.closePath();
+    ctx.fill();
+  } else if (shape === 'star') {
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const rad = i % 2 === 0 ? r * 1.3 : r * 0.52;
+      const a = (i * Math.PI) / 5 - Math.PI / 2;
+      if (i === 0) ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+      else ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+    }
+    ctx.closePath();
+    ctx.fill();
+  } else if (shape === 'heart') {
+    const s = r * 0.11;
+    ctx.beginPath();
+    ctx.moveTo(0, -3 * s);
+    ctx.bezierCurveTo(-5 * s, -10 * s, -14 * s, -2 * s, 0, 9 * s);
+    ctx.bezierCurveTo(14 * s, -2 * s, 5 * s, -10 * s, 0, -3 * s);
+    ctx.closePath();
+    ctx.fill();
+  } else if (shape === 'streak') {
+    ctx.lineWidth = Math.max(2, r * 0.25);
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(0, -r * 1.4);
+    ctx.lineTo(0, r * 1.4);
+    ctx.stroke();
+  } else if (shape === 'spiral') {
+    ctx.lineWidth = Math.max(1.5, r * 0.22);
+    ctx.beginPath();
+    for (let t = 0; t < 18; t++) {
+      const ang = t * 0.45;
+      const rad = (t / 18) * r * 1.4;
+      if (t === 0) ctx.moveTo(Math.cos(ang) * rad, Math.sin(ang) * rad);
+      else ctx.lineTo(Math.cos(ang) * rad, Math.sin(ang) * rad);
+    }
+    ctx.stroke();
+  } else if (shape === 'char') {
+    ctx.font = `700 ${Math.max(10, Math.round(r * 1.8))}px Inter, system-ui, monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ch || '✨', 0, 0);
+  }
+}
+
+function stepCustomAnimCanvases() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (customAnimFrame) { cancelAnimationFrame(customAnimFrame); customAnimFrame = null; }
+    return;
+  }
+  const canvases = $$('canvas.w-anim-canvas');
+  if (!canvases.length) {
+    if (customAnimFrame) { cancelAnimationFrame(customAnimFrame); customAnimFrame = null; }
+    return;
+  }
+  for (const c of canvases) {
+    let cfg = null;
+    try { cfg = JSON.parse(c.dataset.animCfg || ''); } catch { cfg = null; }
+    if (!cfg) continue;
+    const rect = c.parentElement.getBoundingClientRect();
+    const W = Math.max(200, Math.floor(rect.width));
+    const H = Math.max(140, Math.floor(rect.height));
+    const resized = c.width !== W || c.height !== H;
+    if (resized) { c.width = W; c.height = H; }
+
+    const sig = `${cfg.shape}|${cfg.customChar}|${cfg.motion}|${cfg.count}|${cfg.color1}|${cfg.color2}|${cfg.color3}`;
+    let state = customAnimMap.get(c);
+    if (!state || state.sig !== sig) {
+      const palette = [cfg.color1 || '#6d5dfc', cfg.color2 || '#ec4899', cfg.color3 || '#38bdf8'];
+      const chars = [...(cfg.customChar || '✨')];
+      const count = Math.min(120, Math.max(8, Number(cfg.count) || 48));
+      const pts = Array.from({ length: count }, (_, idx) => {
+        const angle = (idx / count) * Math.PI * 2 + Math.random() * 0.5;
+        const dist = 18 + Math.random() * (Math.min(W, H) * 0.48);
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 1.8,
+          vy: (Math.random() - 0.5) * 1.8,
+          r: (0.65 + Math.random() * 0.7),
+          color: palette[idx % palette.length],
+          hue: (idx * 35) % 360,
+          phase: Math.random() * Math.PI * 2,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.06,
+          orbitA: angle,
+          orbitR: dist,
+          ch: chars.length ? chars[idx % chars.length] : '✨'
+        };
+      });
+      state = { sig, pts, tick: 0 };
+      customAnimMap.set(c, state);
+    }
+
+    state.tick++;
+    const ctx = c.getContext('2d');
+    if (cfg.trails && !resized) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    } else {
+      ctx.clearRect(0, 0, W, H);
+    }
+
+    const spd = Number(cfg.speed) || 1.5;
+    const baseSize = Number(cfg.size) || 9;
+    const baseAlpha = Math.min(1, Math.max(0.15, (Number(cfg.opacity) || 85) / 100));
+    const mx = pointerPos.x - rect.left;
+    const my = pointerPos.y - rect.top;
+    const hasMouse = cfg.mouseInteract && mx >= -20 && mx <= W + 20 && my >= -20 && my <= H + 20;
+
+    if (cfg.connectLines) {
+      ctx.save();
+      ctx.lineWidth = 1;
+      for (let i = 0; i < state.pts.length; i++) {
+        const p1 = state.pts[i];
+        for (let j = i + 1; j < state.pts.length; j++) {
+          const p2 = state.pts[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < 9500) {
+            const alpha = (1 - Math.sqrt(d2) / 97.5) * baseAlpha * 0.48;
+            ctx.strokeStyle = cfg.color1 || '#38bdf8';
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.restore();
+    }
+
+    for (const p of state.pts) {
+      p.phase += 0.045 * spd;
+      if (cfg.spin) p.rot += p.vrot * spd;
+      if (cfg.rainbow) p.hue = (p.hue + 1.2 * spd) % 360;
+
+      if (cfg.motion === 'fall') {
+        p.y += (0.8 + p.r * 1.1) * spd;
+        p.x += Math.sin(p.phase * 0.7) * 0.45 * spd;
+        if (p.y > H + 24) { p.y = -20; p.x = Math.random() * W; }
+      } else if (cfg.motion === 'rise') {
+        p.y -= (0.7 + p.r * 1.0) * spd;
+        p.x += Math.cos(p.phase * 0.6) * 0.5 * spd;
+        if (p.y < -24) { p.y = H + 20; p.x = Math.random() * W; }
+      } else if (cfg.motion === 'vortex') {
+        p.orbitA += (0.012 + (1 / Math.max(28, p.orbitR)) * 0.45) * spd;
+        p.x = W / 2 + Math.cos(p.orbitA) * p.orbitR;
+        p.y = H / 2 + Math.sin(p.orbitA) * (p.orbitR * 0.68);
+      } else if (cfg.motion === 'wave') {
+        p.x += (0.9 + p.r * 0.6) * spd;
+        p.y += Math.sin(p.phase) * 1.3 * spd;
+        if (p.x > W + 24) { p.x = -20; p.y = Math.random() * H; }
+      } else if (cfg.motion === 'fountain') {
+        p.x += p.vx * spd;
+        p.y += p.vy * spd;
+        p.vy += 0.065 * spd;
+        if (p.y > H + 24) {
+          p.x = W * (0.35 + Math.random() * 0.3);
+          p.y = H + 10;
+          p.vx = (Math.random() - 0.5) * 3.2;
+          p.vy = -(3.4 + Math.random() * 3.2);
+        }
+      } else if (cfg.motion === 'bounce') {
+        p.x += p.vx * 1.4 * spd;
+        p.y += p.vy * 1.4 * spd;
+        if (p.x < 10 || p.x > W - 10) p.vx *= -1;
+        if (p.y < 10 || p.y > H - 10) p.vy *= -1;
+        p.x = Math.max(6, Math.min(W - 6, p.x));
+        p.y = Math.max(6, Math.min(H - 6, p.y));
+      } else if (cfg.motion === 'chaos') {
+        p.vx += (Math.random() - 0.5) * 0.45 * spd;
+        p.vy += (Math.random() - 0.5) * 0.45 * spd;
+        p.vx = Math.max(-3.5, Math.min(3.5, p.vx));
+        p.vy = Math.max(-3.5, Math.min(3.5, p.vy));
+        p.x = (p.x + p.vx + W) % W;
+        p.y = (p.y + p.vy + H) % H;
+      } else {
+        p.x += Math.cos(p.phase * 0.5) * 0.45 * spd + p.vx * 0.35 * spd;
+        p.y += Math.sin(p.phase * 0.4) * 0.45 * spd + p.vy * 0.35 * spd;
+        if (p.x < -20) p.x = W + 18;
+        if (p.x > W + 20) p.x = -18;
+        if (p.y < -20) p.y = H + 18;
+        if (p.y > H + 20) p.y = -18;
+      }
+
+      if (hasMouse) {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 0 && dist < 95) {
+          const force = (95 - dist) / 95;
+          p.x += (dx / dist) * force * 4.2;
+          p.y += (dy / dist) * force * 4.2;
+        }
+      }
+
+      const pulseScale = cfg.pulse ? (0.72 + 0.48 * Math.abs(Math.sin(p.phase))) : 1;
+      const pulseAlpha = cfg.pulse ? baseAlpha * (0.45 + 0.55 * Math.abs(Math.sin(p.phase))) : baseAlpha;
+      const drawR = Math.max(1.5, baseSize * p.r * pulseScale * 0.65);
+      const col = cfg.rainbow ? `hsl(${Math.round(p.hue)}, 92%, 62%)` : p.color;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      if (cfg.spin) ctx.rotate(p.rot);
+      ctx.globalAlpha = pulseAlpha;
+      ctx.fillStyle = col;
+      ctx.strokeStyle = col;
+      if (cfg.glow > 0) {
+        ctx.shadowColor = col;
+        ctx.shadowBlur = Number(cfg.glow);
+      }
+      drawAnimShape(ctx, cfg.shape, drawR, p.ch);
+      ctx.restore();
+    }
+  }
+  customAnimFrame = requestAnimationFrame(stepCustomAnimCanvases);
+}
+
 function triggerParticleLoop() {
   if (getExtras().particles && !fxAnimFrame && $$('canvas.w-fx-canvas').length) {
     fxAnimFrame = requestAnimationFrame(initOrStepWidgetCanvases);
+  }
+  if (!customAnimFrame && $$('canvas.w-anim-canvas').length) {
+    customAnimFrame = requestAnimationFrame(stepCustomAnimCanvases);
   }
 }
 
@@ -694,9 +1107,13 @@ function widgetHtml(ev, o = {}) {
   const { title = true, credit = false, size = 'wide', showMilestones = false } = o;
   const ex = getExtras();
   const ct = resolveThemeForEvent(ev);
-  const inlineStyle = ct ? ` style="${esc(customThemeInlineVars(ct))}"` : '';
+  const ca = resolveAnimForEvent(ev);
+  const animStyleVars = ca && ca.bgMode === 'replace' ? customAnimInlineVars(ca) : '';
+  const themeStyleVars = ct ? customThemeInlineVars(ct) : '';
+  const combinedVars = animStyleVars || themeStyleVars;
+  const inlineStyle = combinedVars ? ` style="${esc(combinedVars)}"` : '';
   const fontClass = ct && ct.font ? ` f-${ct.font}` : '';
-  const glowClass = ct && ct.glow ? ' has-glow' : '';
+  const glowClass = (ct && ct.glow) || (ca && ca.glow >= 18) ? ' has-glow' : '';
   const disp = ex.clockModes ? (ev.display || (ct && ct.display) || 'cards') : 'cards';
   const fx = ex.particles ? (ev.fx || (ct && ct.fx) || 'none') : 'none';
   const hasMs = ex.clockModes && !!ev.showMs && size !== 'compact';
@@ -715,9 +1132,11 @@ function widgetHtml(ev, o = {}) {
   const repeatLabel = ev.repeat && ev.repeat !== 'none' ? `<span class="w-badge">${esc(ev.repeat[0].toUpperCase() + ev.repeat.slice(1))}</span>` : '';
   const catLabel = ev.category ? `<span class="w-badge">${esc(ev.category)}</span>` : '';
   const fxCanvas = fx !== 'none' ? `<canvas class="w-fx-canvas" data-fx="${esc(fx)}"></canvas>` : '';
+  const animCanvas = ca ? `<canvas class="w-anim-canvas${ca.layer === 'over' ? ' over-ui' : ''}" data-anim-cfg="${esc(JSON.stringify(ca))}"></canvas>` : '';
 
   return `<div class="widget s-${esc(ev.style)} d-${esc(disp)}${fontClass}${glowClass}${hasMs ? ' has-ms' : ''}${size === 'compact' ? ' compact' : ''}"${inlineStyle} data-end="${ev.end}" data-start="${ev.start || 0}" data-emoji-raw="${esc(plainEmojiText(ev.emoji))}">`
     + fxCanvas
+    + animCanvas
     + (title ? `<div class="w-head"><span class="w-emoji" aria-hidden="true">${renderEmoji(ev.emoji)}</span><h2>${esc(ev.name)}</h2></div>` : '')
     + `<p class="w-date">${esc(fmtDate(ev.end))}</p>`
     + (ev.note && title ? `<p class="w-note">${esc(ev.note)}</p>` : '')
@@ -1016,6 +1435,7 @@ async function exportShareImage(ev) {
 /* --------- home --------- */
 const FEATURES = [
   ['Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
+  ['Animation Maker Studio', 'Build custom interactive animations with templates, physics, shapes & overlays to use instead of a theme or on top of any countdown.'],
   ['Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
   ['Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
   ['PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
@@ -1028,9 +1448,12 @@ const FEATURES = [
 function cardHtml(ev) {
   const ex = getExtras();
   const ct = resolveThemeForEvent(ev);
-  const cardBrand = ct ? ` style="--brand:${esc(ct.acc)}"` : '';
+  const ca = resolveAnimForEvent(ev);
+  const brandHex = (ca && ca.bgMode === 'replace') ? ca.acc : (ct ? ct.acc : '');
+  const cardBrand = brandHex ? ` style="--brand:${esc(brandHex)}"` : '';
   const repTag = ev.repeat && ev.repeat !== 'none' ? `<span class="meta-tag">${esc(ev.repeat)}</span>` : '';
   const catTag = ev.category ? `<span class="meta-tag">${esc(ev.category)}</span>` : '';
+  const animTag = ca ? `<span class="meta-tag">${esc(ca.name)}</span>` : '';
   const fxTag = ex.particles && ev.fx && ev.fx !== 'none' ? `<span class="meta-tag">${esc(ev.fx)}</span>` : '';
   const tasksDone = (ev.checklist || []).filter((c) => c.done).length;
   const tasksTotal = (ev.checklist || []).length;
@@ -1038,7 +1461,7 @@ function cardHtml(ev) {
   return `<article class="saved-card s-${esc(ev.style)}${ev.pinned ? ' pinned' : ''}"${cardBrand} data-id="${esc(ev.id)}">`
     + `<a class="card-main" href="#${esc(countdownHash(ev))}">`
     + `<span class="card-emoji" aria-hidden="true">${renderEmoji(ev.emoji)}</span>`
-    + `<div class="card-text"><strong class="saved-title">${esc(ev.name)}</strong><small>${esc(fmtShort(ev.end))}</small><div class="card-meta-tags">${catTag}${repTag}${fxTag}${taskTag}</div></div>`
+    + `<div class="card-text"><strong class="saved-title">${esc(ev.name)}</strong><small>${esc(fmtShort(ev.end))}</small><div class="card-meta-tags">${catTag}${repTag}${animTag}${fxTag}${taskTag}</div></div>`
     + `<span class="chip" data-live="${ev.end}"></span></a>`
     + `<div class="saved-actions">`
     + `<button class="pin-btn ${ev.pinned ? 'on' : ''}" type="button" data-pin="${esc(ev.id)}" title="${ev.pinned ? 'Unpin' : 'Pin to top'}">${ICON_PIN}</button>`
@@ -1053,7 +1476,7 @@ function renderHome() {
   const events = readEvents();
   if (!events.length) {
     const demo = normalize({ name: 'Summer vacation', end: Date.now() + ((12 * 24 + 8) * 3600 + 34 * 60 + 56) * 1000, start: Date.now() - 20 * DAY, emoji: '🏖️', style: 'ocean', display: ex.clockModes ? 'flip' : 'cards', fx: ex.particles ? 'sparkles' : 'none', category: 'Travel', note: 'Flights booked & bags packed!' });
-    app.innerHTML = `<section class="hero"><div><div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE SOMETHING TO LOOK FORWARD TO</div><h1>Countdown to <span>anything</span> that matters</h1><p class="hero-copy">Create clean, customizable live countdowns with your own custom themes and uploaded emojis. Share them with a link, export a PNG card, or embed them anywhere.</p><div class="hero-btns"><a class="button" href="#/create">+ Create a countdown</a><a class="button secondary-button" href="#/themes">Theme Studio</a>${ex.focusStudio ? '<a class="button secondary-button" href="#/focus">Focus Timer</a>' : '<a class="button secondary-button" href="#/settings">Cool Extras in Settings</a>'}</div></div><div class="preview-wrap"><div class="preview-glow"></div><div class="preview">${widgetHtml(demo, { showMilestones: true })}</div></div></section><section class="features">${FEATURES.map(([title, text]) => `<div class="feature"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`).join('')}</section>`;
+    app.innerHTML = `<section class="hero"><div><div class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE SOMETHING TO LOOK FORWARD TO</div><h1>Countdown to <span>anything</span> that matters</h1><p class="hero-copy">Create clean, customizable live countdowns with your own custom themes and uploaded emojis. Share them with a link, export a PNG card, or embed them anywhere.</p><div class="hero-btns"><a class="button" href="#/create">+ Create a countdown</a><a class="button secondary-button" href="#/themes">Theme Studio</a><a class="button secondary-button" href="#/animations">Animation Maker</a>${ex.focusStudio ? '<a class="button secondary-button" href="#/focus">Focus Timer</a>' : '<a class="button secondary-button" href="#/settings">Cool Extras in Settings</a>'}</div></div><div class="preview-wrap"><div class="preview-glow"></div><div class="preview">${widgetHtml(demo, { showMilestones: true })}</div></div></section><section class="features">${FEATURES.map(([title, text]) => `<div class="feature"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`).join('')}</section>`;
     return;
   }
 
@@ -1089,7 +1512,7 @@ function renderHome() {
   const section = (label, list) => list.length ? `<section class="saved-section"><div class="section-heading"><h2>${label} (${list.length})</h2></div><div class="saved-grid">${list.map(cardHtml).join('')}</div></section>` : '';
   const emptyFiltered = !up.length && !done.length ? `<p class="small-note center" style="padding:32px 0">No countdowns match your current filter. <button class="text-link" type="button" id="reset-filters">Reset filters</button></p>` : '';
 
-  app.innerHTML = `<section class="next-up"><div class="section-heading"><div><span class="eyebrow">${next ? (next.pinned ? 'PINNED SPOTLIGHT' : 'NEXT UP') : 'YOUR COUNTDOWNS'}</span></div><div style="display:flex;gap:8px">${ex.focusStudio ? '<a class="button secondary-button small-button" href="#/focus">Focus</a>' : ''}<a class="button secondary-button small-button" href="#/themes">Themes</a><a class="button small-button" href="#/create">+ New</a></div></div>${next ? `<a class="next-link" href="#${esc(countdownHash(next))}">${widgetHtml(next, { showMilestones: true })}</a>` : ''}</section>`
+  app.innerHTML = `<section class="next-up"><div class="section-heading"><div><span class="eyebrow">${next ? (next.pinned ? 'PINNED SPOTLIGHT' : 'NEXT UP') : 'YOUR COUNTDOWNS'}</span></div><div style="display:flex;gap:8px">${ex.focusStudio ? '<a class="button secondary-button small-button" href="#/focus">Focus</a>' : ''}<a class="button secondary-button small-button" href="#/themes">Themes</a><a class="button secondary-button small-button" href="#/animations">Animations</a><a class="button small-button" href="#/create">+ New</a></div></div>${next ? `<a class="next-link" href="#${esc(countdownHash(next))}">${widgetHtml(next, { showMilestones: true })}</a>` : ''}</section>`
     + toolbar
     + section('Upcoming', up)
     + section('Completed', done)
@@ -1276,12 +1699,19 @@ function renderStyleChipHtml(key, label, activeKey) {
   return `<button class="style-chip s-${esc(key)} ${activeKey === key ? 'on' : ''}" type="button" data-style="${esc(key)}"><i${dotStyle}></i> ${esc(label)}</button>`;
 }
 
+function renderAnimChipHtml(key, label, activeKey) {
+  const ca = key !== 'none' ? findCustomAnim(key) : null;
+  const dotStyle = ca ? ` style="background:linear-gradient(135deg,${ca.color1},${ca.color2})"` : ' style="background:var(--line)"';
+  return `<button class="style-chip anim-chip ${activeKey === key ? 'on' : ''}" type="button" data-anim="${esc(key)}"><i${dotStyle}>✦</i> ${esc(label)}</button>`;
+}
+
 function renderForm(existing) {
   const ex = getExtras();
   const editing = !!existing;
   const st = {
     emoji: existing ? existing.emoji : QUICK_EMOJIS[0],
     style: existing ? existing.style : 'classic',
+    animId: existing && existing.animId ? existing.animId : 'none',
     display: existing ? existing.display : 'cards',
     fx: existing ? existing.fx : 'none',
     showMs: existing ? !!existing.showMs : false,
@@ -1295,6 +1725,7 @@ function renderForm(existing) {
   const drawForm = () => {
     const customEmojis = readCustomEmojis();
     const stylesMap = getAllStylesMap();
+    const animsMap = getAllAnimsMap();
     const quickSet = [...QUICK_EMOJIS];
     if (st.emoji && !quickSet.includes(st.emoji) && !st.emoji.startsWith('ce_')) quickSet.unshift(st.emoji);
 
@@ -1313,6 +1744,8 @@ function renderForm(existing) {
       + `</div></div>`
       + `<div class="field"><div class="field-label"><span>Theme</span><a class="text-link" href="#/themes">Open Theme Studio →</a></div>`
       + `<div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, st.style)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-theme-modal">＋ New Custom Theme</button></div></div>`
+      + `<div class="field"><div class="field-label"><span>Animation Overlay / Animated Theme</span><a class="text-link" href="#/animations">Open Animation Maker →</a></div>`
+      + `<div class="style-row">${Object.entries(animsMap).map(([k, label]) => renderAnimChipHtml(k, label, st.animId)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-anim-modal">＋ Make Custom Animation</button></div></div>`
       + (ex.clockModes ? `<div class="field"><label>Clock Display Mode</label><div class="seg" id="disp-seg">${DISPLAY_MODES.map(([k, l]) => `<button type="button" data-disp="${k}" class="${st.display === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.particles ? `<div class="field"><label>Ambient Particle Effect</label><div class="seg" id="fx-seg">${PARTICLE_FX.map(([k, l]) => `<button type="button" data-fx="${k}" class="${st.fx === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.clockModes ? `<div class="opt-row" style="margin-bottom:18px"><span>Show High-Precision Tenths of a Second (.0)</span><button type="button" class="toggle ${st.showMs ? 'on' : ''}" id="toggle-ms"></button></div>` : '')
@@ -1332,6 +1765,7 @@ function renderForm(existing) {
       st.repeat = repInput.value;
       $$('[data-emoji]', app).forEach((b) => b.classList.toggle('on', b.dataset.emoji === st.emoji));
       $$('[data-style]', app).forEach((b) => b.classList.toggle('on', b.dataset.style === st.style));
+      $$('[data-anim]', app).forEach((b) => b.classList.toggle('on', b.dataset.anim === st.animId));
       $$('[data-disp]', app).forEach((b) => b.classList.toggle('on', b.dataset.disp === st.display));
       $$('[data-fx]', app).forEach((b) => b.classList.toggle('on', b.dataset.fx === st.fx));
       const msBtn = $('#toggle-ms');
@@ -1343,6 +1777,7 @@ function renderForm(existing) {
         start: Date.now(),
         emoji: st.emoji,
         style: st.style,
+        animId: st.animId,
         display: st.display,
         fx: st.fx,
         showMs: st.showMs,
@@ -1362,6 +1797,7 @@ function renderForm(existing) {
 
     $$('[data-emoji]', app).forEach((b) => b.addEventListener('click', () => { st.emoji = b.dataset.emoji; buzz(); sync(); }));
     $$('[data-style]', app).forEach((b) => b.addEventListener('click', () => { st.style = b.dataset.style; buzz(); sync(); }));
+    $$('[data-anim]', app).forEach((b) => b.addEventListener('click', () => { st.animId = b.dataset.anim; buzz(); sync(); }));
     $$('[data-disp]', app).forEach((b) => b.addEventListener('click', () => { st.display = b.dataset.disp; buzz(); sync(); }));
     $$('[data-fx]', app).forEach((b) => b.addEventListener('click', () => { st.fx = b.dataset.fx; buzz(); sync(); }));
     const msBtn = $('#toggle-ms');
@@ -1397,6 +1833,20 @@ function renderForm(existing) {
       });
     });
 
+    $('#quick-anim-modal').addEventListener('click', () => {
+      const savedName = nameInput.value;
+      const savedDate = dateInput.value;
+      const savedNote = noteInput.value;
+      openQuickAnimEditorModal(null, (createdAnim) => {
+        st.animId = createdAnim.id;
+        drawForm();
+        $('#event-name').value = savedName;
+        $('#event-date').value = savedDate;
+        $('#event-note').value = savedNote;
+        $('#event-name').dispatchEvent(new Event('input'));
+      });
+    });
+
     $$('[data-add]').forEach((b) => b.addEventListener('click', () => {
       const map = { '15m': 9e5, '1h': 36e5, '1d': DAY, '7d': 7 * DAY, '30d': 30 * DAY, '365d': 365 * DAY };
       const add = map[b.dataset.add] || DAY;
@@ -1421,6 +1871,7 @@ function renderForm(existing) {
         start: existing && existing.end === end ? existing.start : Date.now(),
         emoji: st.emoji,
         style: st.style,
+        animId: st.animId,
         display: st.display,
         fx: st.fx,
         showMs: st.showMs,
@@ -1694,6 +2145,325 @@ function renderThemeStudio() {
   drawStudio();
 }
 
+
+function randomAnimConfig() {
+  const pal = randomHarmonyPalette();
+  const sh = ANIM_SHAPES[Math.floor(Math.random() * ANIM_SHAPES.length)][0];
+  const mo = ANIM_MOTIONS[Math.floor(Math.random() * ANIM_MOTIONS.length)][0];
+  const emojis = ['✨', '🚀', '⚡', '🔥', '💎', '🌸', '01', '★', '🎉', '💫'];
+  return {
+    shape: sh,
+    customChar: emojis[Math.floor(Math.random() * emojis.length)],
+    motion: mo,
+    count: 28 + Math.floor(Math.random() * 55),
+    speed: Number((0.8 + Math.random() * 2.8).toFixed(1)),
+    size: 5 + Math.floor(Math.random() * 14),
+    opacity: 75 + Math.floor(Math.random() * 25),
+    glow: Math.floor(Math.random() * 24),
+    connectLines: Math.random() > 0.65,
+    trails: Math.random() > 0.65,
+    mouseInteract: true,
+    pulse: Math.random() > 0.4,
+    spin: Math.random() > 0.45,
+    rainbow: Math.random() > 0.78,
+    layer: Math.random() > 0.5 ? 'over' : 'under',
+    color1: pal.acc,
+    color2: pal.fg === '#ffffff' ? '#ec4899' : '#6d5dfc',
+    color3: '#38bdf8',
+    bg1: pal.bg1,
+    bg2: pal.bg2,
+    fg: pal.fg,
+    acc: pal.acc,
+    angle: pal.angle
+  };
+}
+
+function openQuickAnimEditorModal(existingAnim, onSave) {
+  closeModal();
+  const draft = normalizeCustomAnimObj(existingAnim || {
+    ...ANIM_TEMPLATES[1],
+    id: 'ca_' + newId(),
+    name: 'My Custom Animation'
+  });
+  const root = document.createElement('div');
+  root.className = 'modal-backdrop';
+  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>Quick Animation Maker</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-anim-body"></div></div>`;
+  modalRoot.append(root);
+  document.body.classList.add('modal-open');
+
+  const renderModalEditor = () => {
+    const body = $('#quick-anim-body', root);
+    const demoEv = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
+    body.innerHTML = `<div class="share-preview" id="qa-preview">${widgetHtml(demoEv, { size: 'compact' })}</div>`
+      + `<div class="field"><label><span>Animation Name</span><button type="button" class="text-link" id="qa-random">Randomize Magic</button></label><input id="qa-name" type="text" maxlength="32" value="${esc(draft.name)}"></div>`
+      + `<div class="field-label">Templates</div><div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-qa-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
+      + `<div class="field"><label>Mode</label><div class="seg"><button type="button" data-qa-bgmode="replace" class="${draft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme</button><button type="button" data-qa-bgmode="overlay" class="${draft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
+      + `<div class="field"><label>Particle Shape</label><div class="seg">${ANIM_SHAPES.map(([k, l]) => `<button type="button" data-qa-shape="${k}" class="${draft.shape === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + (draft.shape === 'char' ? `<div class="field"><label>Custom Text / Emojis</label><input id="qa-char" type="text" maxlength="14" value="${esc(draft.customChar)}"></div>` : '')
+      + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([k, l]) => `<button type="button" data-qa-motion="${k}" class="${draft.motion === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + `<div class="color-3-grid">`
+      + `<div class="color-field"><label>Color 1</label><div class="color-input-row"><input type="color" id="qa-c1" value="${esc(draft.color1)}"><input type="text" id="qa-c1-hex" value="${esc(draft.color1)}"></div></div>`
+      + `<div class="color-field"><label>Color 2</label><div class="color-input-row"><input type="color" id="qa-c2" value="${esc(draft.color2)}"><input type="text" id="qa-c2-hex" value="${esc(draft.color2)}"></div></div>`
+      + `<div class="color-field"><label>Color 3</label><div class="color-input-row"><input type="color" id="qa-c3" value="${esc(draft.color3)}"><input type="text" id="qa-c3-hex" value="${esc(draft.color3)}"></div></div>`
+      + `</div>`
+      + `<div style="display:flex;gap:8px"><button class="button" type="button" id="qa-save">Save & Apply Animation</button><a class="button secondary-button" href="#/animations" style="flex:0 0 auto;width:auto">Full Studio →</a></div>`;
+
+    const updatePreviewOnly = () => {
+      const ev = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
+      $('#qa-preview', root).innerHTML = widgetHtml(ev, { size: 'compact' });
+      tickAll();
+    };
+
+    $('#qa-name', root).addEventListener('input', (e) => { draft.name = e.target.value; updatePreviewOnly(); });
+    const charEl = $('#qa-char', root);
+    if (charEl) charEl.addEventListener('input', (e) => { draft.customChar = e.target.value || '✨'; updatePreviewOnly(); });
+    for (const [k, prop] of [['c1', 'color1'], ['c2', 'color2'], ['c3', 'color3']]) {
+      const picker = $(`#qa-${k}`, root);
+      const hex = $(`#qa-${k}-hex`, root);
+      picker.addEventListener('input', () => { draft[prop] = picker.value; hex.value = picker.value; updatePreviewOnly(); });
+      hex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { draft[prop] = hex.value; picker.value = hex.value; updatePreviewOnly(); } });
+    }
+    $$('[data-qa-tpl]', root).forEach((b) => b.addEventListener('click', () => {
+      const tpl = ANIM_TEMPLATES[Number(b.dataset.qaTpl)];
+      if (tpl) { Object.assign(draft, tpl, { id: draft.id }); renderModalEditor(); }
+    }));
+    $$('[data-qa-bgmode]', root).forEach((b) => b.addEventListener('click', () => { draft.bgMode = b.dataset.qaBgmode; renderModalEditor(); }));
+    $$('[data-qa-shape]', root).forEach((b) => b.addEventListener('click', () => { draft.shape = b.dataset.qaShape; renderModalEditor(); }));
+    $$('[data-qa-motion]', root).forEach((b) => b.addEventListener('click', () => { draft.motion = b.dataset.qaMotion; renderModalEditor(); }));
+    $('#qa-random', root).addEventListener('click', () => { Object.assign(draft, randomAnimConfig()); renderModalEditor(); });
+    $('#qa-save', root).addEventListener('click', () => {
+      const saved = normalizeCustomAnimObj(draft);
+      const list = readCustomAnims().filter((a) => a.id !== saved.id);
+      list.unshift(saved);
+      saveCustomAnims(list);
+      buzz();
+      closeModal();
+      showNotice(`Saved custom animation "${saved.name}"!`);
+      if (onSave) onSave(saved);
+    });
+    tickAll();
+  };
+
+  root.addEventListener('click', (e) => { if (e.target === root || e.target.closest('[data-close]')) closeModal(); });
+  renderModalEditor();
+}
+
+function renderAnimationMaker() {
+  let activeDraft = normalizeCustomAnimObj({
+    ...ANIM_TEMPLATES[1],
+    id: 'ca_' + newId(),
+    name: 'Cosmic Constellation'
+  });
+  let isEditingExisting = false;
+  let previewThemeStyle = 'ocean';
+
+  const drawMaker = () => {
+    const savedAnims = readCustomAnims();
+    const stylesMap = getAllStylesMap();
+    const previewEv = normalize({
+      name: activeDraft.name || 'Animation Preview',
+      end: Date.now() + 9 * DAY + 21600000,
+      start: Date.now() - 4 * DAY,
+      emoji: '✨',
+      style: previewThemeStyle,
+      animId: activeDraft.id,
+      customAnim: activeDraft,
+      category: 'Launch',
+      note: 'Move your cursor or finger over the countdown to interact!'
+    });
+
+    app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
+      + `<div class="section-heading"><div><span class="eyebrow"><span class="eyebrow-dot"></span> ANIMATION MAKER</span><h1 style="margin:10px 0 4px;font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px">Build your own custom animations</h1><p class="small-note" style="margin:0">Start from a template or craft your own particle physics, shapes, trails, constellations and interactive overlays. Use your animation <strong>instead of a theme</strong> or <strong>overlay it on top of any theme</strong>.</p></div></div>`
+      + `<div class="theme-studio-grid">`
+      + `<div class="form-card">`
+      + `<div class="field"><label for="am-name"><span>Animation Name</span><button type="button" class="text-link" id="am-random">🎲 Randomize Everything</button></label><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Cyber Galaxy"></div>`
+      + `<div class="field-label"><span>Starter Templates (${ANIM_TEMPLATES.length})</span><small style="color:var(--muted);font-weight:600">Click to load & customize</small></div>`
+      + `<div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-am-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
+      + `<div class="field"><label>How It Works with Themes</label><div class="seg"><button type="button" data-am-bgmode="replace" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme (Own Backdrop)</button><button type="button" data-am-bgmode="overlay" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
+      + (activeDraft.bgMode === 'replace'
+        ? `<div class="color-grid">`
+          + `<div class="color-field"><label>Backdrop Start</label><div class="color-input-row"><input type="color" id="am-bg1" value="${esc(activeDraft.bg1)}"><input type="text" id="am-bg1-hex" value="${esc(activeDraft.bg1)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Backdrop End</label><div class="color-input-row"><input type="color" id="am-bg2" value="${esc(activeDraft.bg2)}"><input type="text" id="am-bg2-hex" value="${esc(activeDraft.bg2)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Heading & Text Color</label><div class="color-input-row"><input type="color" id="am-fg" value="${esc(activeDraft.fg)}"><input type="text" id="am-fg-hex" value="${esc(activeDraft.fg)}" maxlength="7"></div></div>`
+          + `<div class="color-field"><label>Digit & Bar Accent</label><div class="color-input-row"><input type="color" id="am-acc" value="${esc(activeDraft.acc)}"><input type="text" id="am-acc-hex" value="${esc(activeDraft.acc)}" maxlength="7"></div></div>`
+          + `</div>`
+          + `<div class="field"><label for="am-angle"><span>Backdrop Gradient Angle</span><span id="am-angle-val">${activeDraft.angle}°</span></label><div class="range-row"><input type="range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div></div>`
+        : `<div class="field"><label>Test Overlay Against Theme</label><div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, previewThemeStyle).replace('data-style=', 'data-am-test-theme=')).join('')}</div></div>`)
+      + `<div class="field"><label>Overlay Layer Position</label><div class="seg"><button type="button" data-am-layer="under" class="${activeDraft.layer === 'under' ? 'on' : ''}">Behind Digits (Subtle)</button><button type="button" data-am-layer="over" class="${activeDraft.layer === 'over' ? 'on' : ''}">Over Everything (Full Overlay)</button></div></div>`
+      + `<div class="field"><label>Particle / Element Shape</label><div class="seg">${ANIM_SHAPES.map(([v, l]) => `<button type="button" data-am-shape="${v}" class="${activeDraft.shape === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + (activeDraft.shape === 'char' ? `<div class="field"><label for="am-char">Custom Text, Characters or Emojis</label><input id="am-char" type="text" maxlength="14" value="${esc(activeDraft.customChar)}" placeholder="e.g. 01 or ✨🚀🔥"></div>` : '')
+      + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([v, l]) => `<button type="button" data-am-motion="${v}" class="${activeDraft.motion === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + `<div class="field-label">Animation Color Palette</div>`
+      + `<div class="color-3-grid">`
+      + `<div class="color-field"><label>Primary Color</label><div class="color-input-row"><input type="color" id="am-c1" value="${esc(activeDraft.color1)}"><input type="text" id="am-c1-hex" value="${esc(activeDraft.color1)}" maxlength="7"></div></div>`
+      + `<div class="color-field"><label>Secondary Color</label><div class="color-input-row"><input type="color" id="am-c2" value="${esc(activeDraft.color2)}"><input type="text" id="am-c2-hex" value="${esc(activeDraft.color2)}" maxlength="7"></div></div>`
+      + `<div class="color-field"><label>Tertiary Color</label><div class="color-input-row"><input type="color" id="am-c3" value="${esc(activeDraft.color3)}"><input type="text" id="am-c3-hex" value="${esc(activeDraft.color3)}" maxlength="7"></div></div>`
+      + `</div>`
+      + `<div class="field-row-2">`
+      + `<div class="field" style="margin:0"><label for="am-count"><span>Particle Count</span><span id="am-count-val">${activeDraft.count}</span></label><div class="range-row"><input type="range" id="am-count" min="8" max="120" step="2" value="${activeDraft.count}"></div></div>`
+      + `<div class="field" style="margin:0"><label for="am-speed"><span>Motion Speed</span><span id="am-speed-val">${activeDraft.speed}x</span></label><div class="range-row"><input type="range" id="am-speed" min="0.2" max="5" step="0.1" value="${activeDraft.speed}"></div></div>`
+      + `</div>`
+      + `<div class="field-row-2">`
+      + `<div class="field" style="margin:0"><label for="am-size"><span>Element Size</span><span id="am-size-val">${activeDraft.size}px</span></label><div class="range-row"><input type="range" id="am-size" min="2" max="36" step="1" value="${activeDraft.size}"></div></div>`
+      + `<div class="field" style="margin:0"><label for="am-glow"><span>Neon Glow Blur</span><span id="am-glow-val">${activeDraft.glow}px</span></label><div class="range-row"><input type="range" id="am-glow" min="0" max="32" step="1" value="${activeDraft.glow}"></div></div>`
+      + `</div>`
+      + `<div class="field"><label for="am-opacity"><span>Overlay Opacity</span><span id="am-opacity-val">${activeDraft.opacity}%</span></label><div class="range-row"><input type="range" id="am-opacity" min="15" max="100" step="5" value="${activeDraft.opacity}"></div></div>`
+      + `<div class="opt-row"><span>Constellation Connecting Lines</span><button type="button" class="toggle ${activeDraft.connectLines ? 'on' : ''}" data-am-toggle="connectLines"></button></div>`
+      + `<div class="opt-row"><span>Motion Blur Trails</span><button type="button" class="toggle ${activeDraft.trails ? 'on' : ''}" data-am-toggle="trails"></button></div>`
+      + `<div class="opt-row"><span>Interactive Cursor / Touch Repulsion</span><button type="button" class="toggle ${activeDraft.mouseInteract ? 'on' : ''}" data-am-toggle="mouseInteract"></button></div>`
+      + `<div class="opt-row"><span>Twinkle & Size Pulse</span><button type="button" class="toggle ${activeDraft.pulse ? 'on' : ''}" data-am-toggle="pulse"></button></div>`
+      + `<div class="opt-row"><span>Auto-Spin Elements</span><button type="button" class="toggle ${activeDraft.spin ? 'on' : ''}" data-am-toggle="spin"></button></div>`
+      + `<div class="opt-row" style="margin-bottom:20px"><span>Rainbow Spectrum Cycle</span><button type="button" class="toggle ${activeDraft.rainbow ? 'on' : ''}" data-am-toggle="rainbow"></button></div>`
+      + `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="button" type="button" id="am-save" style="flex:1">${isEditingExisting ? 'Update Custom Animation' : 'Save Custom Animation'}</button><button class="button secondary-button" type="button" id="am-apply-all" style="flex:0 0 auto;width:auto">Apply to All Countdowns</button>${isEditingExisting ? `<button class="button secondary-button" type="button" id="am-cancel-edit" style="flex:0 0 auto;width:auto">New</button>` : ''}</div>`
+      + `</div>`
+      + `<div class="preview-pane">`
+      + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE INTERACTIVE PREVIEW</div>`
+      + `<div id="am-live-preview" style="width:100%">${widgetHtml(previewEv, { showMilestones: true })}</div>`
+      + `<div class="settings-card" style="width:100%;margin-top:8px"><h3>Built-In Templates (${ANIM_TEMPLATES.length})</h3>`
+      + `<div class="saved-themes-grid">${ANIM_TEMPLATES.map((t, idx) => {
+          const bg = `linear-gradient(135deg,${t.bg1},${t.bg2})`;
+          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Customize</button></div></div>`;
+        }).join('')}</div></div>`
+      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Your Saved Custom Animations (${savedAnims.length})</h3>`
+      + (savedAnims.length
+        ? `<div class="saved-themes-grid">${savedAnims.map((a) => {
+            const bg = `linear-gradient(135deg,${a.color1},${a.color2})`;
+            return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:#fff"><span>${esc(a.name)}</span><span>${esc(a.shape)}</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">Delete</button></div></div>`;
+          }).join('')}</div>`
+        : `<p class="small-note" style="margin:0">You haven’t saved any custom animations yet. Tweak the controls on the left and click <strong>Save Custom Animation</strong>!</p>`)
+      + `</div></div></div></section>`;
+
+    const refreshPreview = () => {
+      const ev = normalize({
+        name: activeDraft.name || 'Animation Preview',
+        end: Date.now() + 9 * DAY + 21600000,
+        start: Date.now() - 4 * DAY,
+        emoji: '✨',
+        style: previewThemeStyle,
+        animId: activeDraft.id,
+        customAnim: activeDraft,
+        category: 'Launch',
+        note: 'Move your cursor or finger over the countdown to interact!'
+      });
+      $('#am-live-preview').innerHTML = widgetHtml(ev, { showMilestones: true });
+      tickAll();
+    };
+
+    $('#am-name').addEventListener('input', (e) => { activeDraft.name = e.target.value; refreshPreview(); });
+    const charInput = $('#am-char');
+    if (charInput) charInput.addEventListener('input', (e) => { activeDraft.customChar = e.target.value || '✨'; refreshPreview(); });
+
+    for (const [idKey, prop] of [['bg1', 'bg1'], ['bg2', 'bg2'], ['fg', 'fg'], ['acc', 'acc'], ['c1', 'color1'], ['c2', 'color2'], ['c3', 'color3']]) {
+      const picker = $(`#am-${idKey}`);
+      const hex = $(`#am-${idKey}-hex`);
+      if (!picker || !hex) continue;
+      picker.addEventListener('input', () => { activeDraft[prop] = picker.value; hex.value = picker.value; refreshPreview(); });
+      hex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { activeDraft[prop] = hex.value; picker.value = hex.value; refreshPreview(); } });
+    }
+
+    for (const [idKey, prop, suffix] of [['angle', 'angle', '°'], ['count', 'count', ''], ['speed', 'speed', 'x'], ['size', 'size', 'px'], ['glow', 'glow', 'px'], ['opacity', 'opacity', '%']]) {
+      const rng = $(`#am-${idKey}`);
+      if (!rng) continue;
+      rng.addEventListener('input', () => {
+        activeDraft[prop] = Number(rng.value);
+        const valEl = $(`#am-${idKey}-val`);
+        if (valEl) valEl.textContent = `${activeDraft[prop]}${suffix}`;
+        refreshPreview();
+      });
+    }
+
+    $$('[data-am-bgmode]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.bgMode = b.dataset.amBgmode; drawMaker(); }));
+    $$('[data-am-layer]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.layer = b.dataset.amLayer; drawMaker(); }));
+    $$('[data-am-shape]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.shape = b.dataset.amShape; drawMaker(); }));
+    $$('[data-am-motion]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.motion = b.dataset.amMotion; drawMaker(); }));
+    $$('[data-am-test-theme]', app).forEach((b) => b.addEventListener('click', () => { previewThemeStyle = b.dataset.amTestTheme; drawMaker(); }));
+    $$('[data-am-toggle]', app).forEach((b) => b.addEventListener('click', () => {
+      const k = b.dataset.amToggle;
+      activeDraft[k] = !activeDraft[k];
+      drawMaker();
+    }));
+
+    $('#am-random').addEventListener('click', () => {
+      Object.assign(activeDraft, randomAnimConfig());
+      buzz();
+      drawMaker();
+    });
+
+    $$('[data-am-tpl]', app).forEach((b) => b.addEventListener('click', () => {
+      const tpl = ANIM_TEMPLATES[Number(b.dataset.amTpl)];
+      if (tpl) {
+        Object.assign(activeDraft, tpl, { id: isEditingExisting ? activeDraft.id : 'ca_' + newId() });
+        buzz();
+        drawMaker();
+      }
+    }));
+
+    $('#am-save').addEventListener('click', () => {
+      const saved = normalizeCustomAnimObj(activeDraft);
+      const list = readCustomAnims().filter((a) => a.id !== saved.id);
+      list.unshift(saved);
+      saveCustomAnims(list);
+      const updatedEvents = readEvents().map((ev) => ev.animId === saved.id ? { ...ev, customAnim: saved } : ev);
+      saveEvents(updatedEvents);
+      isEditingExisting = false;
+      activeDraft = normalizeCustomAnimObj({ ...saved, id: 'ca_' + newId(), name: saved.name + ' Copy' });
+      buzz();
+      drawMaker();
+      showNotice(`Saved custom animation "${saved.name}"!`);
+    });
+
+    $('#am-apply-all').addEventListener('click', () => {
+      const saved = normalizeCustomAnimObj(activeDraft);
+      const list = readCustomAnims().filter((a) => a.id !== saved.id);
+      list.unshift(saved);
+      saveCustomAnims(list);
+      const events = readEvents();
+      if (!events.length) {
+        showNotice(`Saved "${saved.name}"! Create a countdown to see it in action.`);
+        drawMaker();
+        return;
+      }
+      saveEvents(events.map((ev) => ({ ...ev, animId: saved.id, customAnim: saved })));
+      buzz();
+      drawMaker();
+      showNotice(`Applied "${saved.name}" to all ${events.length} countdown${events.length === 1 ? '' : 's'}!`);
+    });
+
+    const cancelBtn = $('#am-cancel-edit');
+    if (cancelBtn) cancelBtn.addEventListener('click', () => {
+      isEditingExisting = false;
+      activeDraft = normalizeCustomAnimObj({ ...ANIM_TEMPLATES[0], id: 'ca_' + newId(), name: 'My Custom Animation' });
+      drawMaker();
+    });
+
+    $$('[data-edit-anim]', app).forEach((b) => b.addEventListener('click', () => {
+      const found = findCustomAnim(b.dataset.editAnim);
+      if (found) { activeDraft = normalizeCustomAnimObj({ ...found }); isEditingExisting = true; drawMaker(); }
+    }));
+
+    $$('[data-del-anim]', app).forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.delAnim;
+      const found = findCustomAnim(id);
+      saveCustomAnims(readCustomAnims().filter((a) => a.id !== id));
+      drawMaker();
+      showNotice(`Deleted animation "${found ? found.name : ''}".`);
+    }));
+
+    $$('[data-use-anim]', app).forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.useAnim;
+      location.hash = '/create';
+      setTimeout(() => {
+        const chip = $(`[data-anim="${id}"]`);
+        if (chip) chip.click();
+      }, 60);
+    }));
+
+    tickAll();
+  };
+
+  drawMaker();
+}
+
 /* --------- Focus & Pomodoro Studio (#/focus — Only accessible when enabled in Settings) --------- */
 let focusState = {
   durationSec: 25 * 60,
@@ -1926,6 +2696,7 @@ function renderCountdown() {
       + (saved ? '' : `<div class="add-banner"><div><strong>Shared with you</strong><small>Add it to your page to keep it, edit it and use all the extras.</small></div><button class="button" id="add-to-page" type="button">Add to my page</button></div>`)
       + `<div class="stage">${widgetHtml(stored, { showMilestones: true })}`
       + `<div class="stage-controls">`
+      + (saved ? `<button class="stage-btn" id="cycle-anim" type="button" title="Switch Custom Animation">${esc((resolveAnimForEvent(stored) || { name: 'Anim: Off' }).name)}</button>` : '')
       + (ex.clockModes && saved ? `<button class="stage-btn" id="cycle-disp" type="button" title="Switch Clock Display Style">${esc(stored.display)}</button>` : '')
       + (ex.particles && saved ? `<button class="stage-btn" id="cycle-fx" type="button" title="Switch Particle Effect">${esc(stored.fx)}</button>` : '')
       + `<button class="stage-btn" id="fs" type="button" title="Toggle Full screen">⛶</button>`
@@ -1947,7 +2718,7 @@ function renderCountdown() {
         + `<div class="detail-card"><h3><span>World Launch Times</span><small style="color:var(--muted)">Global Sync</small></h3>`
         + `<div class="tz-list">${worldZones.map(([label, tz]) => `<div class="tz-row"><strong>${label}</strong><span>${esc(formatZoneTime(stored.end, tz))}</span></div>`).join('')}</div>`
         + `</div></div>`) : '')
-      + `<div class="countdown-actions">${saved ? `<a href="#/edit/${encodeURIComponent(stored.id)}">Edit countdown</a>` : ''}<a href="#/themes">Theme Studio</a><button type="button" id="open-embed-direct">Embed on a website</button></div></section>`;
+      + `<div class="countdown-actions">${saved ? `<a href="#/edit/${encodeURIComponent(stored.id)}">Edit countdown</a>` : ''}<a href="#/themes">Theme Studio</a><a href="#/animations">Animation Maker</a><button type="button" id="open-embed-direct">Embed on a website</button></div></section>`;
 
     const addBtn = $('#add-to-page');
     if (addBtn) addBtn.addEventListener('click', () => {
@@ -1961,6 +2732,21 @@ function renderCountdown() {
     $('#remind-me').addEventListener('click', () => enableReminder(stored));
     $('#add-cal').addEventListener('click', () => addToCalendar(stored));
     $('#celebrate-now').addEventListener('click', () => { celebrateFinale(plainEmojiText(stored.emoji)); playChime(); buzz(); });
+
+    const animBtn = $('#cycle-anim');
+    if (animBtn) {
+      animBtn.addEventListener('click', () => {
+        const keys = Object.keys(getAllAnimsMap());
+        const curKey = stored.animId && keys.includes(stored.animId) ? stored.animId : 'none';
+        const nextKey = keys[(keys.indexOf(curKey) + 1) % keys.length];
+        stored.animId = nextKey;
+        stored.customAnim = nextKey !== 'none' ? findCustomAnim(nextKey) : null;
+        stored = upsertEvent(stored);
+        buzz();
+        drawDetail();
+        tickAll();
+      });
+    }
 
     const dispBtn = $('#cycle-disp');
     if (dispBtn) {
@@ -2080,11 +2866,15 @@ function embedCode(ev, st) {
   const h = compact ? (st.title ? 195 : 155) : (st.title ? 320 : 250);
   const w = compact ? 360 : 640;
   const ct = resolveThemeForEvent(ev);
+  const ca = resolveAnimForEvent(ev);
   if (st.fmt === 'script') {
     const ctAttrs = ct
       ? ` data-c-bg1="${esc(ct.bg1)}" data-c-bg2="${esc(ct.bg2)}" data-c-fg="${esc(ct.fg)}" data-c-acc="${esc(ct.acc)}" data-c-angle="${ct.angle}" data-c-font="${esc(ct.font)}"${ct.glow ? ' data-c-glow="1"' : ''}`
       : '';
-    return `<script async src="${esc(baseUrl())}embed.js" data-name="${esc(ev.name)}" data-end="${ev.end}"${ev.start ? ` data-start="${ev.start}"` : ''} data-style="${esc(st.style)}" data-emoji="${esc(plainEmojiText(ev.emoji))}"${st.title ? '' : ' data-title="0"'} data-size="${st.size}"${ctAttrs}></script>`;
+    const caAttrs = ca
+      ? ` data-a-name="${esc(ca.name)}" data-a-shape="${esc(ca.shape)}" data-a-char="${esc(ca.customChar)}" data-a-motion="${esc(ca.motion)}" data-a-count="${ca.count}" data-a-speed="${ca.speed}" data-a-size="${ca.size}" data-a-opacity="${ca.opacity}" data-a-glow="${ca.glow}"${ca.connectLines ? ' data-a-lines="1"' : ''}${ca.trails ? ' data-a-trails="1"' : ''}${!ca.mouseInteract ? ' data-a-mouse="0"' : ''}${ca.pulse ? ' data-a-pulse="1"' : ''}${ca.spin ? ' data-a-spin="1"' : ''}${ca.rainbow ? ' data-a-rainbow="1"' : ''}${ca.layer === 'over' ? ' data-a-layer="over"' : ''} data-a-c1="${esc(ca.color1)}" data-a-c2="${esc(ca.color2)}" data-a-c3="${esc(ca.color3)}" data-a-bgmode="${esc(ca.bgMode)}" data-a-bg1="${esc(ca.bg1)}" data-a-bg2="${esc(ca.bg2)}" data-a-fg="${esc(ca.fg)}" data-a-acc="${esc(ca.acc)}" data-a-angle="${ca.angle}"`
+      : '';
+    return `<script async src="${esc(baseUrl())}embed.js" data-name="${esc(ev.name)}" data-end="${ev.end}"${ev.start ? ` data-start="${ev.start}"` : ''} data-style="${esc(st.style)}" data-emoji="${esc(plainEmojiText(ev.emoji))}"${st.title ? '' : ' data-title="0"'} data-size="${st.size}"${ctAttrs}${caAttrs}></script>`;
   }
   const src = `${baseUrl()}#/embed?${paramString(ev, { title: st.title ? '1' : '0', size: st.size })}`;
   return `<iframe src="${esc(src)}" title="${esc(ev.name)}" width="100%" height="${h}" style="border:0;max-width:${w}px;border-radius:20px" loading="lazy"></iframe>`;
@@ -2169,6 +2959,7 @@ document.addEventListener('keydown', (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key.toLowerCase() === 'n') { e.preventDefault(); location.hash = '/create'; }
   else if (e.key.toLowerCase() === 't') { e.preventDefault(); location.hash = '/themes'; }
+  else if (e.key.toLowerCase() === 'a') { e.preventDefault(); location.hash = '/animations'; }
   else if (e.key.toLowerCase() === 'f' && getExtras().focusStudio) { e.preventDefault(); location.hash = '/focus'; }
 });
 
@@ -2247,6 +3038,7 @@ function buildShareBundle(st) {
   const b = { v: 5, t: Date.now() };
   if (st.events) b.events = readEvents();
   if (st.themes) b.customThemes = readCustomThemes();
+  if (st.anims) b.customAnims = readCustomAnims();
   if (st.emojis) b.customEmojis = readCustomEmojis();
   if (st.settings) b.settings = { extras: getExtras(), theme: getThemePref(), sound: isSoundEnabled(), soundStyle: getSoundStyle(), finale: localStorage.getItem(FINALE_STYLE_KEY) || 'confetti' };
   return b;
@@ -2285,18 +3077,18 @@ async function unpackBundle(str) {
   return obj;
 }
 function exportBackupFile() {
-  const bundle = { version: 4, exportedAt: new Date().toISOString(), events: readEvents(), customThemes: readCustomThemes(), customEmojis: readCustomEmojis(), extras: getExtras() };
+  const bundle = { version: 5, exportedAt: new Date().toISOString(), events: readEvents(), customThemes: readCustomThemes(), customAnims: readCustomAnims(), customEmojis: readCustomEmojis(), extras: getExtras() };
   download('downcount-backup.json', JSON.stringify(bundle, null, 2), 'application/json');
 }
 function openShareData() {
   closeModal();
-  const counts = { events: readEvents().length, themes: readCustomThemes().length, emojis: readCustomEmojis().length };
-  const st = { events: counts.events > 0, themes: counts.themes > 0, emojis: counts.emojis > 0, settings: true };
+  const counts = { events: readEvents().length, themes: readCustomThemes().length, anims: readCustomAnims().length, emojis: readCustomEmojis().length };
+  const st = { events: counts.events > 0, themes: counts.themes > 0, anims: counts.anims > 0, emojis: counts.emojis > 0, settings: true };
   const root = document.createElement('div'); root.className = 'modal-backdrop';
   root.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="sd-title"><div class="modal-head"><h2 id="sd-title">Share my data</h2><button class="icon-button" type="button" data-close aria-label="Close">✕</button></div><div id="sd-body"></div></div>';
   modalRoot.append(root); document.body.classList.add('modal-open');
   const body = $('#sd-body', root); let token = 0;
-  const rows = [['events', 'Countdowns', counts.events], ['themes', 'Custom themes', counts.themes], ['emojis', 'Uploaded emojis', counts.emojis], ['settings', 'Settings & preferences', null]].filter((r) => r[2] === null || r[2] > 0);
+  const rows = [['events', 'Countdowns', counts.events], ['themes', 'Custom themes', counts.themes], ['anims', 'Custom animations', counts.anims], ['emojis', 'Uploaded emojis', counts.emojis], ['settings', 'Settings & preferences', null]].filter((r) => r[2] === null || r[2] > 0);
   const draw = async () => {
     const my = ++token;
     const payload = await packBundle(buildShareBundle(st));
@@ -2340,11 +3132,12 @@ async function renderImport(payload) {
   catch {
     app.innerHTML = '<section class="page not-found"><h1>Link couldn’t be read</h1><p>It may have been cut off when it was sent. Ask for the link again, or use a backup file from Settings.</p><a class="button" href="#/">Go home</a></section>'; return;
   }
-  const has = { events: Array.isArray(data.events), themes: Array.isArray(data.customThemes), emojis: Array.isArray(data.customEmojis), settings: !!data.settings && typeof data.settings === 'object' };
+  const has = { events: Array.isArray(data.events), themes: Array.isArray(data.customThemes), anims: Array.isArray(data.customAnims), emojis: Array.isArray(data.customEmojis), settings: !!data.settings && typeof data.settings === 'object' };
   const events = (has.events ? data.events : []).filter((e) => e && e.name && Number.isFinite(Number(e.end))).slice(0, 100).map(normalize);
   const themes = (has.themes ? data.customThemes : []).slice(0, 40).map(normalizeCustomThemeObj).filter(Boolean);
+  const anims = (has.anims ? data.customAnims : []).slice(0, 40).map(normalizeCustomAnimObj).filter(Boolean);
   const emojis = (has.emojis ? data.customEmojis : []).filter((x) => x && x.id && /^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,/.test(String(x.dataUrl || ''))).slice(0, 40);
-  if (!events.length && !themes.length && !emojis.length && !has.settings) {
+  if (!events.length && !themes.length && !anims.length && !emojis.length && !has.settings) {
     app.innerHTML = '<section class="page not-found"><h1>Nothing to import</h1><p>This link doesn’t contain any Downcount data.</p><a class="button" href="#/">Go home</a></section>'; return;
   }
   const st = { mode: 'merge', settings: has.settings };
@@ -2352,7 +3145,7 @@ async function renderImport(payload) {
   const li = (n, label, extra = '') => n ? `<li><strong>${n}</strong> ${label}${extra ? `<span>${extra}</span>` : ''}</li>` : '';
   const draw = () => {
     app.innerHTML = `<section class="page import-page"><a class="back" href="#/">← Cancel</a><h1 class="page-title">Bring your data over</h1><p class="download-lead">This link was shared from another device. Check what’s inside, then choose how to add it.</p>`
-      + `<div class="settings-card"><h3>In this link</h3><ul class="import-list">${li(events.length, events.length === 1 ? 'countdown' : 'countdowns', names)}${li(themes.length, themes.length === 1 ? 'custom theme' : 'custom themes')}${li(emojis.length, emojis.length === 1 ? 'uploaded emoji' : 'uploaded emojis')}${has.settings ? '<li>Settings &amp; preferences</li>' : ''}</ul></div>`
+      + `<div class="settings-card"><h3>In this link</h3><ul class="import-list">${li(events.length, events.length === 1 ? 'countdown' : 'countdowns', names)}${li(themes.length, themes.length === 1 ? 'custom theme' : 'custom themes')}${li(anims.length, anims.length === 1 ? 'custom animation' : 'custom animations')}${li(emojis.length, emojis.length === 1 ? 'uploaded emoji' : 'uploaded emojis')}${has.settings ? '<li>Settings &amp; preferences</li>' : ''}</ul></div>`
       + `<div class="settings-card"><h3>How to add it</h3><div class="seg"><button type="button" data-mode="merge" class="${st.mode === 'merge' ? 'on' : ''}">Add to this device</button><button type="button" data-mode="replace" class="${st.mode === 'replace' ? 'on' : ''}">Replace what’s here</button></div>`
       + `<p class="fine">${st.mode === 'merge' ? 'Keeps what you already have on this device and adds anything new. Duplicates are skipped.' : 'Removes the countdowns, themes and emojis in this link’s categories from this device first, then adds the shared ones.'}</p>`
       + (has.settings ? `<div class="opt-row" style="margin-top:14px"><span>Also apply the shared settings</span><button type="button" class="toggle${st.settings ? ' on' : ''}" role="switch" aria-checked="${st.settings}" aria-label="Apply settings" data-imp-settings></button></div>` : '')
@@ -2365,6 +3158,7 @@ async function renderImport(payload) {
       if (st.mode === 'replace') {
         if (has.events) saveEvents([]);
         if (has.themes) saveCustomThemes([]);
+        if (has.anims) saveCustomAnims([]);
         if (has.emojis) saveCustomEmojis([]);
       }
       for (const ev of events) {
@@ -2373,6 +3167,7 @@ async function renderImport(payload) {
         upsertEvent(clash ? { ...ev, id: newId() } : ev); added++;
       }
       if (themes.length) { const seen = new Set(); saveCustomThemes([...themes, ...readCustomThemes()].filter((t) => !seen.has(t.id) && seen.add(t.id))); }
+      if (anims.length) { const seen = new Set(); saveCustomAnims([...anims, ...readCustomAnims()].filter((a) => !seen.has(a.id) && seen.add(a.id))); }
       if (emojis.length) { const seen = new Set(); saveCustomEmojis([...emojis, ...readCustomEmojis()].filter((x) => !seen.has(x.id) && seen.add(x.id))); }
       if (has.settings && st.settings) {
         const s = data.settings;
@@ -2405,6 +3200,7 @@ function renderMore() {
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'more-share')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
+    + moreRow('#/animations', 'Animation Maker', 'Build custom animations & interactive overlays')
     + (ex.focusStudio ? moreRow('#/focus', 'Focus & Audio', 'Focus timer and soundscapes') : '')
     + '</div></section>';
   $('#more-share').addEventListener('click', openShareData);
@@ -2429,6 +3225,7 @@ function renderNews() {
     + `<h2 class="news-sub">Available now</h2><div class="more-list">`
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'news-share')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
+    + moreRow('#/animations', 'Animation Maker', 'Build custom animations & interactive overlays')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + '</div></section>';
   $('#news-share').addEventListener('click', openShareData);
@@ -2445,6 +3242,7 @@ function renderSettings() {
   const permText = { granted: 'Notifications are on.', denied: 'Notifications are blocked in your browser settings.', default: 'Allow notifications to be alerted when countdowns reach 0.', unsupported: 'Notifications are not supported in this browser.' }[perm];
   const standalone = document.documentElement.classList.contains('standalone');
   const customThemes = readCustomThemes();
+  const customAnims = readCustomAnims();
   const customEmojis = readCustomEmojis();
 
   app.innerHTML = `<section class="page"><a class="back" href="#/more">← More</a><h1 class="page-title">Settings</h1>`
@@ -2462,7 +3260,7 @@ function renderSettings() {
     + (soundOn ? `<div class="field" style="margin-bottom:12px"><label>Synthesized Audio Chime</label><div class="seg">${SOUND_STYLES.map(([k, l]) => `<button type="button" data-sound-style="${k}" class="${soundStyle === k ? 'on' : ''}">${l}</button>`).join('')}</div></div><button class="button secondary-button small-button" type="button" id="test-chime" style="flex:0 0 auto;width:auto">Test Sound & Finale</button>` : '')
     + `</div>`
     + `<div class="settings-card"><h3>Appearance</h3><div class="seg" id="theme-seg">${[['auto', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => `<button type="button" data-theme-pref="${v}" class="${pref === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-    + `<div class="settings-card"><h3>Custom Themes & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'} and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">Open Theme Studio</a><button class="button secondary-button" id="manage-emojis-btn" type="button">Manage Custom Emojis</button></div></div>`
+    + `<div class="settings-card"><h3>Custom Themes, Animations & Emojis</h3><p>You have <strong>${customThemes.length}</strong> custom theme${customThemes.length === 1 ? '' : 's'}, <strong>${customAnims.length}</strong> custom animation${customAnims.length === 1 ? '' : 's'}, and <strong>${customEmojis.length}</strong> custom uploaded emoji${customEmojis.length === 1 ? '' : 's'}.</p><div class="row"><a class="button secondary-button" href="#/themes">Theme Studio</a><a class="button secondary-button" href="#/animations">Animation Maker</a><button class="button secondary-button" id="manage-emojis-btn" type="button">Manage Emojis</button></div></div>`
     + `<div class="settings-card"><h3>Notifications</h3><p>${permText}</p>${perm === 'default' ? '<button class="button secondary-button" id="enable-notif" type="button">Enable notifications</button>' : ''}</div>`
     + `<div class="settings-card"><h3>App & Offline</h3><p>${standalone ? 'Downcount is running as an installed app.' : 'Install Downcount to launch it instantly from your home screen or dock.'}</p>${standalone ? '' : '<button class="button secondary-button" id="install-2" type="button">Download app</button>'}</div>`
     + `<div class="settings-card"><h3>Backup & Data</h3><p>Your countdowns, custom themes, uploaded emojis and settings are saved locally in this browser. Use Share my data to move them to another device.</p><div class="row"><button class="button" id="share-data" type="button" style="flex:1 1 100%">Share my data</button><button class="button secondary-button" id="export-data" type="button">Export Full Backup</button><button class="button secondary-button" id="import-data" type="button">Import Backup</button><button class="button secondary-button danger" id="clear-data" type="button">Clear all</button></div><p class="fine">Downcount v4 · Built with vanilla JS & CSS · Clean, private & local-first.</p></div></section>`;
@@ -2514,6 +3312,11 @@ function renderSettings() {
           const mergedThemes = [...data.customThemes.map(normalizeCustomThemeObj).filter(Boolean), ...readCustomThemes()];
           const seenT = new Set();
           saveCustomThemes(mergedThemes.filter((t) => !seenT.has(t.id) && seenT.add(t.id)));
+        }
+        if (Array.isArray(data.customAnims)) {
+          const mergedAnims = [...data.customAnims.map(normalizeCustomAnimObj).filter(Boolean), ...readCustomAnims()];
+          const seenA = new Set();
+          saveCustomAnims(mergedAnims.filter((a) => !seenA.has(a.id) && seenA.add(a.id)));
         }
         if (Array.isArray(data.customEmojis)) {
           const mergedEmojis = [...data.customEmojis.filter((x) => x && x.id && x.dataUrl), ...readCustomEmojis()];
@@ -2588,6 +3391,7 @@ function route() {
   if (path === '/embed') renderEmbed();
   else if (path.startsWith('/countdown/')) renderCountdown();
   else if (path === '/themes') { renderThemeStudio(); tab = 'themes'; }
+  else if (path === '/animations') { renderAnimationMaker(); tab = 'animations'; }
   else if (path === '/focus') { renderFocusStudio(); tab = 'focus'; }
   else if (path === '/create') { renderForm(); tab = 'create'; }
   else if (path.startsWith('/edit/')) {
@@ -2601,7 +3405,7 @@ function route() {
   else if (path === '/download') { renderDownload(); tab = 'more'; }
   else if (path.startsWith('/import/')) { renderImport(path.slice(8)); tab = 'more'; }
   else renderHome();
-  $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === (tab === 'themes' ? 'create' : tab)));
+  $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === ((tab === 'themes' || tab === 'animations') ? 'create' : tab)));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === tab));
   app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter');
   const bar = $('.tabbar'); if (bar) bar.classList.remove('hide');
