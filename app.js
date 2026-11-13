@@ -1902,7 +1902,8 @@ function renderCountdown() {
     return;
   }
   let stored = findByNameEnd(ev.name, ev.end);
-  if (!stored) stored = upsertEvent(normalize({ ...ev, id: newId(), start: ev.start || Date.now() }));
+  let saved = !!stored;
+  if (!stored) stored = normalize({ ...ev, id: newId(), start: ev.start || Date.now() });
   else stored = upsertEvent(normalize({ ...stored, ...ev, emoji: isImageEmoji(stored.emoji) ? stored.emoji : ev.emoji, checklist: stored.checklist }));
 
   liveTitle = { end: stored.end, name: stored.name };
@@ -1922,13 +1923,14 @@ function renderCountdown() {
     const doneCount = checklist.filter((c) => c.done).length;
 
     app.innerHTML = `<section class="page"><a class="back" href="#/">← My countdowns</a>`
+      + (saved ? '' : `<div class="add-banner"><div><strong>Shared with you</strong><small>Add it to your page to keep it, edit it and use all the extras.</small></div><button class="button" id="add-to-page" type="button">Add to my page</button></div>`)
       + `<div class="stage">${widgetHtml(stored, { showMilestones: true })}`
       + `<div class="stage-controls">`
-      + (ex.clockModes ? `<button class="stage-btn" id="cycle-disp" type="button" title="Switch Clock Display Style">${esc(stored.display)}</button>` : '')
-      + (ex.particles ? `<button class="stage-btn" id="cycle-fx" type="button" title="Switch Particle Effect">${esc(stored.fx)}</button>` : '')
+      + (ex.clockModes && saved ? `<button class="stage-btn" id="cycle-disp" type="button" title="Switch Clock Display Style">${esc(stored.display)}</button>` : '')
+      + (ex.particles && saved ? `<button class="stage-btn" id="cycle-fx" type="button" title="Switch Particle Effect">${esc(stored.fx)}</button>` : '')
       + `<button class="stage-btn" id="fs" type="button" title="Toggle Full screen">⛶</button>`
       + `</div></div>`
-      + (canRollRepeat ? `<div style="margin-top:12px"><button class="button" id="roll-repeat" type="button" style="width:100%">Roll over to next ${esc(stored.repeat)} occurrence</button></div>` : '')
+      + (canRollRepeat && saved ? `<div style="margin-top:12px"><button class="button" id="roll-repeat" type="button" style="width:100%">Roll over to next ${esc(stored.repeat)} occurrence</button></div>` : '')
       + `<div class="action-row">`
       + `<button class="button" id="share" type="button">Share</button>`
       + `<button class="button secondary-button" id="export-img" type="button">PNG Card</button>`
@@ -1937,7 +1939,7 @@ function renderCountdown() {
       + `<button class="button secondary-button" id="celebrate-now" type="button">Celebrate</button>`
       + `</div>`
       + `<div class="stats"><div class="stat"><strong data-stat="weeks" data-end="${stored.end}">0</strong><small>WEEKS</small></div><div class="stat"><strong data-stat="days" data-end="${stored.end}">0</strong><small>DAYS</small></div><div class="stat"><strong data-stat="hours" data-end="${stored.end}">0</strong><small>HOURS</small></div><div class="stat"><strong data-stat="minutes" data-end="${stored.end}">0</strong><small>MINUTES</small></div></div>`
-      + (ex.detailPanels ? (`<div class="detail-panels">`
+      + (ex.detailPanels && saved ? (`<div class="detail-panels">`
         + `<div class="detail-card"><h3><span>Event Checklist</span><small style="color:var(--muted)">${doneCount}/${checklist.length}</small></h3>`
         + `<form class="checklist-form" id="add-check-form"><input id="check-input" type="text" maxlength="80" placeholder="Add a task or packing item…"><button type="submit">Add</button></form>`
         + `<div class="checklist-items">${checklist.length ? checklist.map((item) => `<div class="check-row ${item.done ? 'done' : ''}"><input type="checkbox" data-toggle-check="${esc(item.id)}"${item.done ? ' checked' : ''}><span>${esc(item.text)}</span><button type="button" data-del-check="${esc(item.id)}" title="Remove">✕</button></div>`).join('') : `<p class="small-note" style="margin:6px 0">No checklist tasks yet. Add milestones or packing items above!</p>`}</div>`
@@ -1945,8 +1947,14 @@ function renderCountdown() {
         + `<div class="detail-card"><h3><span>World Launch Times</span><small style="color:var(--muted)">Global Sync</small></h3>`
         + `<div class="tz-list">${worldZones.map(([label, tz]) => `<div class="tz-row"><strong>${label}</strong><span>${esc(formatZoneTime(stored.end, tz))}</span></div>`).join('')}</div>`
         + `</div></div>`) : '')
-      + `<div class="countdown-actions"><a href="#/edit/${encodeURIComponent(stored.id)}">Edit countdown</a><a href="#/themes">Theme Studio</a><button type="button" id="open-embed-direct">Embed on a website</button></div></section>`;
+      + `<div class="countdown-actions">${saved ? `<a href="#/edit/${encodeURIComponent(stored.id)}">Edit countdown</a>` : ''}<a href="#/themes">Theme Studio</a><button type="button" id="open-embed-direct">Embed on a website</button></div></section>`;
 
+    const addBtn = $('#add-to-page');
+    if (addBtn) addBtn.addEventListener('click', () => {
+      stored = upsertEvent(stored); saved = true; buzz();
+      showNotice('Added to your page.', { label: 'View my page', fn: () => { location.hash = '/'; } });
+      drawDetail(); tickAll();
+    });
     $('#share').addEventListener('click', () => openShare(stored, 'link'));
     $('#open-embed-direct').addEventListener('click', () => openShare(stored, 'embed'));
     $('#export-img').addEventListener('click', () => exportShareImage(stored));
@@ -2382,6 +2390,50 @@ async function renderImport(payload) {
   draw();
 }
 
+/* ---------- More, Login (coming later) and News ---------- */
+const moreChev = svgI('<path d="m9 6 6 6-6 6"/>', 18);
+function moreRow(href, title, sub, pill = '', id = '') {
+  const inner = `<span class="more-text"><strong>${title}</strong><small>${sub}</small></span>${pill}<span class="more-chev">${moreChev}</span>`;
+  return id ? `<button type="button" class="more-row" id="${id}">${inner}</button>` : `<a class="more-row" href="${href}">${inner}</a>`;
+}
+function renderMore() {
+  const ex = getExtras();
+  app.innerHTML = `<section class="page"><h1 class="page-title">More</h1><div class="more-list">`
+    + moreRow('#/login', 'Log in', 'Save your countdowns to an account', '<span class="soon-pill">Coming later</span>')
+    + moreRow('#/news', 'News', 'What’s new and what’s coming', '<span class="soon-pill try">Log in to try</span>')
+    + moreRow('#/settings', 'Settings', 'Appearance, extras, notifications and data')
+    + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'more-share')
+    + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
+    + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
+    + (ex.focusStudio ? moreRow('#/focus', 'Focus & Audio', 'Focus timer and soundscapes') : '')
+    + '</div></section>';
+  $('#more-share').addEventListener('click', openShareData);
+}
+function renderLogin() {
+  app.innerHTML = `<section class="page login-page"><a class="back" href="#/more">← Back</a><div class="login-card"><span class="soon-pill big">Coming later</span><h1 class="page-title">Login coming later</h1>`
+    + `<p class="download-lead">Accounts aren’t ready yet. For now everything you make stays on this device. To use your countdowns on another device, try <button type="button" class="text-link" id="login-share">Share my data</button>.</p>`
+    + `<div class="login-form" aria-disabled="true"><div class="field"><label for="login-email">Email</label><input id="login-email" type="email" placeholder="you@example.com" disabled></div><div class="field"><label for="login-pass">Password</label><input id="login-pass" type="password" placeholder="Password" disabled></div><button class="button" type="button" disabled>Log in</button></div>`
+    + `<p class="small-note">Login is coming later. Nothing is collected on this page.</p></div></section>`;
+  $('#login-share').addEventListener('click', openShareData);
+}
+const NEWS_ITEMS = [
+  ['Sync across devices', 'Open Downcount on your phone, tablet and computer and see the same countdowns everywhere.'],
+  ['Cloud backup', 'Keep your countdowns safe if you clear your browser or switch phones.'],
+  ['Countdowns with friends', 'Share a countdown that everyone you invite can see and add to.'],
+  ['Reminders everywhere', 'Get an alert on every device when a countdown is getting close.']
+];
+function renderNews() {
+  app.innerHTML = `<section class="page"><a class="back" href="#/more">← Back</a><h1 class="page-title">News</h1>`
+    + `<p class="download-lead">New things we’re building. They need an account, so you’ll be able to log in to try them once login is ready.</p>`
+    + `<div class="news-list">${NEWS_ITEMS.map(([t, d]) => `<article class="news-card"><div><span class="soon-pill try">Log in to try</span><h3>${t}</h3><p>${d}</p></div><a class="button secondary-button small-button" href="#/login">Log in to try</a></article>`).join('')}</div>`
+    + `<h2 class="news-sub">Available now</h2><div class="more-list">`
+    + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'news-share')
+    + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
+    + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
+    + '</div></section>';
+  $('#news-share').addEventListener('click', openShareData);
+}
+
 function renderSettings() {
   const pref = getThemePref();
   const ex = getExtras();
@@ -2395,7 +2447,7 @@ function renderSettings() {
   const customThemes = readCustomThemes();
   const customEmojis = readCustomEmojis();
 
-  app.innerHTML = `<section class="page"><h1 class="page-title">Settings</h1>`
+  app.innerHTML = `<section class="page"><a class="back" href="#/more">← More</a><h1 class="page-title">Settings</h1>`
     + `<div class="settings-card"><h3>Cool Features & Pro Extras (Opt-In)</h3><p>All extra features below are <strong>off by default</strong> so Downcount stays clean until you turn them on here.</p>`
     + `<div class="opt-row" style="padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px"><span><strong>Enable All Cool Extras</strong></span><button type="button" class="toggle ${allOn ? 'on' : ''}" id="toggle-all-extras"></button></div>`
     + `<div class="opt-row"><span>3D Flip Clock, SVG Progress Rings & Tenths (.0)</span><button type="button" class="toggle ${ex.clockModes ? 'on' : ''}" data-extra-toggle="clockModes"></button></div>`
@@ -2542,9 +2594,12 @@ function route() {
     const ev = readEvents().find((e) => e.id === decodeURIComponent(path.slice(6)));
     if (!ev) { location.hash = '/'; return; }
     renderForm(ev); tab = 'create';
-  } else if (path === '/settings') { renderSettings(); tab = 'settings'; }
-  else if (path === '/download') { renderDownload(); tab = 'settings'; }
-  else if (path.startsWith('/import/')) { renderImport(path.slice(8)); tab = 'settings'; }
+  } else if (path === '/settings') { renderSettings(); tab = 'more'; }
+  else if (path === '/more') { renderMore(); tab = 'more'; }
+  else if (path === '/login') { renderLogin(); tab = 'more'; }
+  else if (path === '/news') { renderNews(); tab = 'more'; }
+  else if (path === '/download') { renderDownload(); tab = 'more'; }
+  else if (path.startsWith('/import/')) { renderImport(path.slice(8)); tab = 'more'; }
   else renderHome();
   $$('.tabbar [data-tab]').forEach((a) => a.classList.toggle('active', a.dataset.tab === (tab === 'themes' ? 'create' : tab)));
   $$('[data-nav]').forEach((a) => a.classList.toggle('active', a.dataset.nav === tab));
