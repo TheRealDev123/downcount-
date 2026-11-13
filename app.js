@@ -209,6 +209,7 @@ const EMOJI_CATALOG = [
 ];
 
 const ANIM_SHAPES = [
+  ['none', 'None (Keyframes Only)'],
   ['circle', 'Orbs'],
   ['star', 'Stars'],
   ['ring', 'Rings'],
@@ -248,14 +249,13 @@ const DEFAULT_KEYFRAME_HEART = [
 ];
 
 const ANIM_TEMPLATES = [
-  { id: 'at_neon_kf', name: 'Drawn Neon Pulse (Keyframes)', shape: 'star', customChar: '✨', motion: 'float', count: 32, speed: 1.3, size: 7, opacity: 90, glow: 18, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#ff2a85', color2: '#00f5d4', color3: '#a855f7', bgMode: 'replace', bg1: '#090518', bg2: '#1f0b38', fg: '#ffffff', acc: '#00f5d4', angle: 135, fps: 5, tween: true, keyframes: DEFAULT_KEYFRAME_HEART },
+  { id: 'at_blank', name: 'Blank Canvas (Make Your Own)', shape: 'none', customChar: '', motion: 'float', count: 0, speed: 1.2, size: 8, opacity: 95, glow: 14, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: false, rainbow: false, layer: 'over', color1: '#00f5d4', color2: '#6d5dfc', color3: '#ec4899', bgMode: 'overlay', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#00f5d4', angle: 135, fps: 6, tween: true, keyframes: [{ items: [] }, { items: [] }, { items: [] }] },
+  { id: 'at_neon_kf', name: 'Drawn Neon Pulse (Keyframes)', shape: 'star', customChar: '✨', motion: 'float', count: 28, speed: 1.3, size: 7, opacity: 90, glow: 18, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#ff2a85', color2: '#00f5d4', color3: '#a855f7', bgMode: 'replace', bg1: '#090518', bg2: '#1f0b38', fg: '#ffffff', acc: '#00f5d4', angle: 135, fps: 5, tween: true, keyframes: DEFAULT_KEYFRAME_HEART },
   { id: 'at_matrix', name: 'Cyber Matrix Rain', shape: 'char', customChar: '01', motion: 'fall', count: 55, speed: 2.6, size: 14, opacity: 80, glow: 14, connectLines: false, trails: true, mouseInteract: true, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#00f5d4', color2: '#00bbf9', color3: '#10b981', bgMode: 'replace', bg1: '#050b14', bg2: '#0a192f', fg: '#e2f1ff', acc: '#00f5d4', angle: 160, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_nexus', name: 'Cosmic Constellation', shape: 'circle', customChar: '✦', motion: 'float', count: 48, speed: 1.1, size: 5, opacity: 85, glow: 16, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: false, rainbow: false, layer: 'under', color1: '#8b5cf6', color2: '#38bdf8', color3: '#f472b6', bgMode: 'replace', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#38bdf8', angle: 135, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_portal', name: 'Vortex Warp Portal', shape: 'ring', customChar: '◎', motion: 'vortex', count: 60, speed: 2.2, size: 9, opacity: 80, glow: 20, connectLines: false, trails: true, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#f43f5e', color2: '#fb923c', color3: '#facc15', bgMode: 'replace', bg1: '#180510', bg2: '#3b0728', fg: '#fff1f2', acc: '#fb923c', angle: 135, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_sakura', name: 'Sakura Blossom Breeze', shape: 'heart', customChar: '🌸', motion: 'wave', count: 42, speed: 1.4, size: 11, opacity: 85, glow: 10, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: false, layer: 'over', color1: '#f472b6', color2: '#fbcfe8', color3: '#fb7185', bgMode: 'overlay', bg1: '#1e1124', bg2: '#4a153b', fg: '#ffffff', acc: '#f472b6', angle: 135, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_synth', name: 'Synthwave Laser Streaks', shape: 'streak', customChar: '|', motion: 'fall', count: 55, speed: 3.5, size: 22, opacity: 75, glow: 18, connectLines: false, trails: false, mouseInteract: false, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#ff007f', color2: '#00f0ff', color3: '#a855f7', bgMode: 'replace', bg1: '#120428', bg2: '#2e0938', fg: '#ffffff', acc: '#00f0ff', angle: 165, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_fireflies', name: 'Enchanted Fireflies', shape: 'star', customChar: '✨', motion: 'rise', count: 45, speed: 1.2, size: 10, opacity: 90, glow: 22, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#fde047', color2: '#a3e635', color3: '#34d399', bgMode: 'replace', bg1: '#061512', bg2: '#0f2922', fg: '#ecfdf5', acc: '#fde047', angle: 140, fps: 6, tween: true, keyframes: [] },
-  { id: 'at_fountain', name: 'Neon Party Fountain', shape: 'diamond', customChar: '🎉', motion: 'fountain', count: 55, speed: 2.4, size: 10, opacity: 90, glow: 14, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: true, layer: 'over', color1: '#6d5dfc', color2: '#ec4899', color3: '#22d3ee', bgMode: 'overlay', bg1: '#0f172a', bg2: '#1e1b4b', fg: '#ffffff', acc: '#22d3ee', angle: 135, fps: 6, tween: true, keyframes: [] }
+  { id: 'at_nexus', name: 'Cosmic Constellation', shape: 'circle', customChar: '', motion: 'float', count: 48, speed: 1.1, size: 5, opacity: 85, glow: 16, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: false, rainbow: false, layer: 'under', color1: '#8b5cf6', color2: '#38bdf8', color3: '#f472b6', bgMode: 'replace', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#38bdf8', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_portal', name: 'Vortex Warp Portal', shape: 'ring', customChar: '', motion: 'vortex', count: 60, speed: 2.2, size: 9, opacity: 80, glow: 20, connectLines: false, trails: true, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#f43f5e', color2: '#fb923c', color3: '#facc15', bgMode: 'replace', bg1: '#180510', bg2: '#3b0728', fg: '#fff1f2', acc: '#fb923c', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_sakura', name: 'Sakura Blossom Breeze', shape: 'heart', customChar: '', motion: 'wave', count: 42, speed: 1.4, size: 11, opacity: 85, glow: 10, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: false, layer: 'over', color1: '#f472b6', color2: '#fbcfe8', color3: '#fb7185', bgMode: 'overlay', bg1: '#1e1124', bg2: '#4a153b', fg: '#ffffff', acc: '#f472b6', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_synth', name: 'Synthwave Laser Streaks', shape: 'streak', customChar: '', motion: 'fall', count: 55, speed: 3.5, size: 22, opacity: 75, glow: 18, connectLines: false, trails: false, mouseInteract: false, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#ff007f', color2: '#00f0ff', color3: '#a855f7', bgMode: 'replace', bg1: '#120428', bg2: '#2e0938', fg: '#ffffff', acc: '#00f0ff', angle: 165, fps: 6, tween: true, keyframes: [] }
 ];
 
 const THEME_STARTERS = [
@@ -301,6 +301,20 @@ function readCustomEmojis() {
 }
 function saveCustomEmojis(list) { return writeJson(CUSTOM_EMOJIS_KEY, list.slice(0, 40)); }
 
+function isImageEmoji(val) {
+  return typeof val === 'string' && (val.startsWith('data:image/') || val.startsWith('ce_'));
+}
+
+function resolveEmojiDataUrl(val) {
+  if (!val) return '';
+  if (val.startsWith('data:image/')) return val;
+  if (val.startsWith('ce_')) {
+    const found = readCustomEmojis().find((x) => x.id === val);
+    return found ? found.dataUrl : '';
+  }
+  return '';
+}
+
 const emojiImgCache = new Map();
 function getCachedEmojiImage(val) {
   const url = resolveEmojiDataUrl(val);
@@ -320,10 +334,22 @@ function isAppInstalledForAnim() {
     || matchMedia('(display-mode: fullscreen)').matches;
 }
 
+function renderEmoji(val) {
+  if (!val || val === 'none') return '';
+  const url = resolveEmojiDataUrl(val);
+  if (url) return `<img class="custom-emoji-img" src="${esc(url)}" alt="emoji">`;
+  return esc(val);
+}
+
+function plainEmojiText(val) {
+  if (!val || val === 'none') return '';
+  return isImageEmoji(val) ? '' : String(val);
+}
+
 function normalizeKeyframesList(rawKf) {
   if (!Array.isArray(rawKf)) return [];
   return rawKf.slice(0, 24).map((f) => {
-    const items = Array.isArray(f && f.items) ? f.items.slice(0, 80).map((it) => {
+    const items = Array.isArray(f && f.items) ? f.items.slice(0, 100).map((it) => {
       if (!it || typeof it !== 'object') return null;
       if (it.t === 'stroke' && Array.isArray(it.pts) && it.pts.length >= 1) {
         return {
@@ -331,9 +357,9 @@ function normalizeKeyframesList(rawKf) {
           c: String(it.c || '#00f5d4').slice(0, 9),
           sz: Math.min(36, Math.max(1, Number(it.sz) || 5)),
           glow: Math.min(32, Math.max(0, Number(it.glow) ?? 12)),
-          pts: it.pts.slice(0, 140).map((p) => [
-            Math.round(Math.min(1, Math.max(0, Number(p[0]) || 0)) * 1000) / 1000,
-            Math.round(Math.min(1, Math.max(0, Number(p[1]) || 0)) * 1000) / 1000
+          pts: it.pts.slice(0, 160).map((p) => [
+            Math.round(Math.min(1.5, Math.max(-0.5, Number(p[0]) || 0)) * 1000) / 1000,
+            Math.round(Math.min(1.5, Math.max(-0.5, Number(p[1]) || 0)) * 1000) / 1000
           ])
         };
       }
@@ -371,13 +397,13 @@ function normalizeCustomAnimObj(raw) {
   return {
     id: String(raw.id || 'ca_' + newId()),
     name: String(raw.name || 'Custom Animation').trim().slice(0, 32) || 'Custom Animation',
-    shape: ANIM_SHAPES.some(([k]) => k === raw.shape) ? raw.shape : 'circle',
-    customChar: String(raw.customChar || '✨').slice(0, 48) || '✨',
+    shape: ANIM_SHAPES.some(([k]) => k === raw.shape) ? raw.shape : 'none',
+    customChar: String(raw.customChar ?? '').slice(0, 48),
     motion: ANIM_MOTIONS.some(([k]) => k === raw.motion) ? raw.motion : 'float',
-    count: Math.min(120, Math.max(0, Number(raw.count ?? 48))),
-    speed: Math.min(6, Math.max(0.2, Number(raw.speed) || 1.5)),
-    size: Math.min(40, Math.max(2, Number(raw.size) || 9)),
-    opacity: Math.min(100, Math.max(15, Number(raw.opacity) || 85)),
+    count: Math.min(120, Math.max(0, Number(raw.count ?? 0))),
+    speed: Math.min(6, Math.max(0.2, Number(raw.speed) || 1.2)),
+    size: Math.min(40, Math.max(2, Number(raw.size) || 8)),
+    opacity: Math.min(100, Math.max(15, Number(raw.opacity) || 95)),
     glow: Math.min(35, Math.max(0, Number(raw.glow) ?? 14)),
     connectLines: !!raw.connectLines,
     trails: !!raw.trails,
@@ -386,14 +412,14 @@ function normalizeCustomAnimObj(raw) {
     spin: !!raw.spin,
     rainbow: !!raw.rainbow,
     layer: raw.layer === 'over' ? 'over' : 'under',
-    color1: cleanHex(raw.color1, '#6d5dfc'),
-    color2: cleanHex(raw.color2, '#ec4899'),
-    color3: cleanHex(raw.color3, '#38bdf8'),
-    bgMode: raw.bgMode === 'overlay' ? 'overlay' : 'replace',
+    color1: cleanHex(raw.color1, '#00f5d4'),
+    color2: cleanHex(raw.color2, '#6d5dfc'),
+    color3: cleanHex(raw.color3, '#ec4899'),
+    bgMode: raw.bgMode === 'replace' ? 'replace' : 'overlay',
     bg1: cleanHex(raw.bg1, '#090718'),
     bg2: cleanHex(raw.bg2, '#1e1b4b'),
     fg: cleanHex(raw.fg, '#ffffff'),
-    acc: cleanHex(raw.acc, '#38bdf8'),
+    acc: cleanHex(raw.acc, '#00f5d4'),
     angle: Math.min(360, Math.max(0, Number(raw.angle) || 135)),
     fps: Math.min(24, Math.max(1, Number(raw.fps) || 6)),
     tween: raw.tween !== undefined ? !!raw.tween : true,
@@ -415,34 +441,12 @@ function findCustomAnim(id) {
   return null;
 }
 function getAllAnimsMap() {
-  const map = { none: 'None (Theme only)' };
-  for (const t of ANIM_TEMPLATES) map[t.id] = t.name;
+  const map = { none: 'None (No Animation)' };
   for (const a of readCustomAnims()) map[a.id] = a.name;
-  return map;
-}
-
-function isImageEmoji(val) {
-  return typeof val === 'string' && (val.startsWith('data:image/') || val.startsWith('ce_'));
-}
-
-function resolveEmojiDataUrl(val) {
-  if (!val) return '';
-  if (val.startsWith('data:image/')) return val;
-  if (val.startsWith('ce_')) {
-    const found = readCustomEmojis().find((x) => x.id === val);
-    return found ? found.dataUrl : '';
+  for (const t of ANIM_TEMPLATES) {
+    if (t.id !== 'at_blank') map[t.id] = t.name;
   }
-  return '';
-}
-
-function renderEmoji(val) {
-  const url = resolveEmojiDataUrl(val);
-  if (url) return `<img class="custom-emoji-img" src="${esc(url)}" alt="emoji">`;
-  return esc(val || '✨');
-}
-
-function plainEmojiText(val) {
-  return isImageEmoji(val) ? '✨' : String(val || '✨');
+  return map;
 }
 
 /* --------- normalize & events --------- */
@@ -474,8 +478,8 @@ function normalize(raw) {
   const note = String(raw.note || '').trim().slice(0, 140);
   const pinned = !!raw.pinned;
   const showMs = !!raw.showMs;
-  const rawEmoji = String(raw.emoji || '✨');
-  const emoji = rawEmoji.startsWith('data:image/') || rawEmoji.startsWith('ce_') ? rawEmoji : rawEmoji.slice(0, 12);
+  const rawEmoji = raw.emoji === undefined || raw.emoji === null ? '' : String(raw.emoji);
+  const emoji = rawEmoji === 'none' ? '' : (rawEmoji.startsWith('data:image/') || rawEmoji.startsWith('ce_') ? rawEmoji : rawEmoji.slice(0, 12));
   const allStyles = getAllStylesMap();
   const customTheme = raw.customTheme ? normalizeCustomThemeObj(raw.customTheme) : (raw.style && raw.style.startsWith('ct_') ? findCustomTheme(raw.style) : null);
   const style = allStyles[raw.style] ? raw.style : (customTheme ? customTheme.id : 'classic');
@@ -687,7 +691,7 @@ function customThemeInlineVars(ct) {
 
 function paramString(ev, extra = {}) {
   const ex = getExtras();
-  const emojiParam = isImageEmoji(ev.emoji) ? '✨' : ev.emoji;
+  const emojiParam = !ev.emoji ? 'none' : (isImageEmoji(ev.emoji) ? 'none' : ev.emoji);
   const p = new URLSearchParams({ name: ev.name, end: String(ev.end), style: ev.style, emoji: emojiParam });
   if (ev.start) p.set('s', String(ev.start));
   if (ev.note) p.set('note', ev.note);
@@ -712,7 +716,7 @@ function paramString(ev, extra = {}) {
     p.set('anim', ca.id);
     p.set('a_name', ca.name);
     p.set('a_shape', ca.shape);
-    p.set('a_char', ca.customChar);
+    if (ca.customChar) p.set('a_char', ca.customChar);
     p.set('a_motion', ca.motion);
     p.set('a_count', String(ca.count));
     p.set('a_speed', String(ca.speed));
@@ -785,13 +789,13 @@ function evFromParams(p) {
     customAnim = p.get('a_shape') ? normalizeCustomAnimObj({
       id: p.get('anim') || 'ca_shared',
       name: p.get('a_name') || 'Custom Animation',
-      shape: p.get('a_shape') || 'circle',
-      customChar: p.get('a_char') || '✨',
+      shape: p.get('a_shape') || 'none',
+      customChar: p.get('a_char') || '',
       motion: p.get('a_motion') || 'float',
-      count: Number(p.get('a_count') ?? 48),
-      speed: Number(p.get('a_speed')) || 1.5,
-      size: Number(p.get('a_size')) || 9,
-      opacity: Number(p.get('a_opacity')) || 85,
+      count: Number(p.get('a_count') ?? 0),
+      speed: Number(p.get('a_speed')) || 1.2,
+      size: Number(p.get('a_size')) || 8,
+      opacity: Number(p.get('a_opacity')) || 95,
       glow: Number(p.get('a_glow') ?? 14),
       connectLines: p.get('a_lines') === '1',
       trails: p.get('a_trails') === '1',
@@ -800,26 +804,30 @@ function evFromParams(p) {
       spin: p.get('a_spin') === '1',
       rainbow: p.get('a_rainbow') === '1',
       layer: p.get('a_layer') === 'over' ? 'over' : 'under',
-      color1: p.get('a_c1') || '#6d5dfc',
-      color2: p.get('a_c2') || '#ec4899',
-      color3: p.get('a_c3') || '#38bdf8',
-      bgMode: p.get('a_bgmode') || 'replace',
+      color1: p.get('a_c1') || '#00f5d4',
+      color2: p.get('a_c2') || '#6d5dfc',
+      color3: p.get('a_c3') || '#ec4899',
+      bgMode: p.get('a_bgmode') || 'overlay',
       bg1: p.get('a_bg1') || '#090718',
       bg2: p.get('a_bg2') || '#1e1b4b',
       fg: p.get('a_fg') || '#ffffff',
-      acc: p.get('a_acc') || '#38bdf8',
+      acc: p.get('a_acc') || '#00f5d4',
       angle: Number(p.get('a_angle')) || 135,
       fps: Number(p.get('a_fps')) || 6,
       keyframes: parsedKf
     }) : existingAnim;
   }
   const stored = findByNameEnd(name, end);
+  const rawEmojiParam = p.get('emoji');
+  const resolvedEmoji = (stored && isImageEmoji(stored.emoji))
+    ? stored.emoji
+    : (rawEmojiParam === 'none' ? '' : (rawEmojiParam ?? (stored ? stored.emoji : '')));
   return normalize({
     ...(stored || {}),
     name,
     end,
     start: Number(p.get('s')) || (stored ? stored.start : 0),
-    emoji: (stored && isImageEmoji(stored.emoji)) ? stored.emoji : (p.get('emoji') || (stored ? stored.emoji : '✨')),
+    emoji: resolvedEmoji,
     style: p.get('style') || (stored ? stored.style : 'classic'),
     display: p.get('disp') || (stored ? stored.display : (customTheme ? customTheme.display : 'cards')),
     fx: p.get('fx') || (stored ? stored.fx : (customTheme ? customTheme.fx : 'none')),
@@ -949,7 +957,54 @@ const customAnimMap = new WeakMap();
 const pointerPos = { x: -9999, y: -9999 };
 window.addEventListener('pointermove', (e) => { pointerPos.x = e.clientX; pointerPos.y = e.clientY; }, { passive: true });
 
-function renderKeyframeItems(ctx, items, W, H, alphaMul = 1, nextItems = null, tweenFrac = 0) {
+function getItemBoundsNorm(it) {
+  if (!it) return null;
+  if (it.t === 'stamp') {
+    const half = Math.max(0.035, (it.sz || 28) / 720);
+    return { x1: it.x - half, y1: it.y - half * 1.4, x2: it.x + half, y2: it.y + half * 1.4 };
+  }
+  if (it.t === 'stroke' && Array.isArray(it.pts) && it.pts.length) {
+    let minX = 9, minY = 9, maxX = -9, maxY = -9;
+    for (const p of it.pts) {
+      if (p[0] < minX) minX = p[0];
+      if (p[1] < minY) minY = p[1];
+      if (p[0] > maxX) maxX = p[0];
+      if (p[1] > maxY) maxY = p[1];
+    }
+    return { x1: minX - 0.015, y1: minY - 0.02, x2: maxX + 0.015, y2: maxY + 0.02 };
+  }
+  if (it.x1 !== undefined && it.x2 !== undefined) {
+    if (it.t === 'circle') {
+      const r = Math.hypot(it.x2 - it.x1, it.y2 - it.y1);
+      return { x1: it.x1 - r - 0.01, y1: it.y1 - r - 0.01, x2: it.x1 + r + 0.01, y2: it.y1 + r + 0.01 };
+    }
+    return {
+      x1: Math.min(it.x1, it.x2) - 0.015,
+      y1: Math.min(it.y1, it.y2) - 0.02,
+      x2: Math.max(it.x1, it.x2) + 0.015,
+      y2: Math.max(it.y1, it.y2) + 0.02
+    };
+  }
+  return null;
+}
+
+function translateKeyframeItem(it, dx, dy) {
+  if (!it) return;
+  const r3 = (v) => Math.round(v * 1000) / 1000;
+  if (it.t === 'stamp') {
+    it.x = r3(it.x + dx);
+    it.y = r3(it.y + dy);
+  } else if (it.t === 'stroke' && Array.isArray(it.pts)) {
+    it.pts = it.pts.map((p) => [r3(p[0] + dx), r3(p[1] + dy)]);
+  } else if (it.x1 !== undefined && it.x2 !== undefined) {
+    it.x1 = r3(it.x1 + dx);
+    it.y1 = r3(it.y1 + dy);
+    it.x2 = r3(it.x2 + dx);
+    it.y2 = r3(it.y2 + dy);
+  }
+}
+
+function renderKeyframeItems(ctx, items, W, H, alphaMul = 1, nextItems = null, tweenFrac = 0, selectedIdx = -1) {
   if (!Array.isArray(items) || !items.length) return;
   for (let idx = 0; idx < items.length; idx++) {
     const it = items[idx];
@@ -1013,18 +1068,37 @@ function renderKeyframeItems(ctx, items, W, H, alphaMul = 1, nextItems = null, t
         if (img && img.complete && img.naturalWidth > 0) {
           ctx.drawImage(img, sx - sz / 2, sy - sz / 2, sz, sz);
         }
-      } else {
+      } else if (it.ch) {
         ctx.font = `700 ${sz}px Inter, system-ui, sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(it.ch || '✨', sx, sy);
+        ctx.fillText(it.ch, sx, sy);
       }
     }
     ctx.restore();
+
+    if (idx === selectedIdx) {
+      const b = getItemBoundsNorm(it);
+      if (b) {
+        ctx.save();
+        ctx.strokeStyle = '#00f5d4';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 4]);
+        const bx = b.x1 * W, by = b.y1 * H, bw = (b.x2 - b.x1) * W, bh = (b.y2 - b.y1) * H;
+        ctx.strokeRect(bx, by, bw, bh);
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#00f5d4';
+        for (const [hx, hy] of [[bx, by], [bx + bw, by], [bx, by + bh], [bx + bw, by + bh]]) {
+          ctx.fillRect(hx - 3.5, hy - 3.5, 7, 7);
+        }
+        ctx.restore();
+      }
+    }
   }
 }
 
 function drawAnimShape(ctx, shape, r, ch) {
+  if (!shape || shape === 'none') return;
   if (shape === 'circle') {
     ctx.beginPath();
     ctx.arc(0, 0, r, 0, Math.PI * 2);
@@ -1078,6 +1152,7 @@ function drawAnimShape(ctx, shape, r, ch) {
     }
     ctx.stroke();
   } else if (shape === 'char') {
+    if (!ch || ch === 'none') return;
     const sz = Math.max(12, Math.round(r * 2.1));
     if (isImageEmoji(ch)) {
       const img = getCachedEmojiImage(ch);
@@ -1089,7 +1164,7 @@ function drawAnimShape(ctx, shape, r, ch) {
     ctx.font = `700 ${sz}px Inter, system-ui, monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(ch || '✨', 0, 0);
+    ctx.fillText(ch, 0, 0);
   }
 }
 
@@ -1113,16 +1188,16 @@ function stepCustomAnimCanvases() {
     const resized = c.width !== W || c.height !== H;
     if (resized) { c.width = W; c.height = H; }
 
-    const sig = `${cfg.shape}|${cfg.customChar}|${cfg.motion}|${cfg.count}|${cfg.color1}|${cfg.color2}|${cfg.color3}`;
+    const activeCount = cfg.shape === 'none' ? 0 : Math.min(120, Math.max(0, Number(cfg.count ?? 0)));
+    const sig = `${cfg.shape}|${cfg.customChar}|${cfg.motion}|${activeCount}|${cfg.color1}|${cfg.color2}|${cfg.color3}`;
     let state = customAnimMap.get(c);
     if (!state || state.sig !== sig) {
-      const palette = [cfg.color1 || '#6d5dfc', cfg.color2 || '#ec4899', cfg.color3 || '#38bdf8'];
-      const rawCh = cfg.customChar || '✨';
+      const palette = [cfg.color1 || '#00f5d4', cfg.color2 || '#6d5dfc', cfg.color3 || '#ec4899'];
+      const rawCh = cfg.customChar || '';
       const isCustomImg = isImageEmoji(rawCh);
       const chars = isCustomImg ? [rawCh] : [...rawCh];
-      const count = Math.min(120, Math.max(0, Number(cfg.count ?? 48)));
-      const pts = Array.from({ length: count }, (_, idx) => {
-        const angle = (idx / Math.max(1, count)) * Math.PI * 2 + Math.random() * 0.5;
+      const pts = Array.from({ length: activeCount }, (_, idx) => {
+        const angle = (idx / Math.max(1, activeCount)) * Math.PI * 2 + Math.random() * 0.5;
         const dist = 18 + Math.random() * (Math.min(W, H) * 0.48);
         return {
           x: Math.random() * W,
@@ -1137,7 +1212,7 @@ function stepCustomAnimCanvases() {
           vrot: (Math.random() - 0.5) * 0.06,
           orbitA: angle,
           orbitR: dist,
-          ch: chars.length ? chars[idx % chars.length] : '✨'
+          ch: chars.length ? chars[idx % chars.length] : ''
         };
       });
       state = { sig, pts, tick: 0 };
@@ -1156,9 +1231,9 @@ function stepCustomAnimCanvases() {
       ctx.clearRect(0, 0, W, H);
     }
 
-    const spd = Number(cfg.speed) || 1.5;
-    const baseSize = Number(cfg.size) || 9;
-    const baseAlpha = Math.min(1, Math.max(0.15, (Number(cfg.opacity) || 85) / 100));
+    const spd = Number(cfg.speed) || 1.2;
+    const baseSize = Number(cfg.size) || 8;
+    const baseAlpha = Math.min(1, Math.max(0.15, (Number(cfg.opacity) || 95) / 100));
     const rect = c.getBoundingClientRect();
     const mx = pointerPos.x - rect.left;
     const my = pointerPos.y - rect.top;
@@ -1330,11 +1405,12 @@ function widgetHtml(ev, o = {}) {
   const catLabel = ev.category ? `<span class="w-badge">${esc(ev.category)}</span>` : '';
   const fxCanvas = fx !== 'none' ? `<canvas class="w-fx-canvas" data-fx="${esc(fx)}"></canvas>` : '';
   const animCanvas = ca ? `<canvas class="w-anim-canvas${ca.layer === 'over' ? ' over-ui' : ''}" data-anim-cfg="${esc(JSON.stringify(ca))}"></canvas>` : '';
+  const emojiMarkup = renderEmoji(ev.emoji);
 
   return `<div class="widget s-${esc(ev.style)} d-${esc(disp)}${fontClass}${glowClass}${hasMs ? ' has-ms' : ''}${size === 'compact' ? ' compact' : ''}"${inlineStyle} data-end="${ev.end}" data-start="${ev.start || 0}" data-emoji-raw="${esc(plainEmojiText(ev.emoji))}">`
     + fxCanvas
     + animCanvas
-    + (title ? `<div class="w-head"><span class="w-emoji" aria-hidden="true">${renderEmoji(ev.emoji)}</span><h2>${esc(ev.name)}</h2></div>` : '')
+    + (title ? `<div class="w-head">${emojiMarkup ? `<span class="w-emoji" aria-hidden="true">${emojiMarkup}</span>` : ''}<h2>${esc(ev.name)}</h2></div>` : '')
     + `<p class="w-date">${esc(fmtDate(ev.end))}</p>`
     + (ev.note && title ? `<p class="w-note">${esc(ev.note)}</p>` : '')
     + ((repeatLabel || (showMilestones && catLabel)) ? `<div class="w-badges">${catLabel}${repeatLabel}</div>` : '')
@@ -1573,7 +1649,8 @@ async function exportShareImage(ev) {
   ctx.fillStyle = pal.fg;
   ctx.textAlign = 'center';
   ctx.font = '800 54px Inter, system-ui, sans-serif';
-  const titleStr = `${plainEmojiText(ev.emoji)}  ${ev.name}`;
+  const emTxt = plainEmojiText(ev.emoji);
+  const titleStr = emTxt ? `${emTxt}  ${ev.name}` : ev.name;
   ctx.fillText(titleStr.slice(0, 38), 600, 155);
 
   ctx.font = '600 24px Inter, system-ui, sans-serif';
@@ -1632,7 +1709,7 @@ async function exportShareImage(ev) {
 /* --------- home --------- */
 const FEATURES = [
   ['Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
-  ['Keyframe Animation Maker', 'Draw custom neon strokes, shapes & emoji stamps across keyframes with onion-skinning and particle physics overlays.'],
+  ['Keyframe Animation Maker', 'Full-screen app studio to draw custom keyframes, select & nudge objects with arrow keys, and layer custom animations.'],
   ['Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
   ['Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
   ['PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
@@ -1655,9 +1732,10 @@ function cardHtml(ev) {
   const tasksDone = (ev.checklist || []).filter((c) => c.done).length;
   const tasksTotal = (ev.checklist || []).length;
   const taskTag = ex.detailPanels && tasksTotal ? `<span class="meta-tag">${tasksDone}/${tasksTotal} tasks</span>` : '';
+  const emHtml = renderEmoji(ev.emoji);
   return `<article class="saved-card s-${esc(ev.style)}${ev.pinned ? ' pinned' : ''}"${cardBrand} data-id="${esc(ev.id)}">`
     + `<a class="card-main" href="#${esc(countdownHash(ev))}">`
-    + `<span class="card-emoji" aria-hidden="true">${renderEmoji(ev.emoji)}</span>`
+    + (emHtml ? `<span class="card-emoji" aria-hidden="true">${emHtml}</span>` : '')
     + `<div class="card-text"><strong class="saved-title">${esc(ev.name)}</strong><small>${esc(fmtShort(ev.end))}</small><div class="card-meta-tags">${catTag}${repTag}${animTag}${fxTag}${taskTag}</div></div>`
     + `<span class="chip" data-live="${ev.end}"></span></a>`
     + `<div class="saved-actions">`
@@ -1793,7 +1871,7 @@ function openEmojiPickerModal(currentEmoji, onSelect) {
   root.className = 'modal-backdrop';
   root.innerHTML = `<div class="modal emoji-modal" role="dialog" aria-modal="true" aria-labelledby="emoji-modal-title">`
     + `<div class="modal-head"><h2 id="emoji-modal-title">Choose or Upload Emoji</h2><button class="icon-button" type="button" data-close>✕</button></div>`
-    + `<div class="emoji-search-bar"><input id="emoji-search-input" type="search" placeholder="Search emojis (e.g. party, rocket, beach, wedding)…"></div>`
+    + `<div class="emoji-search-bar"><input id="emoji-search-input" type="search" placeholder="Search emojis (e.g. party, rocket, beach, wedding)…"><button class="button secondary-button small-button" type="button" data-pick-emoji="" style="flex:0 0 auto;width:auto">⊘ No Emoji</button></div>`
     + `<div class="emoji-cats" id="emoji-cats"></div>`
     + `<div class="emoji-picker-grid" id="emoji-grid"></div>`
     + `<div class="upload-emoji-box">`
@@ -1899,14 +1977,14 @@ function renderStyleChipHtml(key, label, activeKey) {
 function renderAnimChipHtml(key, label, activeKey) {
   const ca = key !== 'none' ? findCustomAnim(key) : null;
   const dotStyle = ca ? ` style="background:linear-gradient(135deg,${ca.color1},${ca.color2})"` : ' style="background:var(--line)"';
-  return `<button class="style-chip anim-chip ${activeKey === key ? 'on' : ''}" type="button" data-anim="${esc(key)}"><i${dotStyle}>✦</i> ${esc(label)}</button>`;
+  return `<button class="style-chip anim-chip ${activeKey === key ? 'on' : ''}" type="button" data-anim="${esc(key)}"><i${dotStyle}>${key === 'none' ? '⊘' : '✦'}</i> ${esc(label)}</button>`;
 }
 
 function renderForm(existing) {
   const ex = getExtras();
   const editing = !!existing;
   const st = {
-    emoji: existing ? existing.emoji : QUICK_EMOJIS[0],
+    emoji: existing ? (existing.emoji || '') : '',
     style: existing ? existing.style : 'classic',
     animId: existing && existing.animId ? existing.animId : 'none',
     display: existing ? existing.display : 'cards',
@@ -1933,16 +2011,17 @@ function renderForm(existing) {
       + `<div class="field-row-2"><div class="field" style="margin:0"><label for="event-cat">Category</label><select id="event-cat">${CATEGORIES.map((c) => `<option value="${esc(c)}"${st.category === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></div>`
       + `<div class="field" style="margin:0"><label for="event-rep">Repeat cycle</label><select id="event-rep">${REPEATS.map(([v, l]) => `<option value="${v}"${st.repeat === v ? ' selected' : ''}>${l}</option>`).join('')}</select></div></div>`
       + `<div class="field"><label for="event-note">Optional note or milestone subtitle</label><input id="event-note" type="text" maxlength="140" placeholder="e.g. Flight JL 005 departs Terminal 1" value="${editing && existing.note ? esc(existing.note) : ''}"></div>`
-      + `<div class="field"><div class="field-label"><span>Emoji / Custom Sticker</span><button type="button" class="text-link" id="open-emoji-picker">Browse 70+ & Upload Custom…</button></div>`
+      + `<div class="field"><div class="field-label"><span>Emoji / Custom Sticker (Optional)</span><button type="button" class="text-link" id="open-emoji-picker">Browse 70+ & Upload Custom…</button></div>`
       + `<div class="emoji-row">`
+      + `<button type="button" class="emoji-none-btn" data-emoji="">⊘ None</button>`
       + customEmojis.map((ce) => `<button type="button" data-emoji="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
       + quickSet.map((e) => `<button type="button" data-emoji="${esc(e)}">${renderEmoji(e)}</button>`).join('')
       + `<button type="button" class="emoji-more-btn" id="open-emoji-picker-btn">＋ Picker / Upload</button>`
       + `</div></div>`
       + `<div class="field"><div class="field-label"><span>Theme</span><a class="text-link" href="#/themes">Open Theme Studio →</a></div>`
       + `<div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, st.style)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-theme-modal">＋ New Custom Theme</button></div></div>`
-      + `<div class="field"><div class="field-label"><span>Keyframe & Particle Animation</span><a class="text-link" href="#/animations">Open Animation Maker →</a></div>`
-      + `<div class="style-row">${Object.entries(animsMap).map(([k, label]) => renderAnimChipHtml(k, label, st.animId)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-anim-modal">＋ Draw / Make Animation</button></div></div>`
+      + `<div class="field"><div class="field-label"><span>Custom Animation (Optional)</span><a class="text-link" href="#/animations">Open Animation Maker App →</a></div>`
+      + `<div class="style-row">${Object.entries(animsMap).map(([k, label]) => renderAnimChipHtml(k, label, st.animId)).join('')}<a class="style-chip custom-chip-btn" href="#/animations" style="text-decoration:none">＋ Make Your Own Animation</a></div></div>`
       + (ex.clockModes ? `<div class="field"><label>Clock Display Mode</label><div class="seg" id="disp-seg">${DISPLAY_MODES.map(([k, l]) => `<button type="button" data-disp="${k}" class="${st.display === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.particles ? `<div class="field"><label>Ambient Particle Effect</label><div class="seg" id="fx-seg">${PARTICLE_FX.map(([k, l]) => `<button type="button" data-fx="${k}" class="${st.fx === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.clockModes ? `<div class="opt-row" style="margin-bottom:18px"><span>Show High-Precision Tenths of a Second (.0)</span><button type="button" class="toggle ${st.showMs ? 'on' : ''}" id="toggle-ms"></button></div>` : '')
@@ -2022,20 +2101,6 @@ function renderForm(existing) {
       const savedNote = noteInput.value;
       openQuickThemeEditorModal(null, (createdTheme) => {
         st.style = createdTheme.id;
-        drawForm();
-        $('#event-name').value = savedName;
-        $('#event-date').value = savedDate;
-        $('#event-note').value = savedNote;
-        $('#event-name').dispatchEvent(new Event('input'));
-      });
-    });
-
-    $('#quick-anim-modal').addEventListener('click', () => {
-      const savedName = nameInput.value;
-      const savedDate = dateInput.value;
-      const savedNote = noteInput.value;
-      openQuickAnimEditorModal(null, (createdAnim) => {
-        st.animId = createdAnim.id;
         drawForm();
         $('#event-name').value = savedName;
         $('#event-date').value = savedDate;
@@ -2343,147 +2408,56 @@ function renderThemeStudio() {
 }
 
 
-function randomAnimConfig() {
-  const pal = randomHarmonyPalette();
-  const sh = ANIM_SHAPES[Math.floor(Math.random() * ANIM_SHAPES.length)][0];
-  const mo = ANIM_MOTIONS[Math.floor(Math.random() * ANIM_MOTIONS.length)][0];
-  const emojis = ['✨', '🚀', '⚡', '🔥', '💎', '🌸', '01', '★', '🎉', '💫'];
-  return {
-    shape: sh,
-    customChar: emojis[Math.floor(Math.random() * emojis.length)],
-    motion: mo,
-    count: 28 + Math.floor(Math.random() * 55),
-    speed: Number((0.8 + Math.random() * 2.8).toFixed(1)),
-    size: 5 + Math.floor(Math.random() * 14),
-    opacity: 75 + Math.floor(Math.random() * 25),
-    glow: Math.floor(Math.random() * 24),
-    connectLines: Math.random() > 0.65,
-    trails: Math.random() > 0.65,
-    mouseInteract: true,
-    pulse: Math.random() > 0.4,
-    spin: Math.random() > 0.45,
-    rainbow: Math.random() > 0.78,
-    layer: Math.random() > 0.5 ? 'over' : 'under',
-    color1: pal.acc,
-    color2: pal.fg === '#ffffff' ? '#ec4899' : '#6d5dfc',
-    color3: '#38bdf8',
-    bg1: pal.bg1,
-    bg2: pal.bg2,
-    fg: pal.fg,
-    acc: pal.acc,
-    angle: pal.angle
-  };
-}
-
-function openQuickAnimEditorModal(existingAnim, onSave) {
-  closeModal();
-  const draft = normalizeCustomAnimObj(existingAnim || {
-    ...ANIM_TEMPLATES[0],
-    id: 'ca_' + newId(),
-    name: 'My Custom Animation'
-  });
-  const root = document.createElement('div');
-  root.className = 'modal-backdrop';
-  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>Animation Maker</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-anim-body"></div></div>`;
-  modalRoot.append(root);
-  document.body.classList.add('modal-open');
-
-  const renderModalEditor = () => {
-    const body = $('#quick-anim-body', root);
-    if (!isAppInstalledForAnim()) {
-      body.innerHTML = `<div class="install-gate-card" style="margin:0;padding:22px">`
-        + `<span class="install-gate-badge">📲 App Required</span>`
-        + `<h2 style="margin:0 0 8px">Install the app to use this</h2>`
-        + `<p style="font-size:13.5px;margin-bottom:18px">The Keyframe & Particle Animation Maker is only available inside the installed Downcount app. Install Downcount to your device and open it from your home screen, dock, or Start menu.</p>`
-        + `<button class="button" type="button" id="qa-install-now" style="width:100%">Install the app to use this</button>`
-        + `</div>`;
-      $('#qa-install-now', root).addEventListener('click', () => {
-        if (installPrompt) { triggerInstall(); }
-        else { closeModal(); location.hash = '/download'; }
-      });
-      return;
-    }
-
-    const demoEv = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
-    body.innerHTML = `<div class="share-preview" id="qa-preview">${widgetHtml(demoEv, { size: 'compact' })}</div>`
-      + `<div class="field"><label><span>Animation Name</span><button type="button" class="text-link" id="qa-random">Randomize Magic</button></label><input id="qa-name" type="text" maxlength="32" value="${esc(draft.name)}"></div>`
-      + `<div class="field-label">Templates</div><div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-qa-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
-      + `<div class="field"><label>Mode</label><div class="seg"><button type="button" data-qa-bgmode="replace" class="${draft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme</button><button type="button" data-qa-bgmode="overlay" class="${draft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
-      + `<div class="field"><label>Particle Shape</label><div class="seg">${ANIM_SHAPES.map(([k, l]) => `<button type="button" data-qa-shape="${k}" class="${draft.shape === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + (draft.shape === 'char' ? `<div class="field"><div class="field-label"><span>Custom Emoji / Sticker</span><button type="button" class="text-link" id="qa-emoji-pick">Open Emoji Picker / Upload…</button></div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:24px;padding:4px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">${renderEmoji(draft.customChar)}</span><input id="qa-char-input" type="text" maxlength="14" value="${isImageEmoji(draft.customChar) ? '' : esc(draft.customChar)}" placeholder="Or type text / symbols…"></div></div>` : '')
-      + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([k, l]) => `<button type="button" data-qa-motion="${k}" class="${draft.motion === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + `<div style="display:flex;gap:8px"><button class="button" type="button" id="qa-save" style="flex:1">Save & Apply</button><a class="button secondary-button" href="#/animations" style="flex:0 0 auto;width:auto">Full Keyframe Studio →</a></div>`;
-
-    const updatePreviewOnly = () => {
-      const ev = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
-      $('#qa-preview', root).innerHTML = widgetHtml(ev, { size: 'compact' });
-      tickAll();
-    };
-
-    $('#qa-name', root).addEventListener('input', (e) => { draft.name = e.target.value; updatePreviewOnly(); });
-    const qaCharInp = $('#qa-char-input', root);
-    if (qaCharInp) qaCharInp.addEventListener('input', (e) => { draft.customChar = e.target.value || '✨'; updatePreviewOnly(); });
-    const qaEmojiBtn = $('#qa-emoji-pick', root);
-    if (qaEmojiBtn) {
-      qaEmojiBtn.addEventListener('click', () => {
-        openEmojiPickerModal(draft.customChar, (picked) => {
-          draft.customChar = picked;
-          openQuickAnimEditorModal(draft, onSave);
-        });
-      });
-    }
-    $$('[data-qa-tpl]', root).forEach((b) => b.addEventListener('click', () => {
-      const tpl = ANIM_TEMPLATES[Number(b.dataset.qaTpl)];
-      if (tpl) { Object.assign(draft, JSON.parse(JSON.stringify(tpl)), { id: draft.id }); renderModalEditor(); }
-    }));
-    $$('[data-qa-bgmode]', root).forEach((b) => b.addEventListener('click', () => { draft.bgMode = b.dataset.qaBgmode; renderModalEditor(); }));
-    $$('[data-qa-shape]', root).forEach((b) => b.addEventListener('click', () => { draft.shape = b.dataset.qaShape; renderModalEditor(); }));
-    $$('[data-qa-motion]', root).forEach((b) => b.addEventListener('click', () => { draft.motion = b.dataset.qaMotion; renderModalEditor(); }));
-    $('#qa-random', root).addEventListener('click', () => { Object.assign(draft, randomAnimConfig()); renderModalEditor(); });
-    $('#qa-save', root).addEventListener('click', () => {
-      const saved = normalizeCustomAnimObj(draft);
-      const list = readCustomAnims().filter((a) => a.id !== saved.id);
-      list.unshift(saved);
-      saveCustomAnims(list);
-      buzz();
-      closeModal();
-      showNotice(`Saved custom animation "${saved.name}"!`);
-      if (onSave) onSave(saved);
-    });
-    tickAll();
-  };
-
-  root.addEventListener('click', (e) => { if (e.target === root || e.target.closest('[data-close]')) closeModal(); });
-  renderModalEditor();
-}
-
 let kfStudioLoopId = null;
+let animStudioKeyHandler = null;
+let mobilePcBannerDismissed = false;
+
+function cleanupAnimationMakerApp() {
+  if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+  if (animStudioKeyHandler) {
+    window.removeEventListener('keydown', animStudioKeyHandler);
+    animStudioKeyHandler = null;
+  }
+  document.documentElement.classList.remove('anim-app-mode');
+}
+
+function findHitKeyframeItemIndex(items, nx, ny) {
+  if (!Array.isArray(items)) return -1;
+  for (let i = items.length - 1; i >= 0; i--) {
+    const it = items[i];
+    const b = getItemBoundsNorm(it);
+    if (b && nx >= b.x1 - 0.02 && nx <= b.x2 + 0.02 && ny >= b.y1 - 0.02 && ny <= b.y2 + 0.02) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 function renderAnimationMaker() {
-  if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+  cleanupAnimationMakerApp();
 
   if (!isAppInstalledForAnim()) {
     const demoEv = normalize({
-      name: 'Keyframe Studio Preview',
+      name: 'Animation Maker App',
       end: Date.now() + 7 * DAY + 18000000,
       start: Date.now() - 2 * DAY,
-      emoji: '🎨',
+      emoji: '',
       style: 'classic',
-      animId: ANIM_TEMPLATES[0].id,
-      customAnim: ANIM_TEMPLATES[0],
+      animId: ANIM_TEMPLATES[1].id,
+      customAnim: ANIM_TEMPLATES[1],
       category: 'Launch',
-      note: 'Install the app to use the Keyframe & Particle Animation Maker!'
+      note: 'Install the app to use the full-screen Animation Maker!'
     });
-    app.innerHTML = `<section class="page studio-full"><a class="back" href="#/">← Back to Countdowns</a>`
+    app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
       + `<div class="install-gate-card">`
       + `<span class="install-gate-badge">📲 App Exclusive Studio</span>`
       + `<h1>Install the app to use this</h1>`
-      + `<p>The <strong>Animation Maker & Keyframe Drawing Studio</strong> is only unlocked when you install Downcount as an app on your device. Install it in one click and launch Downcount from your home screen, dock, or Start menu to draw keyframes and build custom animations.</p>`
+      + `<p>The full-screen <strong>Animation Maker App</strong> is only available when Downcount is installed on your device. Install it from your browser and open Downcount from your desktop, Start menu, dock, or home screen.</p>`
       + `<div style="max-width:540px;margin:0 auto 22px;text-align:left">${widgetHtml(demoEv, { size: 'compact' })}</div>`
       + `<div class="install-gate-features">`
-      + `<div class="install-gate-feat"><strong>🖌️ Keyframe Drawing Canvas</strong><small>Draw glowing neon strokes, lines, boxes, circles & custom uploaded emoji stamps across keyframes.</small></div>`
-      + `<div class="install-gate-feat"><strong>🎞️ Onion-Skin & Auto-Tween</strong><small>Add up to 24 keyframes, duplicate frames, preview ghost frames & morph motion smoothly.</small></div>`
-      + `<div class="install-gate-feat"><strong>🌌 Particle + Theme Modes</strong><small>Layer 8 particle physics generators with custom emoji stickers over any theme or backdrop.</small></div>`
+      + `<div class="install-gate-feat"><strong>↖ Select & Arrow Keys</strong><small>Select any drawn object or stamp and move it with your mouse or keyboard arrow keys.</small></div>`
+      + `<div class="install-gate-feat"><strong>🖥️ Full-Screen Studio App</strong><small>Dedicated top app bar, collapsible left sidebar tools, huge canvas stage & bottom timeline bar.</small></div>`
+      + `<div class="install-gate-feat"><strong>🎨 100% Custom From Scratch</strong><small>Starts on a blank canvas with no forced emojis or default animations.</small></div>`
       + `</div>`
       + `<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">`
       + `<button class="button" type="button" id="gate-install-btn" style="min-width:260px">📲 Install the app to use this</button>`
@@ -2501,550 +2475,829 @@ function renderAnimationMaker() {
     return;
   }
 
+  document.documentElement.classList.add('anim-app-mode');
+
   let activeDraft = normalizeCustomAnimObj({
     ...JSON.parse(JSON.stringify(ANIM_TEMPLATES[0])),
     id: 'ca_' + newId(),
-    name: 'Neon Heart Pulse'
+    name: 'My Custom Animation'
   });
-  if (!activeDraft.keyframes || !activeDraft.keyframes.length) {
-    activeDraft.keyframes = [{ items: [] }, { items: [] }, { items: [] }];
-  }
 
   let isEditingExisting = false;
-  let previewThemeStyle = 'ocean';
-  let studioTab = 'draw';
+  let previewThemeStyle = 'classic';
+  let showGuideWidget = true;
+  let activePanel = 'draw';
+  let sidebarCollapsed = false;
   let curFrameIdx = 0;
+  let selectedItemIdx = -1;
   let isPlayingKf = false;
   let onionSkin = true;
   let drawTool = 'brush';
   let brushColor = '#00f5d4';
   let brushSize = 6;
-  let brushGlow = 16;
-  let stampChar = '✨';
-  let activePointerDrawing = null;
+  let brushGlow = 14;
+  let stampChar = '';
+  let activePointerOp = null;
 
   const ensureFrames = () => {
     if (!Array.isArray(activeDraft.keyframes) || !activeDraft.keyframes.length) {
-      activeDraft.keyframes = [{ items: [] }];
+      activeDraft.keyframes = [{ items: [] }, { items: [] }, { items: [] }];
     }
     if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
     if (curFrameIdx < 0) curFrameIdx = 0;
+    const curItems = activeDraft.keyframes[curFrameIdx].items || [];
+    if (selectedItemIdx >= curItems.length) selectedItemIdx = curItems.length - 1;
   };
 
-  const drawMaker = () => {
+  const nudgeSelectedItem = (dx, dy) => {
+    ensureFrames();
+    const curFrame = activeDraft.keyframes[curFrameIdx];
+    if (!curFrame || !Array.isArray(curFrame.items) || !curFrame.items.length) return false;
+    if (selectedItemIdx < 0 || selectedItemIdx >= curFrame.items.length) {
+      selectedItemIdx = curFrame.items.length - 1;
+    }
+    const target = curFrame.items[selectedItemIdx];
+    if (!target) return false;
+    translateKeyframeItem(target, dx, dy);
+    return true;
+  };
+
+  const drawStudioApp = () => {
     ensureFrames();
     if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
     const savedAnims = readCustomAnims();
     const customEmojis = readCustomEmojis();
     const stylesMap = getAllStylesMap();
-    const previewEv = normalize({
-      name: activeDraft.name || 'Animation Preview',
-      end: Date.now() + 9 * DAY + 21600000,
-      start: Date.now() - 4 * DAY,
-      emoji: '✨',
-      style: previewThemeStyle,
-      animId: activeDraft.id,
-      customAnim: activeDraft,
-      category: 'Launch',
-      note: 'Your drawn keyframes & particles animate live on the countdown!'
-    });
+    const curFrame = activeDraft.keyframes[curFrameIdx];
+    const curItems = curFrame && Array.isArray(curFrame.items) ? curFrame.items : [];
+    const selectedItem = (selectedItemIdx >= 0 && selectedItemIdx < curItems.length) ? curItems[selectedItemIdx] : null;
 
     const quickStamps = ['✨', '⚡', '🔥', '💖', '🚀', '⭐', '💎', '🌸', '🎉', '👑'];
     if (stampChar && !quickStamps.includes(stampChar) && !stampChar.startsWith('ce_')) quickStamps.unshift(stampChar);
 
-    const drawTabHtml = `<div class="kf-studio-box">`
-      + `<div class="kf-toolbar">`
-      + `<div class="kf-tools">`
-      + [['brush', '🖌️ Brush'], ['line', '📏 Line'], ['rect', '▭ Box'], ['circle', '◯ Circle'], ['stamp', '😀 Emoji Stamp'], ['eraser', '🧽 Erase']].map(([k, label]) => `<button type="button" class="kf-tool-btn ${drawTool === k ? 'on' : ''}" data-kf-tool="${k}">${label}</button>`).join('')
-      + `</div>`
-      + `<div class="kf-tools">`
-      + `<button type="button" class="kf-tool-btn" id="kf-undo" title="Undo last item">↶ Undo</button>`
-      + `<button type="button" class="kf-tool-btn" id="kf-clear" title="Clear this keyframe">🗑️ Clear</button>`
-      + `</div></div>`
+    let sidebarContentHtml = '';
+    if (activePanel === 'select') {
+      sidebarContentHtml = `<div class="am-side-head"><span>↖ Select & Move Tool</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Selected Object</span><span>${selectedItem ? `#${selectedItemIdx + 1} (${selectedItem.t})` : 'None'}</span></div>`
+        + `<p style="margin:0;font-size:11.5px;color:#9398b8;line-height:1.45">Click any stroke, shape, or stamp on the stage to select it. Drag it with your mouse or use the <strong>Arrow Keys (↑ ↓ ← →)</strong> to move it up, down, left, or right (hold Shift for fast move).</p></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Nudge Position (Arrow Keys)</span></div>`
+        + `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:160px;margin:4px auto">`
+        + `<div></div><button type="button" class="am-top-btn" data-nudge="0,-0.015" style="justify-content:center">↑</button><div></div>`
+        + `<button type="button" class="am-top-btn" data-nudge="-0.015,0" style="justify-content:center">←</button><button type="button" class="am-top-btn" data-nudge="0,0.015" style="justify-content:center">↓</button><button type="button" class="am-top-btn" data-nudge="0.015,0" style="justify-content:center">→</button>`
+        + `</div></div>`
+        + (selectedItem
+          ? `<div class="am-prop-group"><div class="am-prop-label"><span>Object Color</span></div><div class="am-color-pick"><input type="color" id="am-sel-color" value="${esc(selectedItem.c && /^#[0-9a-fA-F]{6}$/.test(selectedItem.c) ? selectedItem.c : '#00f5d4')}"><span>${esc(selectedItem.c || '#00f5d4')}</span></div></div>`
+            + `<div class="am-prop-group"><div class="am-prop-label"><span>Size / Thickness</span><span id="am-sel-sz-val">${selectedItem.sz || 6}px</span></div><input type="range" class="am-range" id="am-sel-sz" min="2" max="56" value="${selectedItem.sz || 6}"></div>`
+            + `<div class="am-prop-row"><button type="button" class="am-top-btn" id="am-sel-dup" style="flex:1;justify-content:center">Duplicate Item</button><button type="button" class="am-top-btn" id="am-sel-del" style="flex:1;justify-content:center;color:#ff6b81">Delete</button></div>`
+          : '')
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Items in Keyframe ${curFrameIdx + 1} (${curItems.length})</span></div>`
+        + (curItems.length
+          ? `<div style="display:flex;flex-direction:column;gap:4px;max-height:190px;overflow-y:auto">`
+            + curItems.map((it, idx) => `<div class="am-list-item" style="border-color:${idx === selectedItemIdx ? '#00f5d4' : '#2b2f48'};cursor:pointer" data-pick-item="${idx}"><span><strong>#${idx + 1} ${esc(it.t)}</strong></span><small style="color:${esc(it.c || '#fff')}">●</small></div>`).join('')
+            + `</div>`
+          : `<p style="margin:0;font-size:11px;color:#8e93b2">No objects on this keyframe yet. Switch to Draw or Stamps to add some!</p>`);
+    } else if (activePanel === 'draw') {
+      sidebarContentHtml = `<div class="am-side-head"><span>🖌️ Drawing Tools</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Active Tool</span></div>`
+        + `<div class="am-chip-grid">`
+        + [['select', '↖ Select / Move'], ['brush', '🖌️ Freehand Brush'], ['line', '📏 Straight Line'], ['rect', '▭ Rectangle'], ['circle', '◯ Circle'], ['eraser', '🧽 Eraser']].map(([k, l]) => `<button type="button" class="${drawTool === k ? 'on' : ''}" data-am-tool="${k}">${l}</button>`).join('')
+        + `</div></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Stroke Color</span></div>`
+        + `<div class="am-color-pick"><input type="color" id="am-brush-color" value="${esc(brushColor)}"><span>${esc(brushColor)}</span></div></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Brush Size</span><span id="am-bsz-val">${brushSize}px</span></div>`
+        + `<input type="range" class="am-range" id="am-brush-size" min="2" max="32" value="${brushSize}"></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Neon Glow Blur</span><span id="am-bglow-val">${brushGlow}px</span></div>`
+        + `<input type="range" class="am-range" id="am-brush-glow" min="0" max="30" value="${brushGlow}"></div>`
+        + `<p style="margin:4px 0 0;font-size:11px;color:#8e93b2;line-height:1.45">Tip: After drawing, press <strong>V</strong> or click <strong>↖ Select / Move</strong> to grab any stroke and move it with the <strong>Arrow Keys (↑ ↓ ← →)</strong>.</p>`;
+    } else if (activePanel === 'stamp') {
+      sidebarContentHtml = `<div class="am-side-head"><span>😀 Emoji & Sticker Stamps</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Stamp Picker (Optional)</span></div>`
+        + `<button type="button" class="am-top-btn primary" id="am-open-stamp-modal" style="width:100%;justify-content:center">＋ Open Emoji Picker / Upload Sticker…</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Quick Stamps</span><button type="button" class="text-link" id="am-clear-stamp" style="font-size:11px">Clear Stamp</button></div>`
+        + `<div class="am-stamp-grid">`
+        + customEmojis.map((ce) => `<button type="button" class="am-stamp-btn ${stampChar === ce.id ? 'on' : ''}" data-am-stamp="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
+        + quickStamps.map((st) => `<button type="button" class="am-stamp-btn ${stampChar === st ? 'on' : ''}" data-am-stamp="${esc(st)}">${renderEmoji(st)}</button>`).join('')
+        + `</div></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Stamp Size</span><span id="am-stampsz-val">${Math.max(18, brushSize * 4)}px</span></div>`
+        + `<input type="range" class="am-range" id="am-brush-size" min="4" max="24" value="${brushSize}"></div>`
+        + `<p style="margin:0;font-size:11px;color:#8e93b2;line-height:1.45">${stampChar ? 'Click anywhere on the canvas stage to place your stamp! Then use Select + Arrow keys to move it.' : 'No stamp is forced by default. Pick or upload one above only if you want to stamp emojis.'}</p>`;
+    } else if (activePanel === 'particles') {
+      sidebarContentHtml = `<div class="am-side-head"><span>✨ Particle Generator</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Particle Shape (Optional)</span></div>`
+        + `<div class="am-chip-grid">${ANIM_SHAPES.map(([k, l]) => `<button type="button" class="${activeDraft.shape === k ? 'on' : ''}" data-am-shape="${k}">${l}</button>`).join('')}</div></div>`
+        + (activeDraft.shape === 'char'
+          ? `<div class="am-prop-group"><div class="am-prop-label"><span>Custom Emoji / Text</span><button type="button" class="text-link" id="am-open-part-emoji" style="font-size:11px">Emoji Picker…</button></div>`
+            + `<input type="text" class="am-prop-input" id="am-char-inp" maxlength="14" value="${isImageEmoji(activeDraft.customChar) ? '' : esc(activeDraft.customChar)}" placeholder="Type text or pick emoji (optional)…"></div>`
+          : '')
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Particle Count</span><span id="am-cnt-val">${activeDraft.count}</span></div>`
+        + `<input type="range" class="am-range" id="am-count" min="0" max="120" step="2" value="${activeDraft.count}"></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Motion Physics</span></div>`
+        + `<div class="am-chip-grid">${ANIM_MOTIONS.map(([k, l]) => `<button type="button" class="${activeDraft.motion === k ? 'on' : ''}" data-am-motion="${k}">${l}</button>`).join('')}</div></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Speed</span><span id="am-spd-val">${activeDraft.speed}x</span></div>`
+        + `<input type="range" class="am-range" id="am-speed" min="0.2" max="5" step="0.1" value="${activeDraft.speed}"></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Particle Size</span><span id="am-psz-val">${activeDraft.size}px</span></div>`
+        + `<input type="range" class="am-range" id="am-size" min="2" max="36" step="1" value="${activeDraft.size}"></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Particle Colors</span></div>`
+        + `<div class="am-color-row">`
+        + `<div class="am-color-pick"><input type="color" id="am-c1" value="${esc(activeDraft.color1)}"></div>`
+        + `<div class="am-color-pick"><input type="color" id="am-c2" value="${esc(activeDraft.color2)}"></div>`
+        + `<div class="am-color-pick"><input type="color" id="am-c3" value="${esc(activeDraft.color3)}"></div>`
+        + `</div></div>`
+        + `<div class="am-toggle-row"><span>Constellation Lines</span><button type="button" class="toggle ${activeDraft.connectLines ? 'on' : ''}" data-am-toggle="connectLines"></button></div>`
+        + `<div class="am-toggle-row"><span>Motion Trails</span><button type="button" class="toggle ${activeDraft.trails ? 'on' : ''}" data-am-toggle="trails"></button></div>`
+        + `<div class="am-toggle-row"><span>Mouse Repulsion</span><button type="button" class="toggle ${activeDraft.mouseInteract ? 'on' : ''}" data-am-toggle="mouseInteract"></button></div>`
+        + `<div class="am-toggle-row"><span>Twinkle Pulse</span><button type="button" class="toggle ${activeDraft.pulse ? 'on' : ''}" data-am-toggle="pulse"></button></div>`
+        + `<div class="am-toggle-row"><span>Auto-Spin</span><button type="button" class="toggle ${activeDraft.spin ? 'on' : ''}" data-am-toggle="spin"></button></div>`
+        + `<div class="am-toggle-row"><span>Rainbow Cycle</span><button type="button" class="toggle ${activeDraft.rainbow ? 'on' : ''}" data-am-toggle="rainbow"></button></div>`;
+    } else if (activePanel === 'backdrop') {
+      sidebarContentHtml = `<div class="am-side-head"><span>🌌 Backdrop & Layering</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Theme Behavior</span></div>`
+        + `<div class="am-seg"><button type="button" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}" data-am-bgmode="overlay">Overlay on Theme</button><button type="button" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}" data-am-bgmode="replace">Replace Theme</button></div></div>`
+        + (activeDraft.bgMode === 'replace'
+          ? `<div class="am-prop-group"><div class="am-prop-label"><span>Backdrop Gradient</span></div>`
+            + `<div class="am-color-row" style="grid-template-columns:1fr 1fr">`
+            + `<div class="am-color-pick"><input type="color" id="am-bg1" value="${esc(activeDraft.bg1)}"><span>Start</span></div>`
+            + `<div class="am-color-pick"><input type="color" id="am-bg2" value="${esc(activeDraft.bg2)}"><span>End</span></div>`
+            + `</div></div>`
+            + `<div class="am-prop-group"><div class="am-prop-label"><span>Text & Digit Accent</span></div>`
+            + `<div class="am-color-row" style="grid-template-columns:1fr 1fr">`
+            + `<div class="am-color-pick"><input type="color" id="am-fg" value="${esc(activeDraft.fg)}"><span>Text</span></div>`
+            + `<div class="am-color-pick"><input type="color" id="am-acc" value="${esc(activeDraft.acc)}"><span>Digits</span></div>`
+            + `</div></div>`
+            + `<div class="am-prop-group"><div class="am-prop-label"><span>Gradient Angle</span><span id="am-ang-val">${activeDraft.angle}°</span></div><input type="range" class="am-range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div>`
+          : `<div class="am-prop-group"><div class="am-prop-label"><span>Preview Against Theme</span></div>`
+            + `<select class="am-prop-select" id="am-test-theme-sel">${Object.entries(stylesMap).map(([k, l]) => `<option value="${esc(k)}"${previewThemeStyle === k ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></div>`)
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Overlay Position</span></div>`
+        + `<div class="am-seg"><button type="button" class="${activeDraft.layer === 'under' ? 'on' : ''}" data-am-layer="under">Behind Digits</button><button type="button" class="${activeDraft.layer === 'over' ? 'on' : ''}" data-am-layer="over">Over Digits</button></div></div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Master Opacity</span><span id="am-op-val">${activeDraft.opacity}%</span></div>`
+        + `<input type="range" class="am-range" id="am-opacity" min="15" max="100" step="5" value="${activeDraft.opacity}"></div>`;
+    } else if (activePanel === 'library') {
+      sidebarContentHtml = `<div class="am-side-head"><span>📁 Saved & Templates</span><button type="button" class="am-side-close" id="am-collapse-side" title="Hide sidebar">✕</button></div>`
+        + `<button type="button" class="am-top-btn" id="am-reset-blank" style="width:100%;justify-content:center">📄 New Blank Canvas</button>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Your Saved Animations (${savedAnims.length})</span></div>`
+        + (savedAnims.length
+          ? `<div style="display:flex;flex-direction:column;gap:6px">`
+            + savedAnims.map((a) => `<div class="am-list-item"><div><strong>${esc(a.name)}</strong><small>${(a.keyframes || []).filter((f) => f && f.items && f.items.length).length} KF · ${a.shape === 'none' ? 'No particles' : a.shape}</small></div><div class="am-mini-btns"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">✕</button></div></div>`).join('')
+            + `</div>`
+          : `<p style="margin:0;font-size:11px;color:#8e93b2">No saved animations yet. Click Save in the top bar!</p>`)
+        + `</div>`
+        + `<div class="am-prop-group"><div class="am-prop-label"><span>Optional Starter Templates</span></div>`
+        + `<div style="display:flex;flex-direction:column;gap:6px">`
+        + ANIM_TEMPLATES.map((t, idx) => `<div class="am-list-item"><div><strong>${esc(t.name)}</strong></div><div class="am-mini-btns"><button type="button" data-am-tpl="${idx}">Load</button></div></div>`).join('')
+        + `</div></div>`;
+    }
 
-      + `<div class="kf-brush-bar">`
-      + `<label class="kf-brush-item">Color <input type="color" id="kf-brush-color" value="${esc(brushColor)}"></label>`
-      + `<label class="kf-brush-item">Size <input type="range" id="kf-brush-size" min="2" max="28" value="${brushSize}"><span id="kf-size-lbl">${brushSize}px</span></label>`
-      + `<label class="kf-brush-item">Neon Glow <input type="range" id="kf-brush-glow" min="0" max="30" value="${brushGlow}"><span id="kf-glow-lbl">${brushGlow}px</span></label>`
+    const ghostEv = normalize({
+      name: activeDraft.name || 'My Countdown',
+      end: Date.now() + 9 * DAY + 21600000,
+      start: Date.now() - 4 * DAY,
+      emoji: '',
+      style: previewThemeStyle,
+      animId: 'none'
+    });
+
+    app.innerHTML = `<div class="am-app">`
+      + `<header class="am-menubar">`
+      + `<div class="am-menu-left">`
+      + `<a class="am-exit-btn" href="#/" id="am-exit-link">← Exit App</a>`
+      + `<span class="am-app-title"><span class="am-app-dot"></span> Animation Studio</span>`
+      + `<input class="am-title-input" id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="Animation name…">`
+      + `</div>`
+      + `<div class="am-menu-center">`
+      + `<button type="button" class="am-top-btn ${drawTool === 'select' ? 'active' : ''}" id="am-quick-select" title="Select & move with Arrow Keys (V)">↖ Select / Move</button>`
+      + `<button type="button" class="am-top-btn" id="kf-undo" title="Undo last item">↶ Undo</button>`
+      + `<button type="button" class="am-top-btn" id="kf-clear" title="Clear current keyframe">🗑️ Clear KF</button>`
+      + `<button type="button" class="am-top-btn ${showGuideWidget ? 'active' : ''}" id="am-toggle-guide" title="Toggle countdown preview behind stage">👁️ Countdown Guide</button>`
+      + `</div>`
+      + `<div class="am-menu-right">`
+      + `<button type="button" class="am-top-btn" id="am-apply-all">Apply to All</button>`
+      + `<button type="button" class="am-top-btn primary" id="am-save">${isEditingExisting ? '💾 Update' : '💾 Save Animation'}</button>`
+      + `</div>`
+      + `</header>`
+
+      + `<div class="am-mobile-banner ${mobilePcBannerDismissed ? '' : 'show'}" id="am-mobile-banner">`
+      + `<span>💻 This feature is recommended for PC for the best full-screen drawing and keyframe experience.</span>`
+      + `<button type="button" id="am-close-mobile-banner" aria-label="Close message">✕</button>`
       + `</div>`
 
-      + (drawTool === 'stamp'
-        ? `<div class="kf-stamp-bar">`
-          + `<span style="font-size:12px;font-weight:800;color:var(--muted);margin-right:4px">Active Stamp:</span>`
-          + customEmojis.map((ce) => `<button type="button" class="kf-stamp-chip ${stampChar === ce.id ? 'on' : ''}" data-kf-stamp="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
-          + quickStamps.map((st) => `<button type="button" class="kf-stamp-chip ${stampChar === st ? 'on' : ''}" data-kf-stamp="${esc(st)}">${renderEmoji(st)}</button>`).join('')
-          + `<button type="button" class="kf-stamp-picker-btn" id="kf-open-emoji-picker">＋ Emoji Picker / Upload Sticker…</button>`
-          + `</div>`
-        : '')
+      + `<div class="am-workarea ${sidebarCollapsed ? 'collapsed' : ''}" id="am-workarea">`
+      + `<aside class="am-activitybar">`
+      + [['select', '↖', 'Select'], ['draw', '🖌️', 'Draw'], ['stamp', '😀', 'Stamps'], ['particles', '✨', 'Particles'], ['backdrop', '🌌', 'Backdrop'], ['library', '📁', 'Library']].map(([k, ic, lbl]) => `<button type="button" class="am-act-btn ${!sidebarCollapsed && activePanel === k ? 'on' : ''}" data-am-panel="${k}"><span>${ic}</span><small>${lbl}</small></button>`).join('')
+      + `</aside>`
 
-      + `<div class="kf-stage-wrap" id="kf-stage-wrap" style="background:linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})">`
-      + `<div class="kf-stage-hud">`
-      + `<span class="kf-hud-pill" id="kf-hud-status">${isPlayingKf ? '▶ Playing Keyframes' : `Keyframe ${curFrameIdx + 1} of ${activeDraft.keyframes.length} · ${drawTool === 'stamp' ? 'Click canvas to stamp emoji' : 'Drag on canvas to draw'}`}</span>`
-      + `${onionSkin && !isPlayingKf ? '<span class="kf-hud-pill">🧅 Onion Skin On</span>' : ''}`
+      + `<aside class="am-sidebar">${sidebarContentHtml}</aside>`
+
+      + `<section class="am-viewport">`
+      + `<div class="am-stage-box" id="kf-stage-wrap" style="background:linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})">`
+      + `<div class="am-stage-hud">`
+      + `<span class="am-hud-pill">${isPlayingKf ? '▶ Playing Live Animation' : `KF ${curFrameIdx + 1}/${activeDraft.keyframes.length} · Tool: ${drawTool.toUpperCase()}${selectedItem ? ' (Use ↑↓←→ Arrow Keys to Move)' : ''}`}</span>`
+      + `${onionSkin && !isPlayingKf ? '<span class="am-hud-pill">🧅 Onion Skin</span>' : ''}`
       + `</div>`
-      + `<canvas class="kf-draw-canvas" id="kf-draw-canvas" width="720" height="405"></canvas>`
+      + (showGuideWidget ? `<div class="am-widget-ghost ${isPlayingKf ? 'full' : ''}">${widgetHtml(ghostEv, { size: 'wide' })}</div>` : '')
+      + `<canvas class="am-stage-canvas ${drawTool === 'select' ? 'select-cursor' : ''}" id="kf-draw-canvas" width="960" height="540"></canvas>`
+      + `</div>`
+      + `</section>`
       + `</div>`
 
-      + `<div class="kf-timeline">`
-      + `<div class="kf-transport">`
-      + `<div class="kf-tools">`
-      + `<button type="button" class="kf-tool-btn ${isPlayingKf ? 'on' : ''}" id="kf-play-btn">${isPlayingKf ? '⏸ Pause' : '▶ Play Keyframes'}</button>`
-      + `<button type="button" class="kf-tool-btn ${onionSkin ? 'on' : ''}" id="kf-onion-btn" title="Show ghost of previous keyframe">🧅 Onion Skin</button>`
-      + `<button type="button" class="kf-tool-btn ${activeDraft.tween ? 'on' : ''}" id="kf-tween-btn" title="Smoothly morph strokes between keyframes">✨ Auto-Tween</button>`
+      + `<footer class="am-bottombar">`
+      + `<div class="am-timeline-controls">`
+      + `<div class="am-tl-left">`
+      + `<button type="button" class="am-tl-btn ${isPlayingKf ? 'on' : ''}" id="kf-play-btn">${isPlayingKf ? '⏸ Pause' : '▶ Play'}</button>`
+      + `<button type="button" class="am-tl-btn ${onionSkin ? 'on' : ''}" id="kf-onion-btn">🧅 Onion Skin</button>`
+      + `<button type="button" class="am-tl-btn ${activeDraft.tween ? 'on' : ''}" id="kf-tween-btn">✨ Auto-Tween</button>`
+      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:750;color:#b8bde0;margin-left:6px">Speed <input type="range" id="kf-fps" min="1" max="16" value="${activeDraft.fps || 6}" style="width:74px;accent-color:#6d5dfc"><span id="kf-fps-lbl">${activeDraft.fps || 6} FPS</span></label>`
       + `</div>`
-      + `<div class="kf-tools">`
-      + `<label class="kf-brush-item">Speed <input type="range" id="kf-fps" min="1" max="16" value="${activeDraft.fps || 6}"><span id="kf-fps-lbl">${activeDraft.fps || 6} FPS</span></label>`
-      + `</div></div>`
-
-      + `<div class="kf-frames-strip">`
-      + activeDraft.keyframes.map((fr, idx) => `<button type="button" class="kf-frame-thumb ${idx === curFrameIdx ? 'on' : ''}" data-kf-idx="${idx}"><strong>KF ${idx + 1}</strong><small>${(fr.items || []).length} item${(fr.items || []).length === 1 ? '' : 's'}</small></button>`).join('')
-      + `<button type="button" class="kf-frame-add" id="kf-add-frame" title="Add new blank keyframe">＋</button>`
-      + `<button type="button" class="kf-tool-btn" id="kf-dup-frame" title="Duplicate current keyframe" style="height:58px">📋 Duplicate KF</button>`
-      + (activeDraft.keyframes.length > 1 ? `<button type="button" class="kf-tool-btn" id="kf-del-frame" title="Delete current keyframe" style="height:58px;color:#bc3d53">✕ Delete KF</button>` : '')
+      + `<div class="am-tl-right">`
+      + `<button type="button" class="am-tl-btn" id="kf-dup-frame">📋 Duplicate KF</button>`
+      + (activeDraft.keyframes.length > 1 ? `<button type="button" class="am-tl-btn danger" id="kf-del-frame">✕ Delete KF</button>` : '')
       + `</div>`
-      + `</div></div>`;
-
-    const particlesTabHtml = `<div class="kf-studio-box">`
-      + `<div class="field"><label>Particle Generator Shape (Set Count to 0 for Drawn Keyframes Only)</label><div class="seg">${ANIM_SHAPES.map(([v, l]) => `<button type="button" data-am-shape="${v}" class="${activeDraft.shape === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + (activeDraft.shape === 'char'
-        ? `<div class="field"><div class="field-label"><span>Particle Emoji / Custom Uploaded Sticker</span><button type="button" class="text-link" id="am-open-emoji-picker">Browse 70+ & Upload Custom Emoji…</button></div>`
-          + `<div class="emoji-row" style="margin-bottom:10px">`
-          + customEmojis.map((ce) => `<button type="button" class="${activeDraft.customChar === ce.id ? 'on' : ''}" data-am-emoji="${esc(ce.id)}" title="${esc(ce.name)}"><img class="emoji-btn-img" src="${esc(ce.dataUrl)}" alt="${esc(ce.name)}"></button>`).join('')
-          + quickStamps.map((e) => `<button type="button" class="${activeDraft.customChar === e ? 'on' : ''}" data-am-emoji="${esc(e)}">${renderEmoji(e)}</button>`).join('')
-          + `<button type="button" class="emoji-more-btn" id="am-open-emoji-picker-btn">＋ Emoji Picker / Upload</button>`
-          + `</div>`
-          + `<input id="am-char" type="text" maxlength="14" value="${isImageEmoji(activeDraft.customChar) ? '' : esc(activeDraft.customChar)}" placeholder="Or type custom text / characters (e.g. 01 or ✨🚀)…">`
-          + `</div>`
-        : '')
-      + `<div class="field"><label>Particle Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([v, l]) => `<button type="button" data-am-motion="${v}" class="${activeDraft.motion === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + `<div class="field-label">Particle Color Palette</div>`
-      + `<div class="color-3-grid">`
-      + `<div class="color-field"><label>Primary Color</label><div class="color-input-row"><input type="color" id="am-c1" value="${esc(activeDraft.color1)}"><input type="text" id="am-c1-hex" value="${esc(activeDraft.color1)}" maxlength="7"></div></div>`
-      + `<div class="color-field"><label>Secondary Color</label><div class="color-input-row"><input type="color" id="am-c2" value="${esc(activeDraft.color2)}"><input type="text" id="am-c2-hex" value="${esc(activeDraft.color2)}" maxlength="7"></div></div>`
-      + `<div class="color-field"><label>Tertiary Color</label><div class="color-input-row"><input type="color" id="am-c3" value="${esc(activeDraft.color3)}"><input type="text" id="am-c3-hex" value="${esc(activeDraft.color3)}" maxlength="7"></div></div>`
       + `</div>`
-      + `<div class="field-row-2">`
-      + `<div class="field" style="margin:0"><label for="am-count"><span>Particle Count</span><span id="am-count-val">${activeDraft.count}</span></label><div class="range-row"><input type="range" id="am-count" min="0" max="120" step="2" value="${activeDraft.count}"></div></div>`
-      + `<div class="field" style="margin:0"><label for="am-speed"><span>Motion Speed</span><span id="am-speed-val">${activeDraft.speed}x</span></label><div class="range-row"><input type="range" id="am-speed" min="0.2" max="5" step="0.1" value="${activeDraft.speed}"></div></div>`
+      + `<div class="am-frames-track">`
+      + activeDraft.keyframes.map((fr, idx) => `<button type="button" class="am-kf-cell ${idx === curFrameIdx ? 'on' : ''}" data-kf-idx="${idx}"><strong>KF ${idx + 1}</strong><small>${(fr.items || []).length} item${(fr.items || []).length === 1 ? '' : 's'}</small></button>`).join('')
+      + `<button type="button" class="am-kf-add" id="kf-add-frame" title="Add Keyframe">＋</button>`
       + `</div>`
-      + `<div class="field-row-2">`
-      + `<div class="field" style="margin:0"><label for="am-size"><span>Element Size</span><span id="am-size-val">${activeDraft.size}px</span></label><div class="range-row"><input type="range" id="am-size" min="2" max="36" step="1" value="${activeDraft.size}"></div></div>`
-      + `<div class="field" style="margin:0"><label for="am-glow"><span>Neon Glow Blur</span><span id="am-glow-val">${activeDraft.glow}px</span></label><div class="range-row"><input type="range" id="am-glow" min="0" max="32" step="1" value="${activeDraft.glow}"></div></div>`
-      + `</div>`
-      + `<div class="opt-row"><span>Constellation Connecting Lines</span><button type="button" class="toggle ${activeDraft.connectLines ? 'on' : ''}" data-am-toggle="connectLines"></button></div>`
-      + `<div class="opt-row"><span>Motion Blur Trails</span><button type="button" class="toggle ${activeDraft.trails ? 'on' : ''}" data-am-toggle="trails"></button></div>`
-      + `<div class="opt-row"><span>Interactive Cursor / Touch Repulsion</span><button type="button" class="toggle ${activeDraft.mouseInteract ? 'on' : ''}" data-am-toggle="mouseInteract"></button></div>`
-      + `<div class="opt-row"><span>Twinkle & Size Pulse</span><button type="button" class="toggle ${activeDraft.pulse ? 'on' : ''}" data-am-toggle="pulse"></button></div>`
-      + `<div class="opt-row"><span>Auto-Spin Elements</span><button type="button" class="toggle ${activeDraft.spin ? 'on' : ''}" data-am-toggle="spin"></button></div>`
-      + `<div class="opt-row" style="margin-bottom:4px"><span>Rainbow Spectrum Cycle</span><button type="button" class="toggle ${activeDraft.rainbow ? 'on' : ''}" data-am-toggle="rainbow"></button></div>`
+      + `</footer>`
       + `</div>`;
-
-    const backdropTabHtml = `<div class="kf-studio-box">`
-      + `<div class="field"><label>How It Works with Themes</label><div class="seg"><button type="button" data-am-bgmode="replace" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme (Own Backdrop)</button><button type="button" data-am-bgmode="overlay" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
-      + (activeDraft.bgMode === 'replace'
-        ? `<div class="color-grid">`
-          + `<div class="color-field"><label>Backdrop Start</label><div class="color-input-row"><input type="color" id="am-bg1" value="${esc(activeDraft.bg1)}"><input type="text" id="am-bg1-hex" value="${esc(activeDraft.bg1)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Backdrop End</label><div class="color-input-row"><input type="color" id="am-bg2" value="${esc(activeDraft.bg2)}"><input type="text" id="am-bg2-hex" value="${esc(activeDraft.bg2)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Heading & Text Color</label><div class="color-input-row"><input type="color" id="am-fg" value="${esc(activeDraft.fg)}"><input type="text" id="am-fg-hex" value="${esc(activeDraft.fg)}" maxlength="7"></div></div>`
-          + `<div class="color-field"><label>Digit & Bar Accent</label><div class="color-input-row"><input type="color" id="am-acc" value="${esc(activeDraft.acc)}"><input type="text" id="am-acc-hex" value="${esc(activeDraft.acc)}" maxlength="7"></div></div>`
-          + `</div>`
-          + `<div class="field"><label for="am-angle"><span>Backdrop Gradient Angle</span><span id="am-angle-val">${activeDraft.angle}°</span></label><div class="range-row"><input type="range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div></div>`
-        : `<div class="field"><label>Test Overlay Against Theme</label><div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, previewThemeStyle).replace('data-style=', 'data-am-test-theme=')).join('')}</div></div>`)
-      + `<div class="field"><label>Overlay Layer Position</label><div class="seg"><button type="button" data-am-layer="under" class="${activeDraft.layer === 'under' ? 'on' : ''}">Behind Digits (Subtle)</button><button type="button" data-am-layer="over" class="${activeDraft.layer === 'over' ? 'on' : ''}">Over Everything (Full Overlay)</button></div></div>`
-      + `<div class="field" style="margin-bottom:4px"><label for="am-opacity"><span>Master Overlay Opacity</span><span id="am-opacity-val">${activeDraft.opacity}%</span></label><div class="range-row"><input type="range" id="am-opacity" min="15" max="100" step="5" value="${activeDraft.opacity}"></div></div>`
-      + `</div>`;
-
-    app.innerHTML = `<section class="page studio-full">`
-      + `<div class="section-heading" style="margin-bottom:12px"><div><a class="back" href="#/" style="margin-bottom:6px">← Back to Countdowns</a><h1 style="margin:0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1.3px">Animation Maker & Keyframe Studio</h1></div>`
-      + `<div style="display:flex;gap:8px;flex-wrap:wrap">`
-      + `<button class="button secondary-button small-button" type="button" id="am-random">🎲 Randomize</button>`
-      + `<button class="button secondary-button small-button" type="button" id="am-apply-all">Apply to All Countdowns</button>`
-      + `<button class="button small-button" type="button" id="am-save">${isEditingExisting ? '💾 Update Animation' : '💾 Save Animation'}</button>`
-      + `${isEditingExisting ? `<button class="button secondary-button small-button" type="button" id="am-cancel-edit">New</button>` : ''}`
-      + `</div></div>`
-
-      + `<div class="anim-studio-shell">`
-      + `<div class="anim-workspace-card">`
-      + `<div class="anim-top-row">`
-      + `<div class="anim-name-wrap"><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="Animation Name (e.g. Neon Pulse)"></div>`
-      + `<div class="presets" style="margin:0">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-am-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
-      + `</div>`
-
-      + `<div class="anim-tabs">`
-      + `<button type="button" class="anim-tab ${studioTab === 'draw' ? 'on' : ''}" data-studio-tab="draw">🎨 1. Draw & Keyframes (${activeDraft.keyframes.length})</button>`
-      + `<button type="button" class="anim-tab ${studioTab === 'particles' ? 'on' : ''}" data-studio-tab="particles">✨ 2. Particles & Emoji Stickers</button>`
-      + `<button type="button" class="anim-tab ${studioTab === 'backdrop' ? 'on' : ''}" data-studio-tab="backdrop">🌌 3. Theme Mode & Backdrop</button>`
-      + `</div>`
-
-      + (studioTab === 'draw' ? drawTabHtml : (studioTab === 'particles' ? particlesTabHtml : backdropTabHtml))
-      + `</div>`
-
-      + `<div class="preview-pane" style="top:78px">`
-      + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE COUNTDOWN PREVIEW</div>`
-      + `<div id="am-live-preview" style="width:100%">${widgetHtml(previewEv, { showMilestones: true })}</div>`
-      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Your Saved Animations (${savedAnims.length})</h3>`
-      + (savedAnims.length
-        ? `<div class="saved-themes-grid">${savedAnims.map((a) => {
-            const bg = `linear-gradient(135deg,${a.color1},${a.color2})`;
-            const kfCount = (a.keyframes || []).filter((f) => f && f.items && f.items.length).length;
-            return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:#fff"><span>${esc(a.name)}</span><span>${kfCount ? `${kfCount} KF` : esc(a.shape)}</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">Delete</button></div></div>`;
-          }).join('')}</div>`
-        : `<p class="small-note" style="margin:0">No custom animations saved yet. Draw keyframes or customize particles on the left and click <strong>Save Animation</strong>!</p>`)
-      + `</div>`
-      + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Starter Templates (${ANIM_TEMPLATES.length})</h3>`
-      + `<div class="saved-themes-grid">${ANIM_TEMPLATES.map((t, idx) => {
-          const bg = `linear-gradient(135deg,${t.bg1},${t.bg2})`;
-          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Customize</button></div></div>`;
-        }).join('')}</div></div>`
-      + `</div></div></section>`;
-
-    const refreshPreview = () => {
-      const stageWrap = $('#kf-stage-wrap');
-      if (stageWrap) stageWrap.style.background = `linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})`;
-      const ev = normalize({
-        name: activeDraft.name || 'Animation Preview',
-        end: Date.now() + 9 * DAY + 21600000,
-        start: Date.now() - 4 * DAY,
-        emoji: '✨',
-        style: previewThemeStyle,
-        animId: activeDraft.id,
-        customAnim: activeDraft,
-        category: 'Launch',
-        note: 'Your drawn keyframes & particles animate live on the countdown!'
-      });
-      const prevContainer = $('#am-live-preview');
-      if (prevContainer) {
-        const wCanvas = prevContainer.querySelector('canvas.w-anim-canvas');
-        if (wCanvas) {
-          wCanvas.dataset.animCfg = JSON.stringify(activeDraft);
-          const wEl = prevContainer.querySelector('.widget');
-          if (wEl && activeDraft.bgMode === 'replace') {
-            wEl.setAttribute('style', customAnimInlineVars(activeDraft));
-          }
-          return;
-        }
-        prevContainer.innerHTML = widgetHtml(ev, { showMilestones: true });
-        tickAll();
-      }
-    };
-
-    $$('[data-studio-tab]', app).forEach((b) => b.addEventListener('click', () => {
-      studioTab = b.dataset.studioTab;
-      isPlayingKf = false;
-      buzz();
-      drawMaker();
-    }));
 
     const drawCanvas = $('#kf-draw-canvas');
-    if (drawCanvas) {
-      const dCtx = drawCanvas.getContext('2d');
-      const paintKeyframeEditorCanvas = () => {
-        if (!drawCanvas.isConnected) return;
-        const W = drawCanvas.width;
-        const H = drawCanvas.height;
-        dCtx.clearRect(0, 0, W, H);
+    const dCtx = drawCanvas.getContext('2d');
+    let previewParticles = [];
 
+    const initStudioParticles = () => {
+      const cnt = activeDraft.shape === 'none' ? 0 : Math.min(120, Math.max(0, Number(activeDraft.count ?? 0)));
+      const W = drawCanvas.width;
+      const H = drawCanvas.height;
+      const palette = [activeDraft.color1 || '#00f5d4', activeDraft.color2 || '#6d5dfc', activeDraft.color3 || '#ec4899'];
+      const rawCh = activeDraft.customChar || '';
+      const chars = isImageEmoji(rawCh) ? [rawCh] : [...rawCh];
+      previewParticles = Array.from({ length: cnt }, (_, idx) => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 1.8,
+        vy: (Math.random() - 0.5) * 1.8,
+        r: 0.65 + Math.random() * 0.7,
+        color: palette[idx % palette.length],
+        hue: (idx * 35) % 360,
+        phase: Math.random() * Math.PI * 2,
+        rot: Math.random() * Math.PI * 2,
+        vrot: (Math.random() - 0.5) * 0.06,
+        orbitA: (idx / Math.max(1, cnt)) * Math.PI * 2,
+        orbitR: 28 + Math.random() * (Math.min(W, H) * 0.45),
+        ch: chars.length ? chars[idx % chars.length] : ''
+      }));
+    };
+    initStudioParticles();
+
+    const paintKeyframeEditorCanvas = () => {
+      if (!drawCanvas.isConnected) return;
+      const W = drawCanvas.width;
+      const H = drawCanvas.height;
+      dCtx.clearRect(0, 0, W, H);
+
+      if (!isPlayingKf) {
         dCtx.save();
-        dCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+        dCtx.strokeStyle = 'rgba(255,255,255,0.05)';
         dCtx.lineWidth = 1;
-        for (let gx = 1; gx < 6; gx++) {
-          dCtx.beginPath(); dCtx.moveTo((W / 6) * gx, 0); dCtx.lineTo((W / 6) * gx, H); dCtx.stroke();
+        for (let gx = 1; gx < 8; gx++) {
+          dCtx.beginPath(); dCtx.moveTo((W / 8) * gx, 0); dCtx.lineTo((W / 8) * gx, H); dCtx.stroke();
         }
         for (let gy = 1; gy < 4; gy++) {
           dCtx.beginPath(); dCtx.moveTo(0, (H / 4) * gy); dCtx.lineTo(W, (H / 4) * gy); dCtx.stroke();
         }
         dCtx.restore();
+      }
 
-        if (isPlayingKf) {
-          const nonEmpty = activeDraft.keyframes.filter((f) => f && f.items && f.items.length);
-          const pool = nonEmpty.length ? nonEmpty : activeDraft.keyframes;
-          const fps = Math.max(1, Number(activeDraft.fps) || 6);
-          const dur = 1000 / fps;
-          const pos = (performance.now() / dur) % pool.length;
-          const idx = Math.floor(pos);
-          const frac = pos - idx;
-          const cur = pool[idx];
-          const nxt = pool[(idx + 1) % pool.length];
-          if (cur && cur.items) {
-            renderKeyframeItems(dCtx, cur.items, W, H, 1, activeDraft.tween && nxt ? nxt.items : null, activeDraft.tween ? frac : 0);
+      if (previewParticles.length > 0 && (isPlayingKf || activePanel === 'particles')) {
+        const spd = Number(activeDraft.speed) || 1.2;
+        const baseSize = Number(activeDraft.size) || 8;
+        for (const p of previewParticles) {
+          p.phase += 0.04 * spd;
+          if (activeDraft.spin) p.rot += p.vrot * spd;
+          if (activeDraft.motion === 'fall') {
+            p.y = (p.y + (1.1 + p.r) * spd) % H;
+          } else if (activeDraft.motion === 'rise') {
+            p.y = (p.y - (1.0 + p.r) * spd + H) % H;
+          } else if (activeDraft.motion === 'vortex') {
+            p.orbitA += 0.015 * spd;
+            p.x = W / 2 + Math.cos(p.orbitA) * p.orbitR;
+            p.y = H / 2 + Math.sin(p.orbitA) * (p.orbitR * 0.65);
+          } else {
+            p.x = (p.x + Math.cos(p.phase * 0.5) * 0.6 * spd + W) % W;
+            p.y = (p.y + Math.sin(p.phase * 0.4) * 0.6 * spd + H) % H;
           }
-          kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
-          return;
+          dCtx.save();
+          dCtx.translate(p.x, p.y);
+          if (activeDraft.spin) dCtx.rotate(p.rot);
+          dCtx.fillStyle = p.color;
+          dCtx.strokeStyle = p.color;
+          if (activeDraft.glow > 0) { dCtx.shadowColor = p.color; dCtx.shadowBlur = activeDraft.glow; }
+          drawAnimShape(dCtx, activeDraft.shape, Math.max(2, baseSize * p.r * 0.75), p.ch);
+          dCtx.restore();
         }
+      }
 
-        if (onionSkin && curFrameIdx > 0) {
-          const prevFrame = activeDraft.keyframes[curFrameIdx - 1];
-          if (prevFrame && Array.isArray(prevFrame.items)) {
-            renderKeyframeItems(dCtx, prevFrame.items, W, H, 0.28);
-          }
+      if (isPlayingKf) {
+        const nonEmpty = activeDraft.keyframes.filter((f) => f && f.items && f.items.length);
+        const pool = nonEmpty.length ? nonEmpty : activeDraft.keyframes;
+        const fps = Math.max(1, Number(activeDraft.fps) || 6);
+        const dur = 1000 / fps;
+        const pos = (performance.now() / dur) % pool.length;
+        const idx = Math.floor(pos);
+        const frac = pos - idx;
+        const cur = pool[idx];
+        const nxt = pool[(idx + 1) % pool.length];
+        if (cur && cur.items) {
+          renderKeyframeItems(dCtx, cur.items, W, H, 1, activeDraft.tween && nxt ? nxt.items : null, activeDraft.tween ? frac : 0, -1);
         }
+        kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
+        return;
+      }
 
-        const curFrame = activeDraft.keyframes[curFrameIdx];
-        if (curFrame && Array.isArray(curFrame.items)) {
-          renderKeyframeItems(dCtx, curFrame.items, W, H, 1);
+      if (onionSkin && curFrameIdx > 0) {
+        const prevFrame = activeDraft.keyframes[curFrameIdx - 1];
+        if (prevFrame && Array.isArray(prevFrame.items)) {
+          renderKeyframeItems(dCtx, prevFrame.items, W, H, 0.26, null, 0, -1);
         }
-        if (activePointerDrawing) {
-          renderKeyframeItems(dCtx, [activePointerDrawing], W, H, 0.95);
-        }
-      };
+      }
 
-      const getNormCoords = (ev) => {
-        const r = drawCanvas.getBoundingClientRect();
-        const x = Math.min(1, Math.max(0, (ev.clientX - r.left) / Math.max(1, r.width)));
-        const y = Math.min(1, Math.max(0, (ev.clientY - r.top) / Math.max(1, r.height)));
-        return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000];
-      };
+      const cf = activeDraft.keyframes[curFrameIdx];
+      if (cf && Array.isArray(cf.items)) {
+        renderKeyframeItems(dCtx, cf.items, W, H, 1, null, 0, selectedItemIdx);
+      }
+      if (activePointerOp && activePointerOp.previewItem) {
+        renderKeyframeItems(dCtx, [activePointerOp.previewItem], W, H, 0.95, null, 0, -1);
+      }
 
-      drawCanvas.addEventListener('pointerdown', (ev) => {
-        if (isPlayingKf) {
-          isPlayingKf = false;
-          if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
-          const playBtn = $('#kf-play-btn');
-          if (playBtn) { playBtn.classList.remove('on'); playBtn.textContent = '▶ Play Keyframes'; }
-        }
-        drawCanvas.setPointerCapture(ev.pointerId);
-        const [nx, ny] = getNormCoords(ev);
-        const curFrame = activeDraft.keyframes[curFrameIdx];
+      if (activePanel === 'particles' && previewParticles.length > 0) {
+        kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
+      }
+    };
 
-        if (drawTool === 'eraser') {
-          if (curFrame && Array.isArray(curFrame.items)) {
-            curFrame.items = curFrame.items.filter((it) => {
-              if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
-              if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
-              if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
-              return true;
-            });
-            paintKeyframeEditorCanvas();
-            refreshPreview();
-          }
-          activePointerDrawing = { t: 'eraser' };
-          return;
-        }
+    const getNormCoords = (ev) => {
+      const r = drawCanvas.getBoundingClientRect();
+      const x = Math.min(1, Math.max(0, (ev.clientX - r.left) / Math.max(1, r.width)));
+      const y = Math.min(1, Math.max(0, (ev.clientY - r.top) / Math.max(1, r.height)));
+      return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000];
+    };
 
-        if (drawTool === 'stamp') {
-          if (isImageEmoji(stampChar)) getCachedEmojiImage(stampChar);
-          curFrame.items.push({ t: 'stamp', ch: stampChar, c: brushColor, sz: Math.max(20, brushSize * 4), x: nx, y: ny });
-          buzz();
-          paintKeyframeEditorCanvas();
-          refreshPreview();
-          const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
-          if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
-          return;
-        }
+    drawCanvas.addEventListener('pointerdown', (ev) => {
+      if (isPlayingKf) {
+        isPlayingKf = false;
+        if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+        drawStudioApp();
+        return;
+      }
+      drawCanvas.setPointerCapture(ev.pointerId);
+      const [nx, ny] = getNormCoords(ev);
+      const cf = activeDraft.keyframes[curFrameIdx];
 
-        if (drawTool === 'brush') {
-          activePointerDrawing = { t: 'stroke', c: brushColor, sz: brushSize, glow: brushGlow, pts: [[nx, ny]] };
-        } else if (drawTool === 'line' || drawTool === 'rect' || drawTool === 'circle') {
-          activePointerDrawing = { t: drawTool, c: brushColor, sz: brushSize, glow: brushGlow, x1: nx, y1: ny, x2: nx, y2: ny };
-        }
-        paintKeyframeEditorCanvas();
-      });
-
-      drawCanvas.addEventListener('pointermove', (ev) => {
-        if (!activePointerDrawing) return;
-        const [nx, ny] = getNormCoords(ev);
-        const curFrame = activeDraft.keyframes[curFrameIdx];
-
-        if (activePointerDrawing.t === 'eraser') {
-          if (curFrame && Array.isArray(curFrame.items)) {
-            curFrame.items = curFrame.items.filter((it) => {
-              if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
-              if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
-              if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
-              return true;
-            });
-            paintKeyframeEditorCanvas();
-            refreshPreview();
-          }
-          return;
-        }
-
-        if (activePointerDrawing.t === 'stroke') {
-          const pts = activePointerDrawing.pts;
-          const last = pts[pts.length - 1];
-          if (!last || Math.hypot(nx - last[0], ny - last[1]) > 0.008) {
-            pts.push([nx, ny]);
-          }
+      if (drawTool === 'select') {
+        const hitIdx = findHitKeyframeItemIndex(cf.items, nx, ny);
+        selectedItemIdx = hitIdx;
+        if (hitIdx >= 0) {
+          activePointerOp = { mode: 'move', lastX: nx, lastY: ny };
         } else {
-          activePointerDrawing.x2 = nx;
-          activePointerDrawing.y2 = ny;
+          activePointerOp = null;
         }
         paintKeyframeEditorCanvas();
-      });
+        return;
+      }
 
-      const finishPointerDraw = () => {
-        if (!activePointerDrawing) return;
-        if (activePointerDrawing.t !== 'eraser') {
-          const curFrame = activeDraft.keyframes[curFrameIdx];
-          curFrame.items.push(activePointerDrawing);
-          const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
-          if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
+      if (drawTool === 'eraser') {
+        if (cf && Array.isArray(cf.items)) {
+          cf.items = cf.items.filter((_, idx) => idx !== findHitKeyframeItemIndex(cf.items, nx, ny));
+          selectedItemIdx = -1;
+          paintKeyframeEditorCanvas();
         }
-        activePointerDrawing = null;
+        activePointerOp = { mode: 'erase' };
+        return;
+      }
+
+      if (drawTool === 'stamp') {
+        if (!stampChar) {
+          showNotice('Pick or upload an emoji stamp in the left sidebar first!');
+          return;
+        }
+        if (isImageEmoji(stampChar)) getCachedEmojiImage(stampChar);
+        cf.items.push({ t: 'stamp', ch: stampChar, c: brushColor, sz: Math.max(20, brushSize * 4), x: nx, y: ny });
+        selectedItemIdx = cf.items.length - 1;
+        buzz();
         paintKeyframeEditorCanvas();
-        refreshPreview();
-      };
-
-      drawCanvas.addEventListener('pointerup', finishPointerDraw);
-      drawCanvas.addEventListener('pointercancel', finishPointerDraw);
-
-      $$('[data-kf-tool]', app).forEach((b) => b.addEventListener('click', () => { drawTool = b.dataset.kfTool; drawMaker(); }));
-      $$('[data-kf-stamp]', app).forEach((b) => b.addEventListener('click', () => { stampChar = b.dataset.kfStamp; drawMaker(); }));
-      const openStampEmojiBtn = $('#kf-open-emoji-picker');
-      if (openStampEmojiBtn) {
-        openStampEmojiBtn.addEventListener('click', () => {
-          openEmojiPickerModal(stampChar, (picked) => {
-            stampChar = picked;
-            if (isImageEmoji(picked)) getCachedEmojiImage(picked);
-            drawMaker();
-          });
-        });
+        const cellSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+        if (cellSmall) cellSmall.textContent = `${cf.items.length} item${cf.items.length === 1 ? '' : 's'}`;
+        return;
       }
 
-      $('#kf-brush-color').addEventListener('input', (e) => { brushColor = e.target.value; });
-      $('#kf-brush-size').addEventListener('input', (e) => { brushSize = Number(e.target.value); $('#kf-size-lbl').textContent = `${brushSize}px`; });
-      $('#kf-brush-glow').addEventListener('input', (e) => { brushGlow = Number(e.target.value); $('#kf-glow-lbl').textContent = `${brushGlow}px`; });
-
-      $('#kf-undo').addEventListener('click', () => {
-        const curFrame = activeDraft.keyframes[curFrameIdx];
-        if (curFrame && curFrame.items.length) {
-          curFrame.items.pop();
-          buzz();
-          drawMaker();
-        }
-      });
-
-      $('#kf-clear').addEventListener('click', () => {
-        const curFrame = activeDraft.keyframes[curFrameIdx];
-        if (curFrame) {
-          curFrame.items = [];
-          buzz();
-          drawMaker();
-        }
-      });
-
-      $$('[data-kf-idx]', app).forEach((b) => b.addEventListener('click', () => {
-        curFrameIdx = Number(b.dataset.kfIdx);
-        isPlayingKf = false;
-        drawMaker();
-      }));
-
-      $('#kf-add-frame').addEventListener('click', () => {
-        if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
-        activeDraft.keyframes.splice(curFrameIdx + 1, 0, { items: [] });
-        curFrameIdx++;
-        isPlayingKf = false;
-        buzz();
-        drawMaker();
-      });
-
-      $('#kf-dup-frame').addEventListener('click', () => {
-        if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
-        const clone = JSON.parse(JSON.stringify(activeDraft.keyframes[curFrameIdx] || { items: [] }));
-        activeDraft.keyframes.splice(curFrameIdx + 1, 0, clone);
-        curFrameIdx++;
-        isPlayingKf = false;
-        buzz();
-        drawMaker();
-      });
-
-      const delKfBtn = $('#kf-del-frame');
-      if (delKfBtn) {
-        delKfBtn.addEventListener('click', () => {
-          if (activeDraft.keyframes.length <= 1) return;
-          activeDraft.keyframes.splice(curFrameIdx, 1);
-          if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
-          isPlayingKf = false;
-          buzz();
-          drawMaker();
-        });
+      if (drawTool === 'brush') {
+        activePointerOp = { mode: 'draw', previewItem: { t: 'stroke', c: brushColor, sz: brushSize, glow: brushGlow, pts: [[nx, ny]] } };
+      } else if (drawTool === 'line' || drawTool === 'rect' || drawTool === 'circle') {
+        activePointerOp = { mode: 'draw', previewItem: { t: drawTool, c: brushColor, sz: brushSize, glow: brushGlow, x1: nx, y1: ny, x2: nx, y2: ny } };
       }
-
-      $('#kf-play-btn').addEventListener('click', () => {
-        isPlayingKf = !isPlayingKf;
-        buzz();
-        drawMaker();
-      });
-
-      $('#kf-onion-btn').addEventListener('click', () => {
-        onionSkin = !onionSkin;
-        buzz();
-        drawMaker();
-      });
-
-      $('#kf-tween-btn').addEventListener('click', () => {
-        activeDraft.tween = !activeDraft.tween;
-        buzz();
-        drawMaker();
-      });
-
-      $('#kf-fps').addEventListener('input', (e) => {
-        activeDraft.fps = Number(e.target.value);
-        $('#kf-fps-lbl').textContent = `${activeDraft.fps} FPS`;
-        refreshPreview();
-      });
-
       paintKeyframeEditorCanvas();
+    });
+
+    drawCanvas.addEventListener('pointermove', (ev) => {
+      if (!activePointerOp) return;
+      const [nx, ny] = getNormCoords(ev);
+      const cf = activeDraft.keyframes[curFrameIdx];
+
+      if (activePointerOp.mode === 'move' && selectedItemIdx >= 0 && cf.items[selectedItemIdx]) {
+        const dx = nx - activePointerOp.lastX;
+        const dy = ny - activePointerOp.lastY;
+        activePointerOp.lastX = nx;
+        activePointerOp.lastY = ny;
+        translateKeyframeItem(cf.items[selectedItemIdx], dx, dy);
+        paintKeyframeEditorCanvas();
+        return;
+      }
+
+      if (activePointerOp.mode === 'erase' && cf && Array.isArray(cf.items)) {
+        const hit = findHitKeyframeItemIndex(cf.items, nx, ny);
+        if (hit >= 0) {
+          cf.items.splice(hit, 1);
+          paintKeyframeEditorCanvas();
+        }
+        return;
+      }
+
+      if (activePointerOp.mode === 'draw' && activePointerOp.previewItem) {
+        const it = activePointerOp.previewItem;
+        if (it.t === 'stroke') {
+          const last = it.pts[it.pts.length - 1];
+          if (!last || Math.hypot(nx - last[0], ny - last[1]) > 0.006) it.pts.push([nx, ny]);
+        } else {
+          it.x2 = nx;
+          it.y2 = ny;
+        }
+        paintKeyframeEditorCanvas();
+      }
+    });
+
+    const finishPointer = () => {
+      if (!activePointerOp) return;
+      const cf = activeDraft.keyframes[curFrameIdx];
+      if (activePointerOp.mode === 'draw' && activePointerOp.previewItem) {
+        cf.items.push(activePointerOp.previewItem);
+        selectedItemIdx = cf.items.length - 1;
+        const cellSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+        if (cellSmall) cellSmall.textContent = `${cf.items.length} item${cf.items.length === 1 ? '' : 's'}`;
+      }
+      const wasSelect = activePointerOp.mode === 'move';
+      activePointerOp = null;
+      if (wasSelect && activePanel === 'select') {
+        drawStudioApp();
+      } else {
+        paintKeyframeEditorCanvas();
+      }
+    };
+
+    drawCanvas.addEventListener('pointerup', finishPointer);
+    drawCanvas.addEventListener('pointercancel', finishPointer);
+
+    if (animStudioKeyHandler) window.removeEventListener('keydown', animStudioKeyHandler);
+    animStudioKeyHandler = (e) => {
+      if (parseHash().path !== '/animations') return;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement && document.activeElement.tagName)) return;
+
+      const step = e.shiftKey ? 0.035 : 0.012;
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (nudgeSelectedItem(0, -step)) paintKeyframeEditorCanvas();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (nudgeSelectedItem(0, step)) paintKeyframeEditorCanvas();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (nudgeSelectedItem(-step, 0)) paintKeyframeEditorCanvas();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (nudgeSelectedItem(step, 0)) paintKeyframeEditorCanvas();
+      } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedItemIdx >= 0) {
+        e.preventDefault();
+        const cf = activeDraft.keyframes[curFrameIdx];
+        if (cf && cf.items[selectedItemIdx]) {
+          cf.items.splice(selectedItemIdx, 1);
+          selectedItemIdx = Math.min(selectedItemIdx, cf.items.length - 1);
+          drawStudioApp();
+        }
+      } else if (e.key.toLowerCase() === 'v') {
+        e.preventDefault();
+        drawTool = 'select';
+        activePanel = 'select';
+        sidebarCollapsed = false;
+        drawStudioApp();
+      } else if (e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        drawTool = 'brush';
+        activePanel = 'draw';
+        sidebarCollapsed = false;
+        drawStudioApp();
+      }
+    };
+    window.addEventListener('keydown', animStudioKeyHandler);
+
+    const closeBannerBtn = $('#am-close-mobile-banner');
+    if (closeBannerBtn) {
+      closeBannerBtn.addEventListener('click', () => {
+        mobilePcBannerDismissed = true;
+        const b = $('#am-mobile-banner');
+        if (b) b.classList.remove('show');
+      });
     }
 
-    $('#am-name').addEventListener('input', (e) => { activeDraft.name = e.target.value; refreshPreview(); });
-    const charInput = $('#am-char');
-    if (charInput) charInput.addEventListener('input', (e) => { activeDraft.customChar = e.target.value || '✨'; refreshPreview(); });
+    $('#am-quick-select').addEventListener('click', () => {
+      drawTool = 'select';
+      activePanel = 'select';
+      sidebarCollapsed = false;
+      drawStudioApp();
+    });
 
-    $$('[data-am-emoji]', app).forEach((b) => b.addEventListener('click', () => {
-      activeDraft.customChar = b.dataset.amEmoji;
-      if (isImageEmoji(activeDraft.customChar)) getCachedEmojiImage(activeDraft.customChar);
-      buzz();
-      drawMaker();
+    $('#am-toggle-guide').addEventListener('click', () => {
+      showGuideWidget = !showGuideWidget;
+      drawStudioApp();
+    });
+
+    $$('[data-am-panel]', app).forEach((b) => b.addEventListener('click', () => {
+      const p = b.dataset.amPanel;
+      if (activePanel === p && !sidebarCollapsed) {
+        sidebarCollapsed = true;
+      } else {
+        activePanel = p;
+        sidebarCollapsed = false;
+        if (p === 'select') drawTool = 'select';
+        else if (p === 'stamp') drawTool = 'stamp';
+        else if (p === 'draw' && (drawTool === 'select' || drawTool === 'stamp')) drawTool = 'brush';
+      }
+      drawStudioApp();
     }));
 
-    const handleParticleEmojiModal = () => {
-      openEmojiPickerModal(activeDraft.customChar, (picked) => {
-        activeDraft.customChar = picked;
-        if (isImageEmoji(picked)) getCachedEmojiImage(picked);
-        drawMaker();
-      });
-    };
-    const pEmojiBtn1 = $('#am-open-emoji-picker');
-    const pEmojiBtn2 = $('#am-open-emoji-picker-btn');
-    if (pEmojiBtn1) pEmojiBtn1.addEventListener('click', handleParticleEmojiModal);
-    if (pEmojiBtn2) pEmojiBtn2.addEventListener('click', handleParticleEmojiModal);
+    const collapseBtn = $('#am-collapse-side');
+    if (collapseBtn) collapseBtn.addEventListener('click', () => { sidebarCollapsed = true; drawStudioApp(); });
 
-    for (const [idKey, prop] of [['bg1', 'bg1'], ['bg2', 'bg2'], ['fg', 'fg'], ['acc', 'acc'], ['c1', 'color1'], ['c2', 'color2'], ['c3', 'color3']]) {
-      const picker = $(`#am-${idKey}`);
-      const hex = $(`#am-${idKey}-hex`);
-      if (!picker || !hex) continue;
-      picker.addEventListener('input', () => { activeDraft[prop] = picker.value; hex.value = picker.value; refreshPreview(); });
-      hex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { activeDraft[prop] = hex.value; picker.value = hex.value; refreshPreview(); } });
-    }
+    $$('[data-am-tool]', app).forEach((b) => b.addEventListener('click', () => {
+      drawTool = b.dataset.amTool;
+      if (drawTool === 'select') activePanel = 'select';
+      drawStudioApp();
+    }));
 
-    for (const [idKey, prop, suffix] of [['angle', 'angle', '°'], ['count', 'count', ''], ['speed', 'speed', 'x'], ['size', 'size', 'px'], ['glow', 'glow', 'px'], ['opacity', 'opacity', '%']]) {
-      const rng = $(`#am-${idKey}`);
-      if (!rng) continue;
-      rng.addEventListener('input', () => {
-        activeDraft[prop] = Number(rng.value);
-        const valEl = $(`#am-${idKey}-val`);
-        if (valEl) valEl.textContent = `${activeDraft[prop]}${suffix}`;
-        refreshPreview();
+    $$('[data-nudge]', app).forEach((b) => b.addEventListener('click', () => {
+      const [dx, dy] = b.dataset.nudge.split(',').map(Number);
+      if (nudgeSelectedItem(dx, dy)) paintKeyframeEditorCanvas();
+    }));
+
+    $$('[data-pick-item]', app).forEach((el) => el.addEventListener('click', () => {
+      selectedItemIdx = Number(el.dataset.pickItem);
+      drawTool = 'select';
+      drawStudioApp();
+    }));
+
+    const selCol = $('#am-sel-color');
+    if (selCol && selectedItem) {
+      selCol.addEventListener('input', (e) => {
+        selectedItem.c = e.target.value;
+        paintKeyframeEditorCanvas();
       });
     }
+    const selSz = $('#am-sel-sz');
+    if (selSz && selectedItem) {
+      selSz.addEventListener('input', (e) => {
+        selectedItem.sz = Number(e.target.value);
+        const lbl = $('#am-sel-sz-val');
+        if (lbl) lbl.textContent = `${selectedItem.sz}px`;
+        paintKeyframeEditorCanvas();
+      });
+    }
+    const selDup = $('#am-sel-dup');
+    if (selDup && selectedItem) {
+      selDup.addEventListener('click', () => {
+        const clone = JSON.parse(JSON.stringify(selectedItem));
+        translateKeyframeItem(clone, 0.03, 0.03);
+        curFrame.items.push(clone);
+        selectedItemIdx = curFrame.items.length - 1;
+        buzz();
+        drawStudioApp();
+      });
+    }
+    const selDel = $('#am-sel-del');
+    if (selDel && selectedItem) {
+      selDel.addEventListener('click', () => {
+        curFrame.items.splice(selectedItemIdx, 1);
+        selectedItemIdx = Math.min(selectedItemIdx, curFrame.items.length - 1);
+        buzz();
+        drawStudioApp();
+      });
+    }
 
-    $$('[data-am-bgmode]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.bgMode = b.dataset.amBgmode; drawMaker(); }));
-    $$('[data-am-layer]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.layer = b.dataset.amLayer; drawMaker(); }));
-    $$('[data-am-shape]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.shape = b.dataset.amShape; drawMaker(); }));
-    $$('[data-am-motion]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.motion = b.dataset.amMotion; drawMaker(); }));
-    $$('[data-am-test-theme]', app).forEach((b) => b.addEventListener('click', () => { previewThemeStyle = b.dataset.amTestTheme; drawMaker(); }));
+    const bCol = $('#am-brush-color');
+    if (bCol) bCol.addEventListener('input', (e) => { brushColor = e.target.value; });
+    const bSz = $('#am-brush-size');
+    if (bSz) {
+      bSz.addEventListener('input', (e) => {
+        brushSize = Number(e.target.value);
+        const l1 = $('#am-bsz-val'); if (l1) l1.textContent = `${brushSize}px`;
+        const l2 = $('#am-stampsz-val'); if (l2) l2.textContent = `${Math.max(18, brushSize * 4)}px`;
+      });
+    }
+    const bGlow = $('#am-brush-glow');
+    if (bGlow) {
+      bGlow.addEventListener('input', (e) => {
+        brushGlow = Number(e.target.value);
+        const l = $('#am-bglow-val'); if (l) l.textContent = `${brushGlow}px`;
+      });
+    }
+
+    $$('[data-am-stamp]', app).forEach((b) => b.addEventListener('click', () => {
+      stampChar = b.dataset.amStamp;
+      drawTool = 'stamp';
+      if (isImageEmoji(stampChar)) getCachedEmojiImage(stampChar);
+      drawStudioApp();
+    }));
+
+    const clearStampBtn = $('#am-clear-stamp');
+    if (clearStampBtn) clearStampBtn.addEventListener('click', () => { stampChar = ''; drawStudioApp(); });
+
+    const openStampModalBtn = $('#am-open-stamp-modal');
+    if (openStampModalBtn) {
+      openStampModalBtn.addEventListener('click', () => {
+        openEmojiPickerModal(stampChar, (picked) => {
+          stampChar = picked || '';
+          drawTool = 'stamp';
+          if (isImageEmoji(stampChar)) getCachedEmojiImage(stampChar);
+          drawStudioApp();
+        });
+      });
+    }
+
+    $$('[data-am-shape]', app).forEach((b) => b.addEventListener('click', () => {
+      activeDraft.shape = b.dataset.amShape;
+      if (activeDraft.shape !== 'none' && activeDraft.count === 0) activeDraft.count = 36;
+      drawStudioApp();
+    }));
+
+    $$('[data-am-motion]', app).forEach((b) => b.addEventListener('click', () => {
+      activeDraft.motion = b.dataset.amMotion;
+      drawStudioApp();
+    }));
+
+    const charInp = $('#am-char-inp');
+    if (charInp) charInp.addEventListener('input', (e) => { activeDraft.customChar = e.target.value; initStudioParticles(); });
+
+    const openPartEmoji = $('#am-open-part-emoji');
+    if (openPartEmoji) {
+      openPartEmoji.addEventListener('click', () => {
+        openEmojiPickerModal(activeDraft.customChar, (picked) => {
+          activeDraft.customChar = picked || '';
+          if (isImageEmoji(activeDraft.customChar)) getCachedEmojiImage(activeDraft.customChar);
+          drawStudioApp();
+        });
+      });
+    }
+
+    for (const [id, prop, valId, suf] of [
+      ['am-count', 'count', 'am-cnt-val', ''],
+      ['am-speed', 'speed', 'am-spd-val', 'x'],
+      ['am-size', 'size', 'am-psz-val', 'px'],
+      ['am-angle', 'angle', 'am-ang-val', '°'],
+      ['am-opacity', 'opacity', 'am-op-val', '%']
+    ]) {
+      const el = $(`#${id}`);
+      if (el) {
+        el.addEventListener('input', (e) => {
+          activeDraft[prop] = Number(e.target.value);
+          const vEl = $(`#${valId}`);
+          if (vEl) vEl.textContent = `${activeDraft[prop]}${suf}`;
+          if (prop === 'count') initStudioParticles();
+          if (prop === 'angle') {
+            const sw = $('#kf-stage-wrap');
+            if (sw) sw.style.background = `linear-gradient(${activeDraft.angle}deg,${activeDraft.bg1},${activeDraft.bg2})`;
+          }
+          paintKeyframeEditorCanvas();
+        });
+      }
+    }
+
+    for (const [id, prop] of [['am-c1', 'color1'], ['am-c2', 'color2'], ['am-c3', 'color3'], ['am-bg1', 'bg1'], ['am-bg2', 'bg2'], ['am-fg', 'fg'], ['am-acc', 'acc']]) {
+      const el = $(`#${id}`);
+      if (el) {
+        el.addEventListener('input', (e) => {
+          activeDraft[prop] = e.target.value;
+          initStudioParticles();
+          const sw = $('#kf-stage-wrap');
+          if (sw) sw.style.background = `linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})`;
+          paintKeyframeEditorCanvas();
+        });
+      }
+    }
+
     $$('[data-am-toggle]', app).forEach((b) => b.addEventListener('click', () => {
       const k = b.dataset.amToggle;
       activeDraft[k] = !activeDraft[k];
-      drawMaker();
+      drawStudioApp();
     }));
 
-    $('#am-random').addEventListener('click', () => {
-      Object.assign(activeDraft, randomAnimConfig());
-      buzz();
-      drawMaker();
+    $$('[data-am-bgmode]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.bgMode = b.dataset.amBgmode; drawStudioApp(); }));
+    $$('[data-am-layer]', app).forEach((b) => b.addEventListener('click', () => { activeDraft.layer = b.dataset.amLayer; drawStudioApp(); }));
+    const testThemeSel = $('#am-test-theme-sel');
+    if (testThemeSel) testThemeSel.addEventListener('change', (e) => { previewThemeStyle = e.target.value; drawStudioApp(); });
+
+    $('#am-name').addEventListener('input', (e) => { activeDraft.name = e.target.value; });
+
+    $('#kf-undo').addEventListener('click', () => {
+      if (curFrame && curFrame.items.length) {
+        curFrame.items.pop();
+        selectedItemIdx = Math.min(selectedItemIdx, curFrame.items.length - 1);
+        buzz();
+        drawStudioApp();
+      }
     });
+
+    $('#kf-clear').addEventListener('click', () => {
+      if (curFrame) {
+        curFrame.items = [];
+        selectedItemIdx = -1;
+        buzz();
+        drawStudioApp();
+      }
+    });
+
+    $$('[data-kf-idx]', app).forEach((b) => b.addEventListener('click', () => {
+      curFrameIdx = Number(b.dataset.kfIdx);
+      selectedItemIdx = -1;
+      isPlayingKf = false;
+      drawStudioApp();
+    }));
+
+    $('#kf-add-frame').addEventListener('click', () => {
+      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+      activeDraft.keyframes.splice(curFrameIdx + 1, 0, { items: [] });
+      curFrameIdx++;
+      selectedItemIdx = -1;
+      isPlayingKf = false;
+      buzz();
+      drawStudioApp();
+    });
+
+    $('#kf-dup-frame').addEventListener('click', () => {
+      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+      const clone = JSON.parse(JSON.stringify(activeDraft.keyframes[curFrameIdx] || { items: [] }));
+      activeDraft.keyframes.splice(curFrameIdx + 1, 0, clone);
+      curFrameIdx++;
+      isPlayingKf = false;
+      buzz();
+      drawStudioApp();
+    });
+
+    const delKfBtn = $('#kf-del-frame');
+    if (delKfBtn) {
+      delKfBtn.addEventListener('click', () => {
+        if (activeDraft.keyframes.length <= 1) return;
+        activeDraft.keyframes.splice(curFrameIdx, 1);
+        if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
+        selectedItemIdx = -1;
+        isPlayingKf = false;
+        buzz();
+        drawStudioApp();
+      });
+    }
+
+    $('#kf-play-btn').addEventListener('click', () => {
+      isPlayingKf = !isPlayingKf;
+      buzz();
+      drawStudioApp();
+    });
+
+    $('#kf-onion-btn').addEventListener('click', () => {
+      onionSkin = !onionSkin;
+      buzz();
+      drawStudioApp();
+    });
+
+    $('#kf-tween-btn').addEventListener('click', () => {
+      activeDraft.tween = !activeDraft.tween;
+      buzz();
+      drawStudioApp();
+    });
+
+    $('#kf-fps').addEventListener('input', (e) => {
+      activeDraft.fps = Number(e.target.value);
+      $('#kf-fps-lbl').textContent = `${activeDraft.fps} FPS`;
+    });
+
+    const resetBlankBtn = $('#am-reset-blank');
+    if (resetBlankBtn) {
+      resetBlankBtn.addEventListener('click', () => {
+        isEditingExisting = false;
+        activeDraft = normalizeCustomAnimObj({
+          ...JSON.parse(JSON.stringify(ANIM_TEMPLATES[0])),
+          id: 'ca_' + newId(),
+          name: 'My Custom Animation'
+        });
+        curFrameIdx = 0;
+        selectedItemIdx = -1;
+        buzz();
+        drawStudioApp();
+      });
+    }
 
     $$('[data-am-tpl]', app).forEach((b) => b.addEventListener('click', () => {
       const tpl = ANIM_TEMPLATES[Number(b.dataset.amTpl)];
@@ -3055,9 +3308,9 @@ function renderAnimationMaker() {
           activeDraft.keyframes = [{ items: [] }, { items: [] }, { items: [] }];
         }
         curFrameIdx = 0;
-        brushColor = activeDraft.color1 || '#00f5d4';
+        selectedItemIdx = -1;
         buzz();
-        drawMaker();
+        drawStudioApp();
       }
     }));
 
@@ -3068,10 +3321,9 @@ function renderAnimationMaker() {
       saveCustomAnims(list);
       const updatedEvents = readEvents().map((ev) => ev.animId === saved.id ? { ...ev, customAnim: saved } : ev);
       saveEvents(updatedEvents);
-      isEditingExisting = false;
-      activeDraft = normalizeCustomAnimObj({ ...JSON.parse(JSON.stringify(saved)), id: 'ca_' + newId(), name: saved.name + ' Copy' });
+      isEditingExisting = true;
       buzz();
-      drawMaker();
+      drawStudioApp();
       showNotice(`Saved custom animation "${saved.name}"!`);
     });
 
@@ -3082,22 +3334,14 @@ function renderAnimationMaker() {
       saveCustomAnims(list);
       const events = readEvents();
       if (!events.length) {
-        showNotice(`Saved "${saved.name}"! Create a countdown to see it in action.`);
-        drawMaker();
+        showNotice(`Saved "${saved.name}"! Create a countdown to use it.`);
+        drawStudioApp();
         return;
       }
       saveEvents(events.map((ev) => ({ ...ev, animId: saved.id, customAnim: saved })));
       buzz();
-      drawMaker();
+      drawStudioApp();
       showNotice(`Applied "${saved.name}" to all ${events.length} countdown${events.length === 1 ? '' : 's'}!`);
-    });
-
-    const cancelBtn = $('#am-cancel-edit');
-    if (cancelBtn) cancelBtn.addEventListener('click', () => {
-      isEditingExisting = false;
-      activeDraft = normalizeCustomAnimObj({ ...JSON.parse(JSON.stringify(ANIM_TEMPLATES[0])), id: 'ca_' + newId(), name: 'My Custom Animation' });
-      curFrameIdx = 0;
-      drawMaker();
     });
 
     $$('[data-edit-anim]', app).forEach((b) => b.addEventListener('click', () => {
@@ -3106,21 +3350,22 @@ function renderAnimationMaker() {
         activeDraft = normalizeCustomAnimObj(JSON.parse(JSON.stringify(found)));
         if (!activeDraft.keyframes || !activeDraft.keyframes.length) activeDraft.keyframes = [{ items: [] }];
         curFrameIdx = 0;
+        selectedItemIdx = -1;
         isEditingExisting = true;
-        drawMaker();
+        drawStudioApp();
       }
     }));
 
     $$('[data-del-anim]', app).forEach((b) => b.addEventListener('click', () => {
       const id = b.dataset.delAnim;
-      const found = findCustomAnim(id);
       saveCustomAnims(readCustomAnims().filter((a) => a.id !== id));
-      drawMaker();
-      showNotice(`Deleted animation "${found ? found.name : ''}".`);
+      drawStudioApp();
+      showNotice('Animation deleted.');
     }));
 
     $$('[data-use-anim]', app).forEach((b) => b.addEventListener('click', () => {
       const id = b.dataset.useAnim;
+      cleanupAnimationMakerApp();
       location.hash = '/create';
       setTimeout(() => {
         const chip = $(`[data-anim="${id}"]`);
@@ -3128,10 +3373,11 @@ function renderAnimationMaker() {
       }, 60);
     }));
 
+    paintKeyframeEditorCanvas();
     tickAll();
   };
 
-  drawMaker();
+  drawStudioApp();
 }
 
 /* --------- Focus & Pomodoro Studio (#/focus — Only accessible when enabled in Settings) --------- */
@@ -3629,7 +3875,6 @@ document.addEventListener('keydown', (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key.toLowerCase() === 'n') { e.preventDefault(); location.hash = '/create'; }
   else if (e.key.toLowerCase() === 't') { e.preventDefault(); location.hash = '/themes'; }
-  else if (e.key.toLowerCase() === 'a') { e.preventDefault(); location.hash = '/animations'; }
   else if (e.key.toLowerCase() === 'f' && getExtras().focusStudio) { e.preventDefault(); location.hash = '/focus'; }
 });
 
@@ -3870,7 +4115,7 @@ function renderMore() {
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'more-share')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
-    + moreRow('#/animations', 'Animation Maker', 'Draw keyframes & custom particle animations')
+    + moreRow('#/animations', 'Animation Maker', 'Full-screen keyframe & animation studio app')
     + (ex.focusStudio ? moreRow('#/focus', 'Focus & Audio', 'Focus timer and soundscapes') : '')
     + '</div></section>';
   $('#more-share').addEventListener('click', openShareData);
@@ -3895,7 +4140,7 @@ function renderNews() {
     + `<h2 class="news-sub">Available now</h2><div class="more-list">`
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'news-share')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
-    + moreRow('#/animations', 'Animation Maker', 'Draw keyframes & custom particle animations')
+    + moreRow('#/animations', 'Animation Maker', 'Full-screen keyframe & animation studio app')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + '</div></section>';
   $('#news-share').addEventListener('click', openShareData);
@@ -4051,6 +4296,7 @@ async function checkReminders() {
 
 /* --------- router --------- */
 function route() {
+  cleanupAnimationMakerApp();
   closeModal();
   closeNewMenu();
   syncExtrasShellUI();
