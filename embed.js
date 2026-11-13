@@ -51,6 +51,7 @@
   if (d.aFg) q.set('a_fg', d.aFg);
   if (d.aAcc) q.set('a_acc', d.aAcc);
   if (d.aAngle) q.set('a_angle', d.aAngle);
+  if (d.aKf) q.set('a_kf', d.aKf);
   var h = size === 'compact' ? (title === '1' ? 195 : 155) : (title === '1' ? 320 : 250);
   var f = document.createElement('iframe');
   f.src = base + '#/embed?' + q.toString();

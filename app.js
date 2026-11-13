@@ -22,6 +22,7 @@ const THEME_KEY = 'downcount.theme.v2';
 const CUSTOM_THEMES_KEY = 'downcount.customThemes.v1';
 const CUSTOM_EMOJIS_KEY = 'downcount.customEmojis.v1';
 const CUSTOM_ANIMS_KEY = 'downcount.customAnims.v1';
+const ANIM_UNLOCK_KEY = 'downcount.animInstalled.v1';
 const EXTRAS_KEY = 'downcount.extras.v1';
 const SOUND_KEY = 'downcount.sound.v1';
 const SOUND_STYLE_KEY = 'downcount.soundStyle.v1';
@@ -230,15 +231,32 @@ const ANIM_MOTIONS = [
   ['chaos', 'Hyper Chaos']
 ];
 
+const DEFAULT_KEYFRAME_HEART = [
+  { items: [
+    { t: 'stroke', c: '#ff2a85', sz: 6, glow: 16, pts: [[0.5,0.35],[0.42,0.24],[0.3,0.28],[0.28,0.42],[0.5,0.68],[0.72,0.42],[0.7,0.28],[0.58,0.24],[0.5,0.35]] },
+    { t: 'stamp', ch: '✨', x: 0.22, y: 0.25, sz: 24, c: '#38bdf8' },
+    { t: 'stamp', ch: '✨', x: 0.78, y: 0.25, sz: 24, c: '#38bdf8' }
+  ]},
+  { items: [
+    { t: 'stroke', c: '#00f5d4', sz: 8, glow: 22, pts: [[0.5,0.32],[0.4,0.2],[0.25,0.25],[0.23,0.42],[0.5,0.73],[0.77,0.42],[0.75,0.25],[0.6,0.2],[0.5,0.32]] },
+    { t: 'stamp', ch: '⚡', x: 0.2, y: 0.52, sz: 28, c: '#facc15' },
+    { t: 'stamp', ch: '⚡', x: 0.8, y: 0.52, sz: 28, c: '#facc15' }
+  ]},
+  { items: [
+    { t: 'stroke', c: '#a855f7', sz: 7, glow: 18, pts: [[0.5,0.34],[0.41,0.22],[0.28,0.27],[0.26,0.42],[0.5,0.7],[0.74,0.42],[0.72,0.27],[0.59,0.22],[0.5,0.34]] },
+    { t: 'stamp', ch: '💖', x: 0.5, y: 0.46, sz: 32, c: '#ff2a85' }
+  ]}
+];
+
 const ANIM_TEMPLATES = [
-  { id: 'at_matrix', name: 'Cyber Matrix Rain', shape: 'char', customChar: '01', motion: 'fall', count: 55, speed: 2.6, size: 14, opacity: 80, glow: 14, connectLines: false, trails: true, mouseInteract: true, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#00f5d4', color2: '#00bbf9', color3: '#10b981', bgMode: 'replace', bg1: '#050b14', bg2: '#0a192f', fg: '#e2f1ff', acc: '#00f5d4', angle: 160 },
-  { id: 'at_nexus', name: 'Cosmic Constellation', shape: 'circle', customChar: '✦', motion: 'float', count: 48, speed: 1.1, size: 5, opacity: 85, glow: 16, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: false, rainbow: false, layer: 'under', color1: '#8b5cf6', color2: '#38bdf8', color3: '#f472b6', bgMode: 'replace', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#38bdf8', angle: 135 },
-  { id: 'at_portal', name: 'Vortex Warp Portal', shape: 'ring', customChar: '◎', motion: 'vortex', count: 60, speed: 2.2, size: 9, opacity: 80, glow: 20, connectLines: false, trails: true, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#f43f5e', color2: '#fb923c', color3: '#facc15', bgMode: 'replace', bg1: '#180510', bg2: '#3b0728', fg: '#fff1f2', acc: '#fb923c', angle: 135 },
-  { id: 'at_sakura', name: 'Sakura Blossom Breeze', shape: 'heart', customChar: '🌸', motion: 'wave', count: 42, speed: 1.4, size: 11, opacity: 85, glow: 10, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: false, layer: 'over', color1: '#f472b6', color2: '#fbcfe8', color3: '#fb7185', bgMode: 'overlay', bg1: '#1e1124', bg2: '#4a153b', fg: '#ffffff', acc: '#f472b6', angle: 135 },
-  { id: 'at_synth', name: 'Synthwave Laser Streaks', shape: 'streak', customChar: '|', motion: 'fall', count: 55, speed: 3.5, size: 22, opacity: 75, glow: 18, connectLines: false, trails: false, mouseInteract: false, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#ff007f', color2: '#00f0ff', color3: '#a855f7', bgMode: 'replace', bg1: '#120428', bg2: '#2e0938', fg: '#ffffff', acc: '#00f0ff', angle: 165 },
-  { id: 'at_fireflies', name: 'Enchanted Fireflies', shape: 'star', customChar: '✨', motion: 'rise', count: 45, speed: 1.2, size: 10, opacity: 90, glow: 22, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#fde047', color2: '#a3e635', color3: '#34d399', bgMode: 'replace', bg1: '#061512', bg2: '#0f2922', fg: '#ecfdf5', acc: '#fde047', angle: 140 },
-  { id: 'at_fountain', name: 'Neon Party Fountain', shape: 'diamond', customChar: '🎉', motion: 'fountain', count: 55, speed: 2.4, size: 10, opacity: 90, glow: 14, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: true, layer: 'over', color1: '#6d5dfc', color2: '#ec4899', color3: '#22d3ee', bgMode: 'overlay', bg1: '#0f172a', bg2: '#1e1b4b', fg: '#ffffff', acc: '#22d3ee', angle: 135 },
-  { id: 'at_galaxy', name: 'Supernova Spiral', shape: 'spiral', customChar: '🌀', motion: 'vortex', count: 40, speed: 1.8, size: 12, opacity: 85, glow: 18, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#38bdf8', color2: '#818cf8', color3: '#c084fc', bgMode: 'replace', bg1: '#050816', bg2: '#111827', fg: '#f8fafc', acc: '#38bdf8', angle: 135 }
+  { id: 'at_neon_kf', name: 'Drawn Neon Pulse (Keyframes)', shape: 'star', customChar: '✨', motion: 'float', count: 32, speed: 1.3, size: 7, opacity: 90, glow: 18, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#ff2a85', color2: '#00f5d4', color3: '#a855f7', bgMode: 'replace', bg1: '#090518', bg2: '#1f0b38', fg: '#ffffff', acc: '#00f5d4', angle: 135, fps: 5, tween: true, keyframes: DEFAULT_KEYFRAME_HEART },
+  { id: 'at_matrix', name: 'Cyber Matrix Rain', shape: 'char', customChar: '01', motion: 'fall', count: 55, speed: 2.6, size: 14, opacity: 80, glow: 14, connectLines: false, trails: true, mouseInteract: true, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#00f5d4', color2: '#00bbf9', color3: '#10b981', bgMode: 'replace', bg1: '#050b14', bg2: '#0a192f', fg: '#e2f1ff', acc: '#00f5d4', angle: 160, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_nexus', name: 'Cosmic Constellation', shape: 'circle', customChar: '✦', motion: 'float', count: 48, speed: 1.1, size: 5, opacity: 85, glow: 16, connectLines: true, trails: false, mouseInteract: true, pulse: true, spin: false, rainbow: false, layer: 'under', color1: '#8b5cf6', color2: '#38bdf8', color3: '#f472b6', bgMode: 'replace', bg1: '#090718', bg2: '#1e1b4b', fg: '#ffffff', acc: '#38bdf8', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_portal', name: 'Vortex Warp Portal', shape: 'ring', customChar: '◎', motion: 'vortex', count: 60, speed: 2.2, size: 9, opacity: 80, glow: 20, connectLines: false, trails: true, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'under', color1: '#f43f5e', color2: '#fb923c', color3: '#facc15', bgMode: 'replace', bg1: '#180510', bg2: '#3b0728', fg: '#fff1f2', acc: '#fb923c', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_sakura', name: 'Sakura Blossom Breeze', shape: 'heart', customChar: '🌸', motion: 'wave', count: 42, speed: 1.4, size: 11, opacity: 85, glow: 10, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: false, layer: 'over', color1: '#f472b6', color2: '#fbcfe8', color3: '#fb7185', bgMode: 'overlay', bg1: '#1e1124', bg2: '#4a153b', fg: '#ffffff', acc: '#f472b6', angle: 135, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_synth', name: 'Synthwave Laser Streaks', shape: 'streak', customChar: '|', motion: 'fall', count: 55, speed: 3.5, size: 22, opacity: 75, glow: 18, connectLines: false, trails: false, mouseInteract: false, pulse: false, spin: false, rainbow: false, layer: 'under', color1: '#ff007f', color2: '#00f0ff', color3: '#a855f7', bgMode: 'replace', bg1: '#120428', bg2: '#2e0938', fg: '#ffffff', acc: '#00f0ff', angle: 165, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_fireflies', name: 'Enchanted Fireflies', shape: 'star', customChar: '✨', motion: 'rise', count: 45, speed: 1.2, size: 10, opacity: 90, glow: 22, connectLines: false, trails: false, mouseInteract: true, pulse: true, spin: true, rainbow: false, layer: 'over', color1: '#fde047', color2: '#a3e635', color3: '#34d399', bgMode: 'replace', bg1: '#061512', bg2: '#0f2922', fg: '#ecfdf5', acc: '#fde047', angle: 140, fps: 6, tween: true, keyframes: [] },
+  { id: 'at_fountain', name: 'Neon Party Fountain', shape: 'diamond', customChar: '🎉', motion: 'fountain', count: 55, speed: 2.4, size: 10, opacity: 90, glow: 14, connectLines: false, trails: false, mouseInteract: true, pulse: false, spin: true, rainbow: true, layer: 'over', color1: '#6d5dfc', color2: '#ec4899', color3: '#22d3ee', bgMode: 'overlay', bg1: '#0f172a', bg2: '#1e1b4b', fg: '#ffffff', acc: '#22d3ee', angle: 135, fps: 6, tween: true, keyframes: [] }
 ];
 
 const THEME_STARTERS = [
@@ -284,6 +302,58 @@ function readCustomEmojis() {
 }
 function saveCustomEmojis(list) { return writeJson(CUSTOM_EMOJIS_KEY, list.slice(0, 40)); }
 
+function isAppInstalledForAnim() {
+  return document.documentElement.classList.contains('standalone')
+    || navigator.standalone === true
+    || matchMedia('(display-mode: standalone)').matches
+    || localStorage.getItem(ANIM_UNLOCK_KEY) === '1';
+}
+
+function normalizeKeyframesList(rawKf) {
+  if (!Array.isArray(rawKf)) return [];
+  return rawKf.slice(0, 24).map((f) => {
+    const items = Array.isArray(f && f.items) ? f.items.slice(0, 80).map((it) => {
+      if (!it || typeof it !== 'object') return null;
+      if (it.t === 'stroke' && Array.isArray(it.pts) && it.pts.length >= 1) {
+        return {
+          t: 'stroke',
+          c: String(it.c || '#00f5d4').slice(0, 9),
+          sz: Math.min(36, Math.max(1, Number(it.sz) || 5)),
+          glow: Math.min(32, Math.max(0, Number(it.glow) ?? 12)),
+          pts: it.pts.slice(0, 140).map((p) => [
+            Math.round(Math.min(1, Math.max(0, Number(p[0]) || 0)) * 1000) / 1000,
+            Math.round(Math.min(1, Math.max(0, Number(p[1]) || 0)) * 1000) / 1000
+          ])
+        };
+      }
+      if (it.t === 'line' || it.t === 'rect' || it.t === 'circle') {
+        return {
+          t: it.t,
+          c: String(it.c || '#00f5d4').slice(0, 9),
+          sz: Math.min(36, Math.max(1, Number(it.sz) || 5)),
+          glow: Math.min(32, Math.max(0, Number(it.glow) ?? 12)),
+          x1: Math.round(Number(it.x1 || 0) * 1000) / 1000,
+          y1: Math.round(Number(it.y1 || 0) * 1000) / 1000,
+          x2: Math.round(Number(it.x2 || 0) * 1000) / 1000,
+          y2: Math.round(Number(it.y2 || 0) * 1000) / 1000
+        };
+      }
+      if (it.t === 'stamp') {
+        return {
+          t: 'stamp',
+          ch: String(it.ch || '✨').slice(0, 8),
+          c: String(it.c || '#ffffff').slice(0, 9),
+          sz: Math.min(64, Math.max(10, Number(it.sz) || 26)),
+          x: Math.round(Number(it.x || 0.5) * 1000) / 1000,
+          y: Math.round(Number(it.y || 0.5) * 1000) / 1000
+        };
+      }
+      return null;
+    }).filter(Boolean) : [];
+    return { items };
+  });
+}
+
 function normalizeCustomAnimObj(raw) {
   if (!raw || typeof raw !== 'object') return null;
   const cleanHex = (v, fb) => /^#[0-9a-fA-F]{6}$/.test(String(v || '')) ? String(v) : fb;
@@ -293,7 +363,7 @@ function normalizeCustomAnimObj(raw) {
     shape: ANIM_SHAPES.some(([k]) => k === raw.shape) ? raw.shape : 'circle',
     customChar: String(raw.customChar || '✨').slice(0, 14) || '✨',
     motion: ANIM_MOTIONS.some(([k]) => k === raw.motion) ? raw.motion : 'float',
-    count: Math.min(120, Math.max(8, Number(raw.count) || 48)),
+    count: Math.min(120, Math.max(0, Number(raw.count ?? 48))),
     speed: Math.min(6, Math.max(0.2, Number(raw.speed) || 1.5)),
     size: Math.min(40, Math.max(2, Number(raw.size) || 9)),
     opacity: Math.min(100, Math.max(15, Number(raw.opacity) || 85)),
@@ -313,7 +383,10 @@ function normalizeCustomAnimObj(raw) {
     bg2: cleanHex(raw.bg2, '#1e1b4b'),
     fg: cleanHex(raw.fg, '#ffffff'),
     acc: cleanHex(raw.acc, '#38bdf8'),
-    angle: Math.min(360, Math.max(0, Number(raw.angle) || 135))
+    angle: Math.min(360, Math.max(0, Number(raw.angle) || 135)),
+    fps: Math.min(24, Math.max(1, Number(raw.fps) || 6)),
+    tween: raw.tween !== undefined ? !!raw.tween : true,
+    keyframes: normalizeKeyframesList(raw.keyframes)
   };
 }
 
@@ -324,9 +397,11 @@ function readCustomAnims() {
 function saveCustomAnims(list) { writeJson(CUSTOM_ANIMS_KEY, list.slice(0, 40)); }
 function findCustomAnim(id) {
   if (!id || id === 'none') return null;
+  const saved = readCustomAnims().find((a) => a.id === id);
+  if (saved) return saved;
   const tpl = ANIM_TEMPLATES.find((t) => t.id === id);
   if (tpl) return normalizeCustomAnimObj(tpl);
-  return readCustomAnims().find((a) => a.id === id) || null;
+  return null;
 }
 function getAllAnimsMap() {
   const map = { none: 'None (Theme only)' };
@@ -649,6 +724,11 @@ function paramString(ev, extra = {}) {
     p.set('a_fg', ca.fg);
     p.set('a_acc', ca.acc);
     p.set('a_angle', String(ca.angle));
+    p.set('a_fps', String(ca.fps || 6));
+    if (ca.keyframes && ca.keyframes.length) {
+      const kfStr = JSON.stringify(ca.keyframes);
+      if (kfStr.length < 2800) p.set('a_kf', kfStr);
+    }
   }
   for (const [k, v] of Object.entries(extra)) p.set(k, v);
   return p.toString();
@@ -687,13 +767,17 @@ function evFromParams(p) {
   let customAnim = null;
   if (p.get('a_shape') || p.get('anim')) {
     const existingAnim = p.get('anim') ? findCustomAnim(p.get('anim')) : null;
+    let parsedKf = existingAnim ? existingAnim.keyframes : [];
+    if (p.get('a_kf')) {
+      try { parsedKf = JSON.parse(p.get('a_kf')); } catch {}
+    }
     customAnim = p.get('a_shape') ? normalizeCustomAnimObj({
       id: p.get('anim') || 'ca_shared',
       name: p.get('a_name') || 'Custom Animation',
       shape: p.get('a_shape') || 'circle',
       customChar: p.get('a_char') || '✨',
       motion: p.get('a_motion') || 'float',
-      count: Number(p.get('a_count')) || 48,
+      count: Number(p.get('a_count') ?? 48),
       speed: Number(p.get('a_speed')) || 1.5,
       size: Number(p.get('a_size')) || 9,
       opacity: Number(p.get('a_opacity')) || 85,
@@ -713,7 +797,9 @@ function evFromParams(p) {
       bg2: p.get('a_bg2') || '#1e1b4b',
       fg: p.get('a_fg') || '#ffffff',
       acc: p.get('a_acc') || '#38bdf8',
-      angle: Number(p.get('a_angle')) || 135
+      angle: Number(p.get('a_angle')) || 135,
+      fps: Number(p.get('a_fps')) || 6,
+      keyframes: parsedKf
     }) : existingAnim;
   }
   const stored = findByNameEnd(name, end);
@@ -768,9 +854,8 @@ function initOrStepWidgetCanvases() {
   for (const c of canvases) {
     const fx = c.dataset.fx;
     if (!fx || fx === 'none') continue;
-    const rect = c.parentElement.getBoundingClientRect();
-    const W = Math.max(200, Math.floor(rect.width));
-    const H = Math.max(140, Math.floor(rect.height));
+    const W = Math.max(200, Math.floor(c.clientWidth || 320));
+    const H = Math.max(120, Math.floor(c.clientHeight || 180));
     if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
     let state = widgetParticlesMap.get(c);
     if (!state || state.fx !== fx) {
@@ -853,6 +938,73 @@ const customAnimMap = new WeakMap();
 const pointerPos = { x: -9999, y: -9999 };
 window.addEventListener('pointermove', (e) => { pointerPos.x = e.clientX; pointerPos.y = e.clientY; }, { passive: true });
 
+function renderKeyframeItems(ctx, items, W, H, alphaMul = 1, nextItems = null, tweenFrac = 0) {
+  if (!Array.isArray(items) || !items.length) return;
+  for (let idx = 0; idx < items.length; idx++) {
+    const it = items[idx];
+    const nxt = (nextItems && nextItems[idx] && nextItems[idx].t === it.t) ? nextItems[idx] : null;
+    const lerp = (a, b) => nxt ? a + (b - a) * tweenFrac : a;
+
+    ctx.save();
+    ctx.globalAlpha = alphaMul;
+    ctx.strokeStyle = it.c || '#00f5d4';
+    ctx.fillStyle = it.c || '#00f5d4';
+    ctx.lineWidth = it.sz || 5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    if (it.glow > 0) {
+      ctx.shadowColor = it.c || '#00f5d4';
+      ctx.shadowBlur = it.glow;
+    }
+
+    if (it.t === 'stroke' && Array.isArray(it.pts) && it.pts.length) {
+      ctx.beginPath();
+      for (let i = 0; i < it.pts.length; i++) {
+        const p0 = it.pts[i];
+        const p1 = (nxt && Array.isArray(nxt.pts) && nxt.pts[i]) ? nxt.pts[i] : p0;
+        const px = (p0[0] + (p1[0] - p0[0]) * tweenFrac) * W;
+        const py = (p0[1] + (p1[1] - p0[1]) * tweenFrac) * H;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      if (it.pts.length === 1) {
+        ctx.arc(it.pts[0][0] * W, it.pts[0][1] * H, Math.max(2, (it.sz || 5) / 2), 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.stroke();
+      }
+    } else if (it.t === 'line') {
+      ctx.beginPath();
+      ctx.moveTo(lerp(it.x1, nxt ? nxt.x1 : it.x1) * W, lerp(it.y1, nxt ? nxt.y1 : it.y1) * H);
+      ctx.lineTo(lerp(it.x2, nxt ? nxt.x2 : it.x2) * W, lerp(it.y2, nxt ? nxt.y2 : it.y2) * H);
+      ctx.stroke();
+    } else if (it.t === 'rect') {
+      const rx1 = lerp(it.x1, nxt ? nxt.x1 : it.x1) * W;
+      const ry1 = lerp(it.y1, nxt ? nxt.y1 : it.y1) * H;
+      const rx2 = lerp(it.x2, nxt ? nxt.x2 : it.x2) * W;
+      const ry2 = lerp(it.y2, nxt ? nxt.y2 : it.y2) * H;
+      ctx.strokeRect(Math.min(rx1, rx2), Math.min(ry1, ry2), Math.abs(rx2 - rx1), Math.abs(ry2 - ry1));
+    } else if (it.t === 'circle') {
+      const cx = lerp(it.x1, nxt ? nxt.x1 : it.x1) * W;
+      const cy = lerp(it.y1, nxt ? nxt.y1 : it.y1) * H;
+      const ex = lerp(it.x2, nxt ? nxt.x2 : it.x2) * W;
+      const ey = lerp(it.y2, nxt ? nxt.y2 : it.y2) * H;
+      const rad = Math.hypot(ex - cx, ey - cy);
+      ctx.beginPath();
+      ctx.arc(cx, cy, Math.max(2, rad), 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (it.t === 'stamp') {
+      const sx = lerp(it.x, nxt ? nxt.x : it.x) * W;
+      const sy = lerp(it.y, nxt ? nxt.y : it.y) * H;
+      ctx.font = `700 ${Math.round(it.sz || 26)}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(it.ch || '✨', sx, sy);
+    }
+    ctx.restore();
+  }
+}
+
 function drawAnimShape(ctx, shape, r, ch) {
   if (shape === 'circle') {
     ctx.beginPath();
@@ -924,13 +1076,13 @@ function stepCustomAnimCanvases() {
     if (customAnimFrame) { cancelAnimationFrame(customAnimFrame); customAnimFrame = null; }
     return;
   }
+  const nowMs = performance.now();
   for (const c of canvases) {
     let cfg = null;
     try { cfg = JSON.parse(c.dataset.animCfg || ''); } catch { cfg = null; }
     if (!cfg) continue;
-    const rect = c.parentElement.getBoundingClientRect();
-    const W = Math.max(200, Math.floor(rect.width));
-    const H = Math.max(140, Math.floor(rect.height));
+    const W = Math.max(200, Math.floor(c.clientWidth || 320));
+    const H = Math.max(120, Math.floor(c.clientHeight || 180));
     const resized = c.width !== W || c.height !== H;
     if (resized) { c.width = W; c.height = H; }
 
@@ -939,9 +1091,9 @@ function stepCustomAnimCanvases() {
     if (!state || state.sig !== sig) {
       const palette = [cfg.color1 || '#6d5dfc', cfg.color2 || '#ec4899', cfg.color3 || '#38bdf8'];
       const chars = [...(cfg.customChar || '✨')];
-      const count = Math.min(120, Math.max(8, Number(cfg.count) || 48));
+      const count = Math.min(120, Math.max(0, Number(cfg.count ?? 48)));
       const pts = Array.from({ length: count }, (_, idx) => {
-        const angle = (idx / count) * Math.PI * 2 + Math.random() * 0.5;
+        const angle = (idx / Math.max(1, count)) * Math.PI * 2 + Math.random() * 0.5;
         const dist = 18 + Math.random() * (Math.min(W, H) * 0.48);
         return {
           x: Math.random() * W,
@@ -978,11 +1130,12 @@ function stepCustomAnimCanvases() {
     const spd = Number(cfg.speed) || 1.5;
     const baseSize = Number(cfg.size) || 9;
     const baseAlpha = Math.min(1, Math.max(0.15, (Number(cfg.opacity) || 85) / 100));
+    const rect = c.getBoundingClientRect();
     const mx = pointerPos.x - rect.left;
     const my = pointerPos.y - rect.top;
     const hasMouse = cfg.mouseInteract && mx >= -20 && mx <= W + 20 && my >= -20 && my <= H + 20;
 
-    if (cfg.connectLines) {
+    if (cfg.connectLines && state.pts.length > 1) {
       ctx.save();
       ctx.lineWidth = 1;
       for (let i = 0; i < state.pts.length; i++) {
@@ -1088,6 +1241,21 @@ function stepCustomAnimCanvases() {
       }
       drawAnimShape(ctx, cfg.shape, drawR, p.ch);
       ctx.restore();
+    }
+
+    if (Array.isArray(cfg.keyframes) && cfg.keyframes.length > 0) {
+      const nonEmpty = cfg.keyframes.filter((f) => f && Array.isArray(f.items) && f.items.length > 0);
+      if (nonEmpty.length > 0) {
+        const fps = Math.max(1, Math.min(24, Number(cfg.fps) || 6));
+        const frameDur = 1000 / fps;
+        const total = nonEmpty.length;
+        const exactPos = (nowMs / frameDur) % total;
+        const idx = Math.floor(exactPos);
+        const frac = exactPos - idx;
+        const curFrame = nonEmpty[idx];
+        const nextFrame = nonEmpty[(idx + 1) % total];
+        renderKeyframeItems(ctx, curFrame.items, W, H, baseAlpha, cfg.tween ? nextFrame.items : null, cfg.tween ? frac : 0);
+      }
     }
   }
   customAnimFrame = requestAnimationFrame(stepCustomAnimCanvases);
@@ -1435,7 +1603,7 @@ async function exportShareImage(ev) {
 /* --------- home --------- */
 const FEATURES = [
   ['Custom Theme Studio', 'Design your own gradients, neon glows, fonts and color palettes with a live preview.'],
-  ['Animation Maker Studio', 'Build custom interactive animations with templates, physics, shapes & overlays to use instead of a theme or on top of any countdown.'],
+  ['Keyframe Animation Maker', 'Draw custom neon strokes, shapes & stamps across keyframes with onion-skinning and particle physics overlays.'],
   ['Emoji Picker & Upload', 'Browse 70+ categorized emojis or upload your own custom PNG/GIF/SVG stickers.'],
   ['Recurring Events', 'Set daily, weekly, monthly or yearly repeats for birthdays, sprints and holidays.'],
   ['PNG Share Cards', 'Download a crisp 1200×630 image snapshot of any countdown to share on social media.'],
@@ -1744,8 +1912,8 @@ function renderForm(existing) {
       + `</div></div>`
       + `<div class="field"><div class="field-label"><span>Theme</span><a class="text-link" href="#/themes">Open Theme Studio →</a></div>`
       + `<div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, st.style)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-theme-modal">＋ New Custom Theme</button></div></div>`
-      + `<div class="field"><div class="field-label"><span>Animation Overlay / Animated Theme</span><a class="text-link" href="#/animations">Open Animation Maker →</a></div>`
-      + `<div class="style-row">${Object.entries(animsMap).map(([k, label]) => renderAnimChipHtml(k, label, st.animId)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-anim-modal">＋ Make Custom Animation</button></div></div>`
+      + `<div class="field"><div class="field-label"><span>Keyframe & Particle Animation</span><a class="text-link" href="#/animations">Open Animation Maker →</a></div>`
+      + `<div class="style-row">${Object.entries(animsMap).map(([k, label]) => renderAnimChipHtml(k, label, st.animId)).join('')}<button type="button" class="style-chip custom-chip-btn" id="quick-anim-modal">＋ Draw / Make Animation</button></div></div>`
       + (ex.clockModes ? `<div class="field"><label>Clock Display Mode</label><div class="seg" id="disp-seg">${DISPLAY_MODES.map(([k, l]) => `<button type="button" data-disp="${k}" class="${st.display === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.particles ? `<div class="field"><label>Ambient Particle Effect</label><div class="seg" id="fx-seg">${PARTICLE_FX.map(([k, l]) => `<button type="button" data-fx="${k}" class="${st.fx === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>` : '')
       + (ex.clockModes ? `<div class="opt-row" style="margin-bottom:18px"><span>Show High-Precision Tenths of a Second (.0)</span><button type="button" class="toggle ${st.showMs ? 'on' : ''}" id="toggle-ms"></button></div>` : '')
@@ -2181,32 +2349,47 @@ function randomAnimConfig() {
 function openQuickAnimEditorModal(existingAnim, onSave) {
   closeModal();
   const draft = normalizeCustomAnimObj(existingAnim || {
-    ...ANIM_TEMPLATES[1],
+    ...ANIM_TEMPLATES[0],
     id: 'ca_' + newId(),
     name: 'My Custom Animation'
   });
   const root = document.createElement('div');
   root.className = 'modal-backdrop';
-  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>Quick Animation Maker</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-anim-body"></div></div>`;
+  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2>Animation Maker</h2><button class="icon-button" type="button" data-close>✕</button></div><div id="quick-anim-body"></div></div>`;
   modalRoot.append(root);
   document.body.classList.add('modal-open');
 
   const renderModalEditor = () => {
     const body = $('#quick-anim-body', root);
+    if (!isAppInstalledForAnim()) {
+      body.innerHTML = `<div class="install-gate-card" style="margin:0;padding:20px">`
+        + `<span class="install-gate-badge">✨ App Exclusive Studio</span>`
+        + `<h2 style="margin:0 0 8px">Install the app to use this</h2>`
+        + `<p style="font-size:13.5px;margin-bottom:16px">Install Downcount to your device to unlock the Keyframe Drawing & Particle Animation Maker.</p>`
+        + `<div style="display:flex;gap:8px;flex-wrap:wrap">`
+        + `<button class="button" type="button" id="qa-install-now" style="flex:1">Install the app to use this</button>`
+        + `<button class="button secondary-button" type="button" id="qa-unlock-studio" style="flex:1">I Installed It — Open Studio</button>`
+        + `</div></div>`;
+      $('#qa-install-now', root).addEventListener('click', () => {
+        if (installPrompt) { triggerInstall(); }
+        else { closeModal(); location.hash = '/download'; }
+      });
+      $('#qa-unlock-studio', root).addEventListener('click', () => {
+        try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
+        buzz();
+        renderModalEditor();
+      });
+      return;
+    }
+
     const demoEv = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
     body.innerHTML = `<div class="share-preview" id="qa-preview">${widgetHtml(demoEv, { size: 'compact' })}</div>`
       + `<div class="field"><label><span>Animation Name</span><button type="button" class="text-link" id="qa-random">Randomize Magic</button></label><input id="qa-name" type="text" maxlength="32" value="${esc(draft.name)}"></div>`
       + `<div class="field-label">Templates</div><div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-qa-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
       + `<div class="field"><label>Mode</label><div class="seg"><button type="button" data-qa-bgmode="replace" class="${draft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme</button><button type="button" data-qa-bgmode="overlay" class="${draft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
       + `<div class="field"><label>Particle Shape</label><div class="seg">${ANIM_SHAPES.map(([k, l]) => `<button type="button" data-qa-shape="${k}" class="${draft.shape === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + (draft.shape === 'char' ? `<div class="field"><label>Custom Text / Emojis</label><input id="qa-char" type="text" maxlength="14" value="${esc(draft.customChar)}"></div>` : '')
       + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([k, l]) => `<button type="button" data-qa-motion="${k}" class="${draft.motion === k ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + `<div class="color-3-grid">`
-      + `<div class="color-field"><label>Color 1</label><div class="color-input-row"><input type="color" id="qa-c1" value="${esc(draft.color1)}"><input type="text" id="qa-c1-hex" value="${esc(draft.color1)}"></div></div>`
-      + `<div class="color-field"><label>Color 2</label><div class="color-input-row"><input type="color" id="qa-c2" value="${esc(draft.color2)}"><input type="text" id="qa-c2-hex" value="${esc(draft.color2)}"></div></div>`
-      + `<div class="color-field"><label>Color 3</label><div class="color-input-row"><input type="color" id="qa-c3" value="${esc(draft.color3)}"><input type="text" id="qa-c3-hex" value="${esc(draft.color3)}"></div></div>`
-      + `</div>`
-      + `<div style="display:flex;gap:8px"><button class="button" type="button" id="qa-save">Save & Apply Animation</button><a class="button secondary-button" href="#/animations" style="flex:0 0 auto;width:auto">Full Studio →</a></div>`;
+      + `<div style="display:flex;gap:8px"><button class="button" type="button" id="qa-save" style="flex:1">Save & Apply</button><a class="button secondary-button" href="#/animations" style="flex:0 0 auto;width:auto">Full Keyframe Studio →</a></div>`;
 
     const updatePreviewOnly = () => {
       const ev = normalize({ name: draft.name || 'Custom Animation', end: Date.now() + 5 * DAY + 14400000, start: Date.now() - 2 * DAY, emoji: '✨', style: 'classic', animId: draft.id, customAnim: draft });
@@ -2215,17 +2398,9 @@ function openQuickAnimEditorModal(existingAnim, onSave) {
     };
 
     $('#qa-name', root).addEventListener('input', (e) => { draft.name = e.target.value; updatePreviewOnly(); });
-    const charEl = $('#qa-char', root);
-    if (charEl) charEl.addEventListener('input', (e) => { draft.customChar = e.target.value || '✨'; updatePreviewOnly(); });
-    for (const [k, prop] of [['c1', 'color1'], ['c2', 'color2'], ['c3', 'color3']]) {
-      const picker = $(`#qa-${k}`, root);
-      const hex = $(`#qa-${k}-hex`, root);
-      picker.addEventListener('input', () => { draft[prop] = picker.value; hex.value = picker.value; updatePreviewOnly(); });
-      hex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { draft[prop] = hex.value; picker.value = hex.value; updatePreviewOnly(); } });
-    }
     $$('[data-qa-tpl]', root).forEach((b) => b.addEventListener('click', () => {
       const tpl = ANIM_TEMPLATES[Number(b.dataset.qaTpl)];
-      if (tpl) { Object.assign(draft, tpl, { id: draft.id }); renderModalEditor(); }
+      if (tpl) { Object.assign(draft, JSON.parse(JSON.stringify(tpl)), { id: draft.id }); renderModalEditor(); }
     }));
     $$('[data-qa-bgmode]', root).forEach((b) => b.addEventListener('click', () => { draft.bgMode = b.dataset.qaBgmode; renderModalEditor(); }));
     $$('[data-qa-shape]', root).forEach((b) => b.addEventListener('click', () => { draft.shape = b.dataset.qaShape; renderModalEditor(); }));
@@ -2248,16 +2423,91 @@ function openQuickAnimEditorModal(existingAnim, onSave) {
   renderModalEditor();
 }
 
+let kfStudioLoopId = null;
+
 function renderAnimationMaker() {
+  if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+
+  if (!isAppInstalledForAnim()) {
+    const demoEv = normalize({
+      name: 'Keyframe Studio Preview',
+      end: Date.now() + 7 * DAY + 18000000,
+      start: Date.now() - 2 * DAY,
+      emoji: '🎨',
+      style: 'classic',
+      animId: ANIM_TEMPLATES[0].id,
+      customAnim: ANIM_TEMPLATES[0],
+      category: 'Launch',
+      note: 'Install the app to draw keyframes & custom animations!'
+    });
+    app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
+      + `<div class="install-gate-card">`
+      + `<span class="install-gate-badge">✨ Pro Keyframe & Drawing Studio</span>`
+      + `<h1>Install the app to use this</h1>`
+      + `<p>The <strong>Animation Maker & Keyframe Drawing Studio</strong> lets you draw custom neon strokes, shapes, and emoji stamps frame-by-frame with onion skinning, auto-tweening, and particle physics overlays.</p>`
+      + `<div style="max-width:520px;margin:0 auto 22px;text-align:left">${widgetHtml(demoEv, { size: 'compact' })}</div>`
+      + `<div class="install-gate-features">`
+      + `<div class="install-gate-feat"><strong>🖌️ Freehand & Neon Brush</strong><small>Draw glowing lines, circles, boxes & emoji stamps right on the canvas.</small></div>`
+      + `<div class="install-gate-feat"><strong>🎞️ Keyframe Timeline</strong><small>Add keyframes, toggle onion-skinning, duplicate frames & auto-tween motion.</small></div>`
+      + `<div class="install-gate-feat"><strong>🌌 Particle + Theme Modes</strong><small>Combine your keyframe drawings with 8 particle physics modes & custom backdrops.</small></div>`
+      + `</div>`
+      + `<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">`
+      + `<button class="button" type="button" id="gate-install-btn">📲 Install the app to use this</button>`
+      + `<button class="button secondary-button" type="button" id="gate-unlock-btn" style="flex:0 0 auto;width:auto">Already installed / Unlock Studio →</button>`
+      + `</div>`
+      + `</div></section>`;
+
+    $('#gate-install-btn').addEventListener('click', async () => {
+      if (installPrompt) {
+        await triggerInstall();
+        try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
+        renderAnimationMaker();
+      } else {
+        location.hash = '/download';
+      }
+    });
+    $('#gate-unlock-btn').addEventListener('click', () => {
+      try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {}
+      buzz();
+      showNotice('Animation Maker Studio unlocked!');
+      renderAnimationMaker();
+    });
+    tickAll();
+    return;
+  }
+
   let activeDraft = normalizeCustomAnimObj({
-    ...ANIM_TEMPLATES[1],
+    ...JSON.parse(JSON.stringify(ANIM_TEMPLATES[0])),
     id: 'ca_' + newId(),
-    name: 'Cosmic Constellation'
+    name: 'Neon Heart Pulse'
   });
+  if (!activeDraft.keyframes || !activeDraft.keyframes.length) {
+    activeDraft.keyframes = [{ items: [] }, { items: [] }, { items: [] }];
+  }
+
   let isEditingExisting = false;
   let previewThemeStyle = 'ocean';
+  let curFrameIdx = 0;
+  let isPlayingKf = false;
+  let onionSkin = true;
+  let drawTool = 'brush';
+  let brushColor = '#00f5d4';
+  let brushSize = 6;
+  let brushGlow = 16;
+  let stampChar = '✨';
+  let activePointerDrawing = null;
+
+  const ensureFrames = () => {
+    if (!Array.isArray(activeDraft.keyframes) || !activeDraft.keyframes.length) {
+      activeDraft.keyframes = [{ items: [] }];
+    }
+    if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
+    if (curFrameIdx < 0) curFrameIdx = 0;
+  };
 
   const drawMaker = () => {
+    ensureFrames();
+    if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
     const savedAnims = readCustomAnims();
     const stylesMap = getAllStylesMap();
     const previewEv = normalize({
@@ -2269,16 +2519,61 @@ function renderAnimationMaker() {
       animId: activeDraft.id,
       customAnim: activeDraft,
       category: 'Launch',
-      note: 'Move your cursor or finger over the countdown to interact!'
+      note: 'Your drawn keyframes & particles animate live on the countdown!'
     });
 
+    const stampsList = ['✨', '⚡', '🔥', '💖', '🚀', '⭐', '💎', '🌸', '🎉', '👑'];
+
     app.innerHTML = `<section class="page wide"><a class="back" href="#/">← Back to Countdowns</a>`
-      + `<div class="section-heading"><div><span class="eyebrow"><span class="eyebrow-dot"></span> ANIMATION MAKER</span><h1 style="margin:10px 0 4px;font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px">Build your own custom animations</h1><p class="small-note" style="margin:0">Start from a template or craft your own particle physics, shapes, trails, constellations and interactive overlays. Use your animation <strong>instead of a theme</strong> or <strong>overlay it on top of any theme</strong>.</p></div></div>`
+      + `<div class="section-heading"><div><span class="eyebrow"><span class="eyebrow-dot"></span> KEYFRAME & PARTICLE ANIMATION MAKER</span><h1 style="margin:10px 0 4px;font-size:clamp(28px,4vw,42px);letter-spacing:-1.6px">Draw keyframes & custom animations</h1><p class="small-note" style="margin:0">Draw glowing neon art across keyframes, enable smooth auto-tweening, and layer interactive particle physics. Use your animation <strong>instead of a theme</strong> or <strong>overlay it on any countdown</strong>.</p></div></div>`
       + `<div class="theme-studio-grid">`
       + `<div class="form-card">`
-      + `<div class="field"><label for="am-name"><span>Animation Name</span><button type="button" class="text-link" id="am-random">🎲 Randomize Everything</button></label><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Cyber Galaxy"></div>`
-      + `<div class="field-label"><span>Starter Templates (${ANIM_TEMPLATES.length})</span><small style="color:var(--muted);font-weight:600">Click to load & customize</small></div>`
+      + `<div class="field"><label for="am-name"><span>Animation Name</span><button type="button" class="text-link" id="am-random">🎲 Randomize Particles</button></label><input id="am-name" type="text" maxlength="32" value="${esc(activeDraft.name)}" placeholder="e.g. Neon Lightning"></div>`
+      + `<div class="field-label"><span>Starter Templates (${ANIM_TEMPLATES.length})</span><small style="color:var(--muted);font-weight:600">Click to load</small></div>`
       + `<div class="presets">${ANIM_TEMPLATES.map((t, idx) => `<button type="button" data-am-tpl="${idx}">${esc(t.name)}</button>`).join('')}</div>`
+
+      + `<div class="kf-studio-box">`
+      + `<div class="field-label" style="margin-bottom:8px"><span>🎨 Keyframe Drawing Canvas</span><small style="color:var(--muted)">Draw directly on Keyframe #${curFrameIdx + 1}</small></div>`
+      + `<div class="kf-toolbar">`
+      + `<div class="kf-tools">`
+      + [['brush', '🖌️ Brush'], ['line', '📏 Line'], ['rect', '▭ Box'], ['circle', '◯ Circle'], ['stamp', '⭐ Stamp'], ['eraser', '🧽 Erase']].map(([k, label]) => `<button type="button" class="kf-tool-btn ${drawTool === k ? 'on' : ''}" data-kf-tool="${k}">${label}</button>`).join('')
+      + `</div>`
+      + `<div class="kf-tools">`
+      + `<button type="button" class="kf-tool-btn" id="kf-undo" title="Undo last stroke">↶ Undo</button>`
+      + `<button type="button" class="kf-tool-btn" id="kf-clear" title="Clear this keyframe">🗑️ Clear</button>`
+      + `</div></div>`
+
+      + `<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px;padding:8px 10px;border-radius:11px;background:var(--surface);border:1px solid var(--line)">`
+      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Color <input type="color" id="kf-brush-color" value="${esc(brushColor)}" style="width:28px;height:28px;border:0;padding:0;background:none;cursor:pointer"></label>`
+      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Size <input type="range" id="kf-brush-size" min="2" max="28" value="${brushSize}" style="width:75px;accent-color:var(--purple)"><span id="kf-size-lbl">${brushSize}px</span></label>`
+      + `<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750">Glow <input type="range" id="kf-brush-glow" min="0" max="30" value="${brushGlow}" style="width:70px;accent-color:var(--purple)"></label>`
+      + (drawTool === 'stamp' ? `<div style="display:flex;gap:4px;align-items:center;width:100%;padding-top:4px;border-top:1px solid var(--line)"><span style="font-size:11px;font-weight:750;color:var(--muted)">Stamp:</span>${stampsList.map((st) => `<button type="button" class="kf-tool-btn ${stampChar === st ? 'on' : ''}" data-kf-stamp="${esc(st)}" style="padding:0 7px;height:28px">${st}</button>`).join('')}</div>` : '')
+      + `</div>`
+
+      + `<div class="kf-stage-wrap" id="kf-stage-wrap" style="background:linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})">`
+      + `<div class="kf-stage-hud"><span class="kf-hud-pill" id="kf-hud-status">${isPlayingKf ? '▶ Playing Keyframes' : `Editing Keyframe ${curFrameIdx + 1} / ${activeDraft.keyframes.length}`}</span>${onionSkin && !isPlayingKf ? '<span class="kf-hud-pill">🧅 Onion Skin On</span>' : ''}</div>`
+      + `<canvas class="kf-draw-canvas" id="kf-draw-canvas" width="600" height="338"></canvas>`
+      + `</div>`
+
+      + `<div class="kf-timeline">`
+      + `<div class="kf-transport">`
+      + `<div class="kf-tools">`
+      + `<button type="button" class="kf-tool-btn ${isPlayingKf ? 'on' : ''}" id="kf-play-btn">${isPlayingKf ? '⏸ Pause' : '▶ Play Keyframes'}</button>`
+      + `<button type="button" class="kf-tool-btn ${onionSkin ? 'on' : ''}" id="kf-onion-btn" title="Show ghost of previous keyframe">🧅 Onion Skin</button>`
+      + `<button type="button" class="kf-tool-btn ${activeDraft.tween ? 'on' : ''}" id="kf-tween-btn" title="Smoothly morph strokes between keyframes">✨ Auto-Tween</button>`
+      + `</div>`
+      + `<div class="kf-tools">`
+      + `<label style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:750">Speed <input type="range" id="kf-fps" min="1" max="16" value="${activeDraft.fps || 6}" style="width:72px;accent-color:var(--purple)"><span id="kf-fps-lbl">${activeDraft.fps || 6} FPS</span></label>`
+      + `</div></div>`
+
+      + `<div class="kf-frames-strip">`
+      + activeDraft.keyframes.map((fr, idx) => `<button type="button" class="kf-frame-thumb ${idx === curFrameIdx ? 'on' : ''}" data-kf-idx="${idx}"><strong>KF ${idx + 1}</strong><small>${(fr.items || []).length} item${(fr.items || []).length === 1 ? '' : 's'}</small></button>`).join('')
+      + `<button type="button" class="kf-frame-add" id="kf-add-frame" title="Add new blank keyframe">＋</button>`
+      + `<button type="button" class="kf-tool-btn" id="kf-dup-frame" title="Duplicate current keyframe so you can move or tweak it" style="height:56px">📋 Duplicate KF</button>`
+      + (activeDraft.keyframes.length > 1 ? `<button type="button" class="kf-tool-btn" id="kf-del-frame" title="Delete current keyframe" style="height:56px;color:#bc3d53">✕ Delete KF</button>` : '')
+      + `</div>`
+      + `</div></div>`
+
       + `<div class="field"><label>How It Works with Themes</label><div class="seg"><button type="button" data-am-bgmode="replace" class="${activeDraft.bgMode === 'replace' ? 'on' : ''}">Use Instead of Theme (Own Backdrop)</button><button type="button" data-am-bgmode="overlay" class="${activeDraft.bgMode === 'overlay' ? 'on' : ''}">Overlay on Any Theme</button></div></div>`
       + (activeDraft.bgMode === 'replace'
         ? `<div class="color-grid">`
@@ -2290,17 +2585,17 @@ function renderAnimationMaker() {
           + `<div class="field"><label for="am-angle"><span>Backdrop Gradient Angle</span><span id="am-angle-val">${activeDraft.angle}°</span></label><div class="range-row"><input type="range" id="am-angle" min="0" max="360" step="15" value="${activeDraft.angle}"></div></div>`
         : `<div class="field"><label>Test Overlay Against Theme</label><div class="style-row">${Object.entries(stylesMap).map(([k, label]) => renderStyleChipHtml(k, label, previewThemeStyle).replace('data-style=', 'data-am-test-theme=')).join('')}</div></div>`)
       + `<div class="field"><label>Overlay Layer Position</label><div class="seg"><button type="button" data-am-layer="under" class="${activeDraft.layer === 'under' ? 'on' : ''}">Behind Digits (Subtle)</button><button type="button" data-am-layer="over" class="${activeDraft.layer === 'over' ? 'on' : ''}">Over Everything (Full Overlay)</button></div></div>`
-      + `<div class="field"><label>Particle / Element Shape</label><div class="seg">${ANIM_SHAPES.map(([v, l]) => `<button type="button" data-am-shape="${v}" class="${activeDraft.shape === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + `<div class="field"><label>Particle Generator Shape (Set Count to 0 for Drawn Keyframes Only)</label><div class="seg">${ANIM_SHAPES.map(([v, l]) => `<button type="button" data-am-shape="${v}" class="${activeDraft.shape === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
       + (activeDraft.shape === 'char' ? `<div class="field"><label for="am-char">Custom Text, Characters or Emojis</label><input id="am-char" type="text" maxlength="14" value="${esc(activeDraft.customChar)}" placeholder="e.g. 01 or ✨🚀🔥"></div>` : '')
-      + `<div class="field"><label>Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([v, l]) => `<button type="button" data-am-motion="${v}" class="${activeDraft.motion === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
-      + `<div class="field-label">Animation Color Palette</div>`
+      + `<div class="field"><label>Particle Motion Physics</label><div class="seg">${ANIM_MOTIONS.map(([v, l]) => `<button type="button" data-am-motion="${v}" class="${activeDraft.motion === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`
+      + `<div class="field-label">Particle Color Palette</div>`
       + `<div class="color-3-grid">`
       + `<div class="color-field"><label>Primary Color</label><div class="color-input-row"><input type="color" id="am-c1" value="${esc(activeDraft.color1)}"><input type="text" id="am-c1-hex" value="${esc(activeDraft.color1)}" maxlength="7"></div></div>`
       + `<div class="color-field"><label>Secondary Color</label><div class="color-input-row"><input type="color" id="am-c2" value="${esc(activeDraft.color2)}"><input type="text" id="am-c2-hex" value="${esc(activeDraft.color2)}" maxlength="7"></div></div>`
       + `<div class="color-field"><label>Tertiary Color</label><div class="color-input-row"><input type="color" id="am-c3" value="${esc(activeDraft.color3)}"><input type="text" id="am-c3-hex" value="${esc(activeDraft.color3)}" maxlength="7"></div></div>`
       + `</div>`
       + `<div class="field-row-2">`
-      + `<div class="field" style="margin:0"><label for="am-count"><span>Particle Count</span><span id="am-count-val">${activeDraft.count}</span></label><div class="range-row"><input type="range" id="am-count" min="8" max="120" step="2" value="${activeDraft.count}"></div></div>`
+      + `<div class="field" style="margin:0"><label for="am-count"><span>Particle Count</span><span id="am-count-val">${activeDraft.count}</span></label><div class="range-row"><input type="range" id="am-count" min="0" max="120" step="2" value="${activeDraft.count}"></div></div>`
       + `<div class="field" style="margin:0"><label for="am-speed"><span>Motion Speed</span><span id="am-speed-val">${activeDraft.speed}x</span></label><div class="range-row"><input type="range" id="am-speed" min="0.2" max="5" step="0.1" value="${activeDraft.speed}"></div></div>`
       + `</div>`
       + `<div class="field-row-2">`
@@ -2317,23 +2612,29 @@ function renderAnimationMaker() {
       + `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="button" type="button" id="am-save" style="flex:1">${isEditingExisting ? 'Update Custom Animation' : 'Save Custom Animation'}</button><button class="button secondary-button" type="button" id="am-apply-all" style="flex:0 0 auto;width:auto">Apply to All Countdowns</button>${isEditingExisting ? `<button class="button secondary-button" type="button" id="am-cancel-edit" style="flex:0 0 auto;width:auto">New</button>` : ''}</div>`
       + `</div>`
       + `<div class="preview-pane">`
-      + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE INTERACTIVE PREVIEW</div>`
+      + `<div class="eyebrow"><span class="eyebrow-dot"></span> LIVE COUNTDOWN PREVIEW</div>`
       + `<div id="am-live-preview" style="width:100%">${widgetHtml(previewEv, { showMilestones: true })}</div>`
       + `<div class="settings-card" style="width:100%;margin-top:8px"><h3>Built-In Templates (${ANIM_TEMPLATES.length})</h3>`
       + `<div class="saved-themes-grid">${ANIM_TEMPLATES.map((t, idx) => {
           const bg = `linear-gradient(135deg,${t.bg1},${t.bg2})`;
-          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Customize</button></div></div>`;
+          return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:${esc(t.fg)}"><span>${esc(t.name)}</span><span style="color:${esc(t.color1)}">✦</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(t.id)}">Use</button><button type="button" data-am-tpl="${idx}">Load in Studio</button></div></div>`;
         }).join('')}</div></div>`
       + `<div class="settings-card" style="width:100%;margin-top:4px"><h3>Your Saved Custom Animations (${savedAnims.length})</h3>`
       + (savedAnims.length
         ? `<div class="saved-themes-grid">${savedAnims.map((a) => {
             const bg = `linear-gradient(135deg,${a.color1},${a.color2})`;
-            return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:#fff"><span>${esc(a.name)}</span><span>${esc(a.shape)}</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">Delete</button></div></div>`;
+            const kfCount = (a.keyframes || []).filter((f) => f && f.items && f.items.length).length;
+            return `<div class="theme-card"><div class="theme-swatch-bar" style="background:${esc(bg)};color:#fff"><span>${esc(a.name)}</span><span>${kfCount ? `${kfCount} KF` : esc(a.shape)}</span></div><div class="theme-card-actions"><button type="button" data-use-anim="${esc(a.id)}">Use</button><button type="button" data-edit-anim="${esc(a.id)}">Edit</button><button type="button" class="danger" data-del-anim="${esc(a.id)}">Delete</button></div></div>`;
           }).join('')}</div>`
-        : `<p class="small-note" style="margin:0">You haven’t saved any custom animations yet. Tweak the controls on the left and click <strong>Save Custom Animation</strong>!</p>`)
+        : `<p class="small-note" style="margin:0">You haven’t saved any custom animations yet. Draw on the keyframe canvas or tweak the particles and click <strong>Save Custom Animation</strong>!</p>`)
       + `</div></div></div></section>`;
 
+    const drawCanvas = $('#kf-draw-canvas');
+    const dCtx = drawCanvas.getContext('2d');
+
     const refreshPreview = () => {
+      const stageWrap = $('#kf-stage-wrap');
+      if (stageWrap) stageWrap.style.background = `linear-gradient(${activeDraft.angle || 135}deg,${activeDraft.bg1},${activeDraft.bg2})`;
       const ev = normalize({
         name: activeDraft.name || 'Animation Preview',
         end: Date.now() + 9 * DAY + 21600000,
@@ -2343,11 +2644,257 @@ function renderAnimationMaker() {
         animId: activeDraft.id,
         customAnim: activeDraft,
         category: 'Launch',
-        note: 'Move your cursor or finger over the countdown to interact!'
+        note: 'Your drawn keyframes & particles animate live on the countdown!'
       });
-      $('#am-live-preview').innerHTML = widgetHtml(ev, { showMilestones: true });
-      tickAll();
+      const prevContainer = $('#am-live-preview');
+      if (prevContainer) {
+        const wCanvas = prevContainer.querySelector('canvas.w-anim-canvas');
+        if (wCanvas) {
+          wCanvas.dataset.animCfg = JSON.stringify(activeDraft);
+          const wEl = prevContainer.querySelector('.widget');
+          if (wEl && activeDraft.bgMode === 'replace') {
+            wEl.setAttribute('style', customAnimInlineVars(activeDraft));
+          }
+          return;
+        }
+        prevContainer.innerHTML = widgetHtml(ev, { showMilestones: true });
+        tickAll();
+      }
     };
+
+    const paintKeyframeEditorCanvas = () => {
+      if (!drawCanvas.isConnected) return;
+      const W = drawCanvas.width;
+      const H = drawCanvas.height;
+      dCtx.clearRect(0, 0, W, H);
+
+      dCtx.save();
+      dCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+      dCtx.lineWidth = 1;
+      for (let gx = 1; gx < 6; gx++) {
+        dCtx.beginPath(); dCtx.moveTo((W / 6) * gx, 0); dCtx.lineTo((W / 6) * gx, H); dCtx.stroke();
+      }
+      for (let gy = 1; gy < 4; gy++) {
+        dCtx.beginPath(); dCtx.moveTo(0, (H / 4) * gy); dCtx.lineTo(W, (H / 4) * gy); dCtx.stroke();
+      }
+      dCtx.restore();
+
+      if (isPlayingKf) {
+        const nonEmpty = activeDraft.keyframes.filter((f) => f && f.items && f.items.length);
+        const pool = nonEmpty.length ? nonEmpty : activeDraft.keyframes;
+        const fps = Math.max(1, Number(activeDraft.fps) || 6);
+        const dur = 1000 / fps;
+        const pos = (performance.now() / dur) % pool.length;
+        const idx = Math.floor(pos);
+        const frac = pos - idx;
+        const cur = pool[idx];
+        const nxt = pool[(idx + 1) % pool.length];
+        if (cur && cur.items) {
+          renderKeyframeItems(dCtx, cur.items, W, H, 1, activeDraft.tween && nxt ? nxt.items : null, activeDraft.tween ? frac : 0);
+        }
+        kfStudioLoopId = requestAnimationFrame(paintKeyframeEditorCanvas);
+        return;
+      }
+
+      if (onionSkin && curFrameIdx > 0) {
+        const prevFrame = activeDraft.keyframes[curFrameIdx - 1];
+        if (prevFrame && Array.isArray(prevFrame.items)) {
+          renderKeyframeItems(dCtx, prevFrame.items, W, H, 0.28);
+        }
+      }
+
+      const curFrame = activeDraft.keyframes[curFrameIdx];
+      if (curFrame && Array.isArray(curFrame.items)) {
+        renderKeyframeItems(dCtx, curFrame.items, W, H, 1);
+      }
+      if (activePointerDrawing) {
+        renderKeyframeItems(dCtx, [activePointerDrawing], W, H, 0.95);
+      }
+    };
+
+    const getNormCoords = (ev) => {
+      const r = drawCanvas.getBoundingClientRect();
+      const x = Math.min(1, Math.max(0, (ev.clientX - r.left) / Math.max(1, r.width)));
+      const y = Math.min(1, Math.max(0, (ev.clientY - r.top) / Math.max(1, r.height)));
+      return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000];
+    };
+
+    drawCanvas.addEventListener('pointerdown', (ev) => {
+      if (isPlayingKf) {
+        isPlayingKf = false;
+        if (kfStudioLoopId) { cancelAnimationFrame(kfStudioLoopId); kfStudioLoopId = null; }
+        const playBtn = $('#kf-play-btn');
+        if (playBtn) { playBtn.classList.remove('on'); playBtn.textContent = '▶ Play Keyframes'; }
+      }
+      drawCanvas.setPointerCapture(ev.pointerId);
+      const [nx, ny] = getNormCoords(ev);
+      const curFrame = activeDraft.keyframes[curFrameIdx];
+
+      if (drawTool === 'eraser') {
+        if (curFrame && Array.isArray(curFrame.items)) {
+          curFrame.items = curFrame.items.filter((it) => {
+            if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
+            if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
+            if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
+            return true;
+          });
+          paintKeyframeEditorCanvas();
+          refreshPreview();
+        }
+        activePointerDrawing = { t: 'eraser' };
+        return;
+      }
+
+      if (drawTool === 'stamp') {
+        curFrame.items.push({ t: 'stamp', ch: stampChar, c: brushColor, sz: Math.max(16, brushSize * 3.5), x: nx, y: ny });
+        buzz();
+        paintKeyframeEditorCanvas();
+        refreshPreview();
+        const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+        if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
+        return;
+      }
+
+      if (drawTool === 'brush') {
+        activePointerDrawing = { t: 'stroke', c: brushColor, sz: brushSize, glow: brushGlow, pts: [[nx, ny]] };
+      } else if (drawTool === 'line' || drawTool === 'rect' || drawTool === 'circle') {
+        activePointerDrawing = { t: drawTool, c: brushColor, sz: brushSize, glow: brushGlow, x1: nx, y1: ny, x2: nx, y2: ny };
+      }
+      paintKeyframeEditorCanvas();
+    });
+
+    drawCanvas.addEventListener('pointermove', (ev) => {
+      if (!activePointerDrawing) return;
+      const [nx, ny] = getNormCoords(ev);
+      const curFrame = activeDraft.keyframes[curFrameIdx];
+
+      if (activePointerDrawing.t === 'eraser') {
+        if (curFrame && Array.isArray(curFrame.items)) {
+          curFrame.items = curFrame.items.filter((it) => {
+            if (it.t === 'stamp') return Math.hypot(it.x - nx, it.y - ny) > 0.08;
+            if (it.t === 'stroke' && Array.isArray(it.pts)) return !it.pts.some((p) => Math.hypot(p[0] - nx, p[1] - ny) < 0.065);
+            if (it.x1 !== undefined) return Math.hypot((it.x1 + it.x2) / 2 - nx, (it.y1 + it.y2) / 2 - ny) > 0.09;
+            return true;
+          });
+          paintKeyframeEditorCanvas();
+          refreshPreview();
+        }
+        return;
+      }
+
+      if (activePointerDrawing.t === 'stroke') {
+        const pts = activePointerDrawing.pts;
+        const last = pts[pts.length - 1];
+        if (!last || Math.hypot(nx - last[0], ny - last[1]) > 0.008) {
+          pts.push([nx, ny]);
+        }
+      } else {
+        activePointerDrawing.x2 = nx;
+        activePointerDrawing.y2 = ny;
+      }
+      paintKeyframeEditorCanvas();
+    });
+
+    const finishPointerDraw = () => {
+      if (!activePointerDrawing) return;
+      if (activePointerDrawing.t !== 'eraser') {
+        const curFrame = activeDraft.keyframes[curFrameIdx];
+        curFrame.items.push(activePointerDrawing);
+        const thumbSmall = $(`[data-kf-idx="${curFrameIdx}"] small`);
+        if (thumbSmall) thumbSmall.textContent = `${curFrame.items.length} item${curFrame.items.length === 1 ? '' : 's'}`;
+      }
+      activePointerDrawing = null;
+      paintKeyframeEditorCanvas();
+      refreshPreview();
+    };
+
+    drawCanvas.addEventListener('pointerup', finishPointerDraw);
+    drawCanvas.addEventListener('pointercancel', finishPointerDraw);
+
+    $$('[data-kf-tool]', app).forEach((b) => b.addEventListener('click', () => { drawTool = b.dataset.kfTool; drawMaker(); }));
+    $$('[data-kf-stamp]', app).forEach((b) => b.addEventListener('click', () => { stampChar = b.dataset.kfStamp; drawMaker(); }));
+    $('#kf-brush-color').addEventListener('input', (e) => { brushColor = e.target.value; });
+    $('#kf-brush-size').addEventListener('input', (e) => { brushSize = Number(e.target.value); $('#kf-size-lbl').textContent = `${brushSize}px`; });
+    $('#kf-brush-glow').addEventListener('input', (e) => { brushGlow = Number(e.target.value); });
+
+    $('#kf-undo').addEventListener('click', () => {
+      const curFrame = activeDraft.keyframes[curFrameIdx];
+      if (curFrame && curFrame.items.length) {
+        curFrame.items.pop();
+        buzz();
+        drawMaker();
+      }
+    });
+
+    $('#kf-clear').addEventListener('click', () => {
+      const curFrame = activeDraft.keyframes[curFrameIdx];
+      if (curFrame) {
+        curFrame.items = [];
+        buzz();
+        drawMaker();
+      }
+    });
+
+    $$('[data-kf-idx]', app).forEach((b) => b.addEventListener('click', () => {
+      curFrameIdx = Number(b.dataset.kfIdx);
+      isPlayingKf = false;
+      drawMaker();
+    }));
+
+    $('#kf-add-frame').addEventListener('click', () => {
+      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+      activeDraft.keyframes.splice(curFrameIdx + 1, 0, { items: [] });
+      curFrameIdx++;
+      isPlayingKf = false;
+      buzz();
+      drawMaker();
+    });
+
+    $('#kf-dup-frame').addEventListener('click', () => {
+      if (activeDraft.keyframes.length >= 24) { showNotice('Maximum 24 keyframes reached.'); return; }
+      const clone = JSON.parse(JSON.stringify(activeDraft.keyframes[curFrameIdx] || { items: [] }));
+      activeDraft.keyframes.splice(curFrameIdx + 1, 0, clone);
+      curFrameIdx++;
+      isPlayingKf = false;
+      buzz();
+      drawMaker();
+    });
+
+    const delKfBtn = $('#kf-del-frame');
+    if (delKfBtn) {
+      delKfBtn.addEventListener('click', () => {
+        if (activeDraft.keyframes.length <= 1) return;
+        activeDraft.keyframes.splice(curFrameIdx, 1);
+        if (curFrameIdx >= activeDraft.keyframes.length) curFrameIdx = activeDraft.keyframes.length - 1;
+        isPlayingKf = false;
+        buzz();
+        drawMaker();
+      });
+    }
+
+    $('#kf-play-btn').addEventListener('click', () => {
+      isPlayingKf = !isPlayingKf;
+      buzz();
+      drawMaker();
+    });
+
+    $('#kf-onion-btn').addEventListener('click', () => {
+      onionSkin = !onionSkin;
+      buzz();
+      drawMaker();
+    });
+
+    $('#kf-tween-btn').addEventListener('click', () => {
+      activeDraft.tween = !activeDraft.tween;
+      buzz();
+      drawMaker();
+    });
+
+    $('#kf-fps').addEventListener('input', (e) => {
+      activeDraft.fps = Number(e.target.value);
+      $('#kf-fps-lbl').textContent = `${activeDraft.fps} FPS`;
+      refreshPreview();
+    });
 
     $('#am-name').addEventListener('input', (e) => { activeDraft.name = e.target.value; refreshPreview(); });
     const charInput = $('#am-char');
@@ -2392,7 +2939,13 @@ function renderAnimationMaker() {
     $$('[data-am-tpl]', app).forEach((b) => b.addEventListener('click', () => {
       const tpl = ANIM_TEMPLATES[Number(b.dataset.amTpl)];
       if (tpl) {
-        Object.assign(activeDraft, tpl, { id: isEditingExisting ? activeDraft.id : 'ca_' + newId() });
+        const cloned = JSON.parse(JSON.stringify(tpl));
+        Object.assign(activeDraft, cloned, { id: isEditingExisting ? activeDraft.id : 'ca_' + newId() });
+        if (!activeDraft.keyframes || !activeDraft.keyframes.length) {
+          activeDraft.keyframes = [{ items: [] }, { items: [] }, { items: [] }];
+        }
+        curFrameIdx = 0;
+        brushColor = activeDraft.color1 || '#00f5d4';
         buzz();
         drawMaker();
       }
@@ -2406,7 +2959,7 @@ function renderAnimationMaker() {
       const updatedEvents = readEvents().map((ev) => ev.animId === saved.id ? { ...ev, customAnim: saved } : ev);
       saveEvents(updatedEvents);
       isEditingExisting = false;
-      activeDraft = normalizeCustomAnimObj({ ...saved, id: 'ca_' + newId(), name: saved.name + ' Copy' });
+      activeDraft = normalizeCustomAnimObj({ ...JSON.parse(JSON.stringify(saved)), id: 'ca_' + newId(), name: saved.name + ' Copy' });
       buzz();
       drawMaker();
       showNotice(`Saved custom animation "${saved.name}"!`);
@@ -2432,13 +2985,20 @@ function renderAnimationMaker() {
     const cancelBtn = $('#am-cancel-edit');
     if (cancelBtn) cancelBtn.addEventListener('click', () => {
       isEditingExisting = false;
-      activeDraft = normalizeCustomAnimObj({ ...ANIM_TEMPLATES[0], id: 'ca_' + newId(), name: 'My Custom Animation' });
+      activeDraft = normalizeCustomAnimObj({ ...JSON.parse(JSON.stringify(ANIM_TEMPLATES[0])), id: 'ca_' + newId(), name: 'My Custom Animation' });
+      curFrameIdx = 0;
       drawMaker();
     });
 
     $$('[data-edit-anim]', app).forEach((b) => b.addEventListener('click', () => {
       const found = findCustomAnim(b.dataset.editAnim);
-      if (found) { activeDraft = normalizeCustomAnimObj({ ...found }); isEditingExisting = true; drawMaker(); }
+      if (found) {
+        activeDraft = normalizeCustomAnimObj(JSON.parse(JSON.stringify(found)));
+        if (!activeDraft.keyframes || !activeDraft.keyframes.length) activeDraft.keyframes = [{ items: [] }];
+        curFrameIdx = 0;
+        isEditingExisting = true;
+        drawMaker();
+      }
     }));
 
     $$('[data-del-anim]', app).forEach((b) => b.addEventListener('click', () => {
@@ -2458,6 +3018,7 @@ function renderAnimationMaker() {
       }, 60);
     }));
 
+    paintKeyframeEditorCanvas();
     tickAll();
   };
 
@@ -3200,7 +3761,7 @@ function renderMore() {
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'more-share')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
-    + moreRow('#/animations', 'Animation Maker', 'Build custom animations & interactive overlays')
+    + moreRow('#/animations', 'Animation Maker', 'Draw keyframes & custom particle animations')
     + (ex.focusStudio ? moreRow('#/focus', 'Focus & Audio', 'Focus timer and soundscapes') : '')
     + '</div></section>';
   $('#more-share').addEventListener('click', openShareData);
@@ -3225,7 +3786,7 @@ function renderNews() {
     + `<h2 class="news-sub">Available now</h2><div class="more-list">`
     + moreRow('', 'Share my data', 'Move your countdowns to another device', '', 'news-share')
     + moreRow('#/themes', 'Theme Studio', 'Design your own colors and fonts')
-    + moreRow('#/animations', 'Animation Maker', 'Build custom animations & interactive overlays')
+    + moreRow('#/animations', 'Animation Maker', 'Draw keyframes & custom particle animations')
     + moreRow('#/download', 'Download app', 'Install on Windows, iOS or Android')
     + '</div></section>';
   $('#news-share').addEventListener('click', openShareData);
@@ -3502,7 +4063,7 @@ if (!IS_EMBED) {
   installButton.hidden = document.documentElement.classList.contains('standalone');
   window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); installPrompt = event; });
   installButton.addEventListener('click', () => { location.hash = '/download'; });
-  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); showNotice('Downcount is installed.'); if (parseHash().path === '/download') renderDownload(); });
+  window.addEventListener('appinstalled', () => { installButton.hidden = true; document.documentElement.classList.add('standalone'); try { localStorage.setItem(ANIM_UNLOCK_KEY, '1'); } catch {} showNotice('Downcount is installed.'); if (parseHash().path === '/download') renderDownload(); if (parseHash().path === '/animations') renderAnimationMaker(); });
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').then(() => { $('#offline-indicator').hidden = false; }).catch((error) => console.info('ServiceWorker error:', error)));
   }
